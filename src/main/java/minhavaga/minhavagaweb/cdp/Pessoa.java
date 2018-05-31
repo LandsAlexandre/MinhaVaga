@@ -16,10 +16,12 @@ public class Pessoa {
     private String nome;
     private String email;
     private String senha;
-    private long cpf;
+    private String cpf;
     Date nascimento;
     
-    
+    public Pessoa Pessoa(){
+       return this.Pessoa();
+    }
     /**
      * @return the nome
      */
@@ -65,14 +67,14 @@ public class Pessoa {
     /**
      * @return the cpf
      */
-    public long getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
     /**
      * @param cpf the cpf to set
      */
-    public void setCpf(long cpf) {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 }
