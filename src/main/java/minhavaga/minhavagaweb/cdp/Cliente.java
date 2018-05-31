@@ -13,6 +13,7 @@ import java.util.List;
  * @author landerson
  */
 public class Cliente extends Pessoa{
+    private int id;
     private List<Cartao> cartoes = new ArrayList<>();
     private Pagamento pagamento;
     private SolicitacaoReserva solicitacao;
@@ -39,5 +40,13 @@ public class Cliente extends Pessoa{
 
     public void setSolicitacao(SolicitacaoReserva solicitacao) {
         this.solicitacao = solicitacao;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

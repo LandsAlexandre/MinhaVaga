@@ -5,7 +5,7 @@
  */
 package minhavaga.minhavagaweb.cdp;
 
-import java.util.Date;
+import java.util.Calendar;
 
 /**
  *
@@ -17,7 +17,7 @@ public class Pessoa {
     private String email;
     private String senha;
     private String cpf;
-    Date nascimento;
+    private Calendar nascimento;
     
     public Pessoa Pessoa(){
        return this.Pessoa();
@@ -76,5 +76,13 @@ public class Pessoa {
      */
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+    public Calendar getNascimento() {
+        return nascimento;
+    }
+
+    public void setNascimento(Calendar nascimento) {
+        this.nascimento = nascimento;
     }
 }

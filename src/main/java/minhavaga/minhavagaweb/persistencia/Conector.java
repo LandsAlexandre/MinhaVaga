@@ -29,7 +29,7 @@ public class Conector {
         try {
             Class.forName("org.postgresql.Driver");
             return DriverManager.getConnection(
-                    "jdbc:postgresql://localhost:5432/ForTests", "postgres", "123");
+                    "jdbc:postgresql://localhost:5432/fortests", "lantrous", "lantrous");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
