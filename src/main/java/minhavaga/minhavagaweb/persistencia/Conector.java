@@ -39,7 +39,7 @@ public class Conector {
         try {
             Class.forName("org.postgresql.Driver");
             return DriverManager.getConnection(
-                    "jdbc:postgresql://"+host+"+"+":"+port+"/"+database,props);
+                    "jdbc:postgresql://"+host+":"+port+"/"+database,props);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
