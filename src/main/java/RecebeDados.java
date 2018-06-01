@@ -2,6 +2,7 @@
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import minhavaga.minhavagaweb.cdp.*;
+import minhavaga.minhavagaweb.cgd.ClienteDAOImpl;
 import minhavaga.minhavagaweb.persistencia.*;
 
 /*
@@ -25,7 +27,7 @@ import minhavaga.minhavagaweb.persistencia.*;
 public class RecebeDados extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request,
-            HttpServletResponse response) throws ServletException, IOException, SQLException, ClassNotFoundException {
+        HttpServletResponse response) throws ServletException, IOException, SQLException, ClassNotFoundException {
 
         //response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
@@ -33,14 +35,13 @@ public class RecebeDados extends HttpServlet {
         String email = request.getParameter("email");
         String cpf = request.getParameter("cpf");
 
-        Pessoa p = new Pessoa();
+        Cliente p = new Cliente();
         p.setNome(nome);
         p.setEmail(email);
         p.setCpf(cpf);
-
-        CRUD crud = new CRUD();
-        crud.create(p);
-        
+        p.setNascimento(Calendar.getInstance());
+        ClienteDAOImpl dao = new ClienteDAOImpl();
+        dao.insert(p);
         out.close();
 
     }
