@@ -26,10 +26,15 @@ public class Conector {
      }
      }*/
     public static Connection getConnection() throws SQLException, ClassNotFoundException {
+        String host = "ec2-23-21-129-50.compute-1.amazonaws.com";
+        String database = "d8rgiq86222ua";
+        String user = "kaiveravlpxxhm";
+        String passw = "397bc170e1479cc2aac3018bc3390dce38a1ba4ede0eda67aed6fdd518171309";
+        String port = "5432";
         try {
             Class.forName("org.postgresql.Driver");
             return DriverManager.getConnection(
-                    "jdbc:postgresql://localhost:5432/fortests", "lantrous", "lantrous");
+                    "jdbc:postgresql://"+host+"+"+":"+port+"/"+database, user, passw);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
