@@ -7,7 +7,7 @@ package minhavaga.minhavagaweb.cgt;
 
 import java.sql.SQLException;
 import minhavaga.minhavagaweb.cdp.*;
-import minhavaga.minhavagaweb.persistencia.CRUD;
+import minhavaga.minhavagaweb.cgd.ClienteDAOImpl;
 
 /**
  *
@@ -22,8 +22,8 @@ public class AplCliente {
     }
     
     public void cadastrarCliente(Pessoa p) throws SQLException, ClassNotFoundException{  
-        CRUD c = new CRUD();
-        c.create(p);//c.select(p); 
+        ClienteDAOImpl dao = new ClienteDAOImpl();
+        dao.insert(p);//c.select(p); 
             
     }
     

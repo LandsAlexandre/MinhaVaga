@@ -19,11 +19,12 @@ public class Main {
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         AplCliente aplCliente = new AplCliente();      
-        Pessoa p = new Pessoa();
+        Cliente p = new Cliente();
         p.setNome("Helen Franca Medeiros");
         p.setEmail("helen@gmail.com");
-        p.setCpf("98765432198");
+        p.setCpf("48765432198");
         p.setSenha("123456");
+        p.setNascimento(Calendar.getInstance());
 
         aplCliente.cadastrarCliente(p);
        
