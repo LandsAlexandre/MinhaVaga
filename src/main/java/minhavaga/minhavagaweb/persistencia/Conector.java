@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Properties;
 
 /**
  *
@@ -27,6 +26,7 @@ public class Conector {
      }
      }*/
     public static Connection getConnection() throws SQLException, ClassNotFoundException {
+        /*
         String host = "ec2-23-21-129-50.compute-1.amazonaws.com";
         String database = "d8rgiq86222ua";
         String user = "kaiveravlpxxhm";
@@ -36,11 +36,11 @@ public class Conector {
         props.setProperty("password", passw);
         props.setProperty("user", user);
         props.setProperty("ssl", "true");
+        */
         try {
-            DriverManager.registerDriver(new org.postgresql.Driver());
             Class.forName("org.postgresql.Driver");
             return DriverManager.getConnection(
-                    "jdbc:postgresql://"+host+":"+port+"/"+database,props);
+                    "jdbc:postgresql://localhost:5432/fortests", "lantrous", "lantrous");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
