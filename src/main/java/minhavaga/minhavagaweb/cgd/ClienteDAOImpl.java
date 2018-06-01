@@ -9,27 +9,29 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import minhavaga.minhavagaweb.cdp.Cartao;
 import minhavaga.minhavagaweb.cdp.Cliente;
 import minhavaga.minhavagaweb.persistencia.Conector;
 
 
 public class ClienteDAOImpl<GenericType> implements GenericDAO<GenericType> {
-    private final String SELECT = "SELECT * FROM cliente;";
+    private final String SELECT = "SELECT * FROM cliente ";
     private final String INSERT = "INSERT INTO cliente (id_cliente,nome,cpf,"
             + "email,senha,dataNascimento) VALUES(?,?,?,?,?,?);";
     private final String DELETE = "DELETE FROM cliente WHERE id_cliente = ?;";
     private final String UPDATE = "UPDATE cliente SET (nome,cpf,"
             + "email,senha,dataNascimento) = (?,?,?,?,?) WHERE id_cliente = ?;";
     
-    private final String NOME = "nome", EMAIL = "email",
+    private final String ID_CLIENTE = "id_cliente", NOME = "nome", EMAIL = "email",
             SENHA = "senha", CPF = "cpf", DATA_NASCIMENTO = "dataNascimento";
     
     
-    List<Cliente> clientes;
+    List<Cliente> clientes = new ArrayList<>();
     
     @Override
     public List<GenericType> getAll() {
@@ -45,7 +47,7 @@ public class ClienteDAOImpl<GenericType> implements GenericDAO<GenericType> {
                     cliente.Pessoa().setEmail(result.getString(EMAIL));
                     cliente.Pessoa().setCpf((String)result.getString(CPF));
                     cliente.Pessoa().setSenha(result.getString(SENHA));
-                    cliente.setId(0);                    
+                    cliente.setId(result.getInt(ID_CLIENTE));                    
                     clientes.add(cliente);
                 }
             } catch (SQLException ex) {
@@ -68,7 +70,7 @@ public class ClienteDAOImpl<GenericType> implements GenericDAO<GenericType> {
                 String senha = ((Cliente)obj).getSenha();
                 Calendar dataNascimento = ((Cliente)obj).getNascimento();
                 
-                statement.setInt(1, 1);
+                statement.setInt(1, this.getNextId());
                 statement.setString(2, nome);
                 statement.setString(3, cpf);
                 statement.setString(4, email);
@@ -113,5 +115,53 @@ public class ClienteDAOImpl<GenericType> implements GenericDAO<GenericType> {
             Logger.getLogger(ClienteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    @Override
+    public GenericType getById(int id) {
+        Cliente cliente = null;
+        if (clientes.isEmpty()) {
+            clientes = (List<Cliente>) this.getAll();
+        }
+        for (Cliente c : clientes) {
+            if (c.getId() == id)
+                cliente = c;
+        }
+        return (GenericType) cliente;
+    }
+
+    @Override
+    public int getNextId() {
+        int res = -0;
+        String ORDER = "ORDER BY id_cliente ASC;";
+        try (Connection connection = Conector.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(SELECT+ORDER,
+                    ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
+                statement.execute();
+                ResultSet result = statement.executeQuery();
+                if (result.last()) {
+                    res = result.getInt(ID_CLIENTE);
+                    return res+1;
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(CartaoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(CartaoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return res;
+    }
     
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+        ClienteDAOImpl dao = new ClienteDAOImpl();
+        Cliente p = new Cliente();
+        p.setNome("Helen Franca Medeiros");
+        p.setEmail("helen@gmail.com");
+        p.setCpf("98765432198");
+        p.setSenha("123456");
+        p.setNascimento(Calendar.getInstance());
+        dao.insert(p);
+        //dao.delete(p);
+        dao.update(p);
+    }
 }

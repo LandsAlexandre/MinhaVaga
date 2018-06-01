@@ -10,6 +10,7 @@ package minhavaga.minhavagaweb.cdp;
  * @author landerson
  */
 public class Localizacao {
+    private int id;
     private double latitude;
     private double longitude;
 
@@ -27,5 +28,13 @@ public class Localizacao {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

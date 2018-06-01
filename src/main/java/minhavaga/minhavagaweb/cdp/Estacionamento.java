@@ -15,6 +15,7 @@ import java.util.List;
  * @author landerson
  */
 public class Estacionamento {
+    private int id;
     private String nome;
     private LocalTime horarioAbertura;
     private LocalTime horarioFechamento;
@@ -78,6 +79,14 @@ public class Estacionamento {
 
     public void setLocal(Localizacao local) {
         this.local = local;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
     
 }

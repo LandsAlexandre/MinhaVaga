@@ -12,6 +12,7 @@ import java.util.Date;
  * @author landerson
  */
 public class Pagamento {
+    private int id;
     private double valor;
     private Date dataPagamento;
     private boolean pago;
@@ -66,6 +67,14 @@ public class Pagamento {
 
     public void setReserva(Reserva reserva) {
         this.reserva = reserva;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
     
 }

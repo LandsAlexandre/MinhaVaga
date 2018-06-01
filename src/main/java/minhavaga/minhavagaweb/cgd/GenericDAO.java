@@ -13,7 +13,9 @@ import java.util.List;
  */
 public interface GenericDAO<GenericType> {
     public List<GenericType> getAll();
+    public GenericType getById(int id);
     public void insert(GenericType obj);
     public void update(GenericType obj);
     public void delete(GenericType obj);
+    public int getNextId();
 }

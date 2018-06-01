@@ -6,7 +6,7 @@
 package minhavaga.minhavagaweb.cdp;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -14,9 +14,10 @@ import java.util.List;
  * @author landerson
  */
 public class Cartao {
+    private int id;
     private String nomeTitular;
     private String numeroCartao;
-    private Date dataValidade;
+    private Calendar dataValidade;
     private String cvv;
     
     private Cliente cliente;
@@ -38,11 +39,11 @@ public class Cartao {
         this.numeroCartao = numeroCartao;
     }
 
-    public Date getDataValidade() {
+    public Calendar getDataValidade() {
         return dataValidade;
     }
 
-    public void setDataValidade(Date dataValidade) {
+    public void setDataValidade(Calendar dataValidade) {
         this.dataValidade = dataValidade;
     }
 
@@ -69,5 +70,12 @@ public class Cartao {
     public void addPagamento(Pagamento pagamento) {
         this.pagamentos.add(pagamento);
     }
-    
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }
