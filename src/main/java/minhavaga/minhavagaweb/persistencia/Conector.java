@@ -37,6 +37,7 @@ public class Conector {
         props.setProperty("user", user);
         props.setProperty("ssl", "true");
         try {
+            DriverManager.registerDriver(new org.postgresql.Driver());
             Class.forName("org.postgresql.Driver");
             return DriverManager.getConnection(
                     "jdbc:postgresql://"+host+":"+port+"/"+database,props);
