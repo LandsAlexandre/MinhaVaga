@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -cp target/classes:target/dependency/* MinhaVaga-1.0-SNAPSHOT.war
+web: java $JAVA_OPTS -cp target/classes target/*.war
