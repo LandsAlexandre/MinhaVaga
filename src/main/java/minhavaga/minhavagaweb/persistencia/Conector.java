@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Properties;
 
 /**
  *
@@ -31,10 +32,14 @@ public class Conector {
         String user = "kaiveravlpxxhm";
         String passw = "397bc170e1479cc2aac3018bc3390dce38a1ba4ede0eda67aed6fdd518171309";
         String port = "5432";
+        Properties props = new Properties();
+        props.setProperty("password", passw);
+        props.setProperty("user", user);
+        props.setProperty("ssl", "true");
         try {
             Class.forName("org.postgresql.Driver");
             return DriverManager.getConnection(
-                    "jdbc:postgresql://"+host+"+"+":"+port+"/"+database, user, passw);
+                    "jdbc:postgresql://"+host+"+"+":"+port+"/"+database,props);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
