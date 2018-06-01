@@ -8,18 +8,10 @@
  *
  * @author ISM
  */
-import static java.lang.System.getenv;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLSession;
 import minhavaga.minhavagaweb.cdp.*;
-import minhavaga.minhavagaweb.cgd.*;
 import minhavaga.minhavagaweb.cgt.AplCliente;
-import minhavaga.minhavagaweb.persistencia.Conector;
 
 public class Main {
 
