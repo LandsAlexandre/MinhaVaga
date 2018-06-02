@@ -6,6 +6,7 @@
 package minhavaga.minhavagaweb.cgt;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import minhavaga.minhavagaweb.cdp.*;
 import minhavaga.minhavagaweb.cgd.ClienteDAOImpl;
 
@@ -23,8 +24,16 @@ public class AplCliente {
     
     public void cadastrarCliente(Pessoa p) throws SQLException, ClassNotFoundException{  
         ClienteDAOImpl dao = new ClienteDAOImpl();
-        dao.insert(p);//c.select(p); 
+        dao.insert(p);
             
     }
     
+    public void fazerLogin(Pessoa p) throws SQLException, ClassNotFoundException, ParseException {
+        try {
+            ClienteDAOImpl dao = new ClienteDAOImpl();
+            dao.selectLogin(p);
+        } catch (ClassNotFoundException | SQLException ex) {
+            System.out.println("Erro no Login!");
+        }
+    }
 }
