@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import minhavaga.minhavagaweb.cdp.Cartao;
-import minhavaga.minhavagaweb.persistencia.Conector;
+import minhavaga.minhavagaweb.utilitarioPersistencia.Conector;
 
 
 public class CartaoDAOImpl<GenericType> implements GenericDAO<GenericType> {

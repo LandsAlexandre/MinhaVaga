@@ -15,7 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import minhavaga.minhavagaweb.cdp.Localizacao;
 import minhavaga.minhavagaweb.cdp.Localizacao;
-import minhavaga.minhavagaweb.persistencia.Conector;
+import minhavaga.minhavagaweb.utilitarioPersistencia.Conector;
 
 
 public class LocalizacaoDAOImpl<GenericType> implements GenericDAO<GenericType> {

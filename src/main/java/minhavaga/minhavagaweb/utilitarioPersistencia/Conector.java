@@ -1,4 +1,4 @@
-package minhavaga.minhavagaweb.persistencia;
+package minhavaga.minhavagaweb.utilitarioPersistencia;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

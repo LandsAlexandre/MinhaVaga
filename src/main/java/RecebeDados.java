@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import minhavaga.minhavagaweb.cdp.*;
 import minhavaga.minhavagaweb.cgd.ClienteDAOImpl;
-import minhavaga.minhavagaweb.persistencia.*;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

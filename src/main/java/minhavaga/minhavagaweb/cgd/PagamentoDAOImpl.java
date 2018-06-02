@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import minhavaga.minhavagaweb.persistencia.Conector;
+import minhavaga.minhavagaweb.utilitarioPersistencia.Conector;
 
 
 public class PagamentoDAOImpl<GenericType> implements GenericDAO<GenericType> {
