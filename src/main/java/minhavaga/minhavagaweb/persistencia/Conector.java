@@ -37,10 +37,11 @@ public class Conector {
         props.setProperty("user", user);
         props.setProperty("ssl", "true");
         */
+        String dbUrl = System.getenv("DATABASE_URL");
         try {
             Class.forName("org.postgresql.Driver");
             return DriverManager.getConnection(
-                    "jdbc:postgresql://localhost:5432/fortests", "lantrous", "lantrous");
+                    dbUrl);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
