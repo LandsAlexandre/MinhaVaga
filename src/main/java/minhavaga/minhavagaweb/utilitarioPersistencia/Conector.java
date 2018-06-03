@@ -15,6 +15,7 @@ public class Conector {
     public static Connection getConnection() throws SQLException, ClassNotFoundException {
         //String dbUrl = System.getenv("DATABASE_URL");
         //String dbUrl = "<your local database url>";
+
         String dbUrl = System.getenv("JDBC_DATABASE_URL");
         try {
             Class.forName("org.postgresql.Driver");

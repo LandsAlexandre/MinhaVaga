@@ -36,8 +36,7 @@ public class PessoaDAOImpl<GenericType> implements GenericDAO<GenericType> {
     List<Pessoa> pessoas = new ArrayList<>();
 
     public void selectLogin(Pessoa p) throws SQLException, ClassNotFoundException, ParseException {
-        System.out.println("Email: " + p.getEmail());
-
+      
         Connection con = Conector.getConnection();
         try {
             PreparedStatement statement = con.prepareStatement(SELECT_LOGIN);
@@ -59,7 +58,7 @@ public class PessoaDAOImpl<GenericType> implements GenericDAO<GenericType> {
                 Calendar c = Calendar.getInstance();
                 c.setTime(formatoData.parse(rs.getString(DATA_NASCIMENTO)));                
                 p.setNascimento(c);
-
+                //Redirecionar para pagina de reserva
                 System.out.println("Olá, " + p.getNome() + "! :D ");
 
             }
