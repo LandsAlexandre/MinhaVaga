@@ -5,9 +5,7 @@
  */
 package minhavaga.minhavagaweb.cdp;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 /**
  *
@@ -21,7 +19,6 @@ public class Cartao {
     private String cvv;
     
     private Cliente cliente;
-    private List<Pagamento> pagamentos = new ArrayList<>();
 
     public String getNomeTitular() {
         return nomeTitular;
@@ -61,14 +58,6 @@ public class Cartao {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
-    }
-
-    public List<Pagamento> getPagamentos() {
-        return pagamentos;
-    }
-    
-    public void addPagamento(Pagamento pagamento) {
-        this.pagamentos.add(pagamento);
     }
 
     public int getId() {
