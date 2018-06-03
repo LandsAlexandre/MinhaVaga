@@ -150,7 +150,7 @@ public class CartaoDAOImpl<GenericType> implements GenericDAO<GenericType> {
         }
         return res;
     }
-    
+    /*
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         CartaoDAOImpl dao = new CartaoDAOImpl();
         Cartao c = new Cartao();
@@ -166,5 +166,5 @@ public class CartaoDAOImpl<GenericType> implements GenericDAO<GenericType> {
         c.setNomeTitular("Lands     Alexandre");
         dao.update(c);
         //dao.delete(c);
-    }
+    }*/
 }

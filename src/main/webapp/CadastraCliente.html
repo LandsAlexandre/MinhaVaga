@@ -10,10 +10,13 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <form action="RecebeDados" method="POST">
+        <form action="RecebeDadosCadastroCliente" method="POST">
             Nome: <input type="text" name="nome" /><br />
             E-mail: <input type="text" name="email" /><br />
-            CPF: <input type="text" name="cpf" /><br />               
+            CPF: <input type="text" name="cpf" /><br />
+            Data de Nascimento: <input type="text" name="data" /><br />
+            Senha: <input type="password" name="senha_a" size="20" maxlength="15" /><br />
+            Confirmar senha: <input type="password" name="senha_b" size="20" maxlength="15" /><br /> 
             <input type="submit" value="Enviar" />
         </form>
     </body>
