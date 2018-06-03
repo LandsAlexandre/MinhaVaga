@@ -6,21 +6,23 @@
 package minhavaga.minhavagaweb.cdp;
 
 import java.time.LocalTime;
-import java.util.Date;
+import java.util.Calendar;
 
 /**
  *
  * @author landerson
  */
 public class Reserva {
+    private int id;
     private LocalTime horaChegada;
     private LocalTime horaSaida;
-    private Date dataChegada;
-    private Date dataSaida;
-    
-    private StatusReserva status;
+    private Calendar dataChegada;
+    private Calendar dataSaida;
+
     private Vaga vagaReservada;
-    
+    private Cliente cliente;
+    private Pagamento pagamento;
+
     public LocalTime getHoraChegada() {
         return horaChegada;
     }
@@ -37,28 +39,20 @@ public class Reserva {
         this.horaSaida = horaSaida;
     }
 
-    public Date getDataChegada() {
+    public Calendar getDataChegada() {
         return dataChegada;
     }
 
-    public void setDataChegada(Date dataChegada) {
+    public void setDataChegada(Calendar dataChegada) {
         this.dataChegada = dataChegada;
     }
 
-    public Date getDataSaida() {
+    public Calendar getDataSaida() {
         return dataSaida;
     }
 
-    public void setDataSaida(Date dataSaida) {
+    public void setDataSaida(Calendar dataSaida) {
         this.dataSaida = dataSaida;
-    }
-
-    public StatusReserva getStatus() {
-        return status;
-    }
-
-    public void setStatus(StatusReserva status) {
-        this.status = status;
     }
 
     public Vaga getVagaReservada() {
@@ -68,5 +62,29 @@ public class Reserva {
     public void setVagaReservada(Vaga vagaReservada) {
         this.vagaReservada = vagaReservada;
     }
-    
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public Pagamento getPagamento() {
+        return pagamento;
+    }
+
+    public void setPagamento(Pagamento pagamento) {
+        this.pagamento = pagamento;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
 }

@@ -5,7 +5,8 @@
  */
 package minhavaga.minhavagaweb.cdp;
 
-import java.util.Date;
+import java.util.Calendar;
+import java.util.Calendar;
 
 /**
  *
@@ -14,8 +15,9 @@ import java.util.Date;
 public class Pagamento {
     private int id;
     private double valor;
-    private Date dataPagamento;
+    private Calendar dataPagamento;
     private boolean pago;
+    private String formaPagamento;
     
     private Cliente cliente;
     private Cartao cartao;
@@ -29,11 +31,11 @@ public class Pagamento {
         this.valor = valor;
     }
 
-    public Date getDataPagamento() {
+    public Calendar getDataPagamento() {
         return dataPagamento;
     }
 
-    public void setDataPagamento(Date dataPagamento) {
+    public void setDataPagamento(Calendar dataPagamento) {
         this.dataPagamento = dataPagamento;
     }
 
@@ -75,6 +77,14 @@ public class Pagamento {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getFormaPagamento() {
+        return formaPagamento;
+    }
+
+    public void setFormaPagamento(String formaPagamento) {
+        this.formaPagamento = formaPagamento;
     }
     
 }

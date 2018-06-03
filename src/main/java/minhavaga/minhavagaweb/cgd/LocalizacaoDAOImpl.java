@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import minhavaga.minhavagaweb.cdp.Localizacao;
-import minhavaga.minhavagaweb.cdp.Localizacao;
 import minhavaga.minhavagaweb.utilitarioPersistencia.Conector;
 
 

@@ -33,20 +33,20 @@ public class CartaoDAOImpl<GenericType> implements GenericDAO<GenericType> {
     @Override
     public List<GenericType> getAll() {
         try (Connection connection = Conector.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(SELECT)) {
+            try (PreparedStatement statement = connection.prepareStatement(this.SELECT)) {
                 statement.execute();
                 ResultSet result = statement.executeQuery();
                 
                 Cartao cartao;
                 while (result.next()) {
                     cartao = new Cartao();
-                    cartao.setId(result.getInt(ID_CARTAO));
-                    cartao.setNomeTitular(result.getString(NOME));
-                    cartao.setNumeroCartao(result.getString(NUMERO));
-                    cartao.setCvv(result.getString(CVV));
+                    cartao.setId(result.getInt(this.ID_CARTAO));
+                    cartao.setNomeTitular(result.getString(this.NOME));
+                    cartao.setNumeroCartao(result.getString(this.NUMERO));
+                    cartao.setCvv(result.getString(this.CVV));
                     
                     Calendar data;  data = Calendar.getInstance();
-                    data.setTime(result.getDate(DATA_VALIDADE));
+                    data.setTime(result.getDate(this.DATA_VALIDADE));
                     
                     cartao.setDataValidade(data);
                     cartoes.add(cartao);
@@ -64,7 +64,7 @@ public class CartaoDAOImpl<GenericType> implements GenericDAO<GenericType> {
     @Override
     public void insert(GenericType obj) {
         try (Connection connection = Conector.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(INSERT)) {
+            try (PreparedStatement statement = connection.prepareStatement(this.INSERT)) {
                 String nomeTitular = ((Cartao)obj).getNomeTitular();
                 String cvv = ((Cartao)obj).getCvv();
                 String numero = ((Cartao)obj).getNumeroCartao();
@@ -85,7 +85,7 @@ public class CartaoDAOImpl<GenericType> implements GenericDAO<GenericType> {
     @Override
     public void update(GenericType obj) {
         try (Connection connection = Conector.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(UPDATE)) {
+            try (PreparedStatement statement = connection.prepareStatement(this.UPDATE)) {
                 String nomeTitular = ((Cartao)obj).getNomeTitular();
                 String cvv = ((Cartao)obj).getCvv();
                 String numero = ((Cartao)obj).getNumeroCartao();
@@ -106,7 +106,8 @@ public class CartaoDAOImpl<GenericType> implements GenericDAO<GenericType> {
 
     @Override
     public void delete(GenericType obj) {
-        try (Connection connection = Conector.getConnection(); PreparedStatement statement = connection.prepareStatement(DELETE)) {
+        try (Connection connection = Conector.getConnection(); 
+                PreparedStatement statement = connection.prepareStatement(this.DELETE)) {
             statement.setInt(1, ((Cartao)obj).getId());
             statement.execute();
         } catch (SQLException | ClassNotFoundException ex) {
@@ -132,7 +133,7 @@ public class CartaoDAOImpl<GenericType> implements GenericDAO<GenericType> {
         int res = -0;
         String ORDER = "ORDER BY id_cartao ASC;";
         try (Connection connection = Conector.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(SELECT+ORDER,
+            try (PreparedStatement statement = connection.prepareStatement(this.SELECT+ORDER,
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
                 statement.execute();
                 ResultSet result = statement.executeQuery();

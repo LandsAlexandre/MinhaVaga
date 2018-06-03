@@ -10,7 +10,7 @@ package minhavaga.minhavagaweb.cdp;
  * @author landerson
  */
 public class Vaga {
-    private int idVaga;
+    private int id;
     private boolean status;
     private boolean cobertura;
     
@@ -18,12 +18,12 @@ public class Vaga {
     private Localizacao local;
     private Estacionamento estacionamento;
     
-    public int getIdVaga() {
-        return idVaga;
+    public int getId() {
+        return id;
     }
 
-    public void setIdVaga(int idVaga) {
-        this.idVaga = idVaga;
+    public void setId(int idVaga) {
+        this.id = idVaga;
     }
 
     public boolean isStatus() {
@@ -42,14 +42,6 @@ public class Vaga {
         this.cobertura = cobertura;
     }
 
-    public TipoVaga getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(TipoVaga tipo) {
-        this.tipo = tipo;
-    }
-
     public Localizacao getLocal() {
         return local;
     }
@@ -64,5 +56,13 @@ public class Vaga {
 
     public void setEstacionamento(Estacionamento estacionamento) {
         this.estacionamento = estacionamento;
+    }
+
+    public TipoVaga getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoVaga tipo) {
+        this.tipo = tipo;
     }
 }

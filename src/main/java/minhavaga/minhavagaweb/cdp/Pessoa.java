@@ -13,15 +13,13 @@ import java.util.Calendar;
  */
 
 public class Pessoa {
+    private int id;
     private String nome;
     private String email;
     private String senha;
     private String cpf;
     private Calendar nascimento;
     
-    public Pessoa Pessoa(){
-       return this.Pessoa();
-    }
     /**
      * @return the nome
      */
@@ -84,5 +82,13 @@ public class Pessoa {
 
     public void setNascimento(Calendar nascimento) {
         this.nascimento = nascimento;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

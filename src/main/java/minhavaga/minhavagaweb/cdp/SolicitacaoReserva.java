@@ -6,23 +6,22 @@
 package minhavaga.minhavagaweb.cdp;
 
 import java.time.LocalTime;
-import java.util.Date;
+import java.util.Calendar;
 
 /**
  *
  * @author landerson
  */
 public class SolicitacaoReserva {
-    private Date dataSolicitacao;
+    private Calendar dataSolicitacao;
     private LocalTime horaSolicitacao;
-    private StatusSolicitacao status;
-    private Reserva reserva = null;
+    private Reserva reserva;
     
-    public Date getDataSolicitacao() {
+    public Calendar getDataSolicitacao() {
         return dataSolicitacao;
     }
 
-    public void setDataSolicitacao(Date dataSolicitacao) {
+    public void setDataSolicitacao(Calendar dataSolicitacao) {
         this.dataSolicitacao = dataSolicitacao;
     }
 
@@ -33,15 +32,7 @@ public class SolicitacaoReserva {
     public void setHoraSolicitacao(LocalTime horaSolicitacao) {
         this.horaSolicitacao = horaSolicitacao;
     }
-
-    public StatusSolicitacao getStatus() {
-        return status;
-    }
-
-    public void setStatus(StatusSolicitacao status) {
-        this.status = status;
-    }
-
+    
     public Reserva getReserva() {
         return reserva;
     }

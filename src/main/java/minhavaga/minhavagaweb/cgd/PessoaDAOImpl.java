@@ -17,11 +17,10 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import minhavaga.minhavagaweb.cdp.Cliente;
 import minhavaga.minhavagaweb.cdp.Pessoa;
 import minhavaga.minhavagaweb.utilitarioPersistencia.Conector;
 
-public class ClienteDAOImpl<GenericType> implements GenericDAO<GenericType> {
+public class PessoaDAOImpl<GenericType> implements GenericDAO<GenericType> {
 
     private final String SELECT = "SELECT * FROM cliente ";
     private final String SELECT_LOGIN = "SELECT * FROM cliente where email = ? and senha = ?;";
@@ -34,7 +33,7 @@ public class ClienteDAOImpl<GenericType> implements GenericDAO<GenericType> {
     private final String ID_CLIENTE = "id_cliente", NOME = "nome", EMAIL = "email",
             SENHA = "senha", CPF = "cpf", DATA_NASCIMENTO = "dataNascimento";
 
-    List<Cliente> clientes = new ArrayList<>();
+    List<Pessoa> pessoas = new ArrayList<>();
 
     public void selectLogin(Pessoa p) throws SQLException, ClassNotFoundException, ParseException {
         System.out.println("Email: " + p.getEmail());
@@ -82,24 +81,24 @@ public class ClienteDAOImpl<GenericType> implements GenericDAO<GenericType> {
                 statement.execute();
                 ResultSet result = statement.executeQuery();
 
-                Cliente cliente;
+                Pessoa pessoa;
                 while (result.next()) {
-                    cliente = new Cliente();
-                    cliente.Pessoa().setNome(result.getString(NOME));
-                    cliente.Pessoa().setEmail(result.getString(EMAIL));
-                    cliente.Pessoa().setCpf((String) result.getString(CPF));
-                    cliente.Pessoa().setSenha(result.getString(SENHA));
-                    cliente.setId(result.getInt(ID_CLIENTE));
-                    clientes.add(cliente);
+                    pessoa = new Pessoa();
+                    pessoa.setNome(result.getString(this.NOME));
+                    pessoa.setEmail(result.getString(this.EMAIL));
+                    pessoa.setCpf((String) result.getString(this.CPF));
+                    pessoa.setSenha(result.getString(this.SENHA));
+                    pessoa.setId(result.getInt(this.ID_CLIENTE));
+                    pessoas.add(pessoa);
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(ClienteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(PessoaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(ClienteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PessoaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return (List<GenericType>) clientes;
+        return (List<GenericType>) pessoas;
     }
 
     @Override
@@ -129,7 +128,7 @@ public class ClienteDAOImpl<GenericType> implements GenericDAO<GenericType> {
                 //Redirecionar para Recuperar Senha
             }
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ClienteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PessoaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -138,11 +137,11 @@ public class ClienteDAOImpl<GenericType> implements GenericDAO<GenericType> {
 
         try (Connection connection = Conector.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(UPDATE)) {
-                String nome = ((Cliente) obj).getNome();
-                String cpf = ((Cliente) obj).getCpf();
-                String email = ((Cliente) obj).getEmail();
-                String senha = ((Cliente) obj).getSenha();
-                Calendar dataNascimento = ((Cliente) obj).getNascimento();
+                String nome = ((Pessoa) obj).getNome();
+                String cpf = ((Pessoa) obj).getCpf();
+                String email = ((Pessoa) obj).getEmail();
+                String senha = ((Pessoa) obj).getSenha();
+                Calendar dataNascimento = ((Pessoa) obj).getNascimento();
 
                 statement.setString(1, nome);
                 statement.setString(2, cpf);
@@ -153,32 +152,32 @@ public class ClienteDAOImpl<GenericType> implements GenericDAO<GenericType> {
                 statement.execute();
             }
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(ClienteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PessoaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     @Override
     public void delete(GenericType obj) {
         try (Connection connection = Conector.getConnection(); PreparedStatement statement = connection.prepareStatement(DELETE)) {
-            statement.setInt(1, ((Cliente) obj).getId());
+            statement.setInt(1, ((Pessoa) obj).getId());
             statement.execute();
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(ClienteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PessoaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     @Override
     public GenericType getById(int id) {
-        Cliente cliente = null;
-        if (clientes.isEmpty()) {
-            clientes = (List<Cliente>) this.getAll();
+        Pessoa pessoa = null;
+        if (pessoas.isEmpty()) {
+            pessoas = (List<Pessoa>) this.getAll();
         }
-        for (Cliente c : clientes) {
+        for (Pessoa c : pessoas) {
             if (c.getId() == id) {
-                cliente = c;
+                pessoa = c;
             }
         }
-        return (GenericType) cliente;
+        return (GenericType) pessoa;
     }
 
     @Override
@@ -206,8 +205,8 @@ public class ClienteDAOImpl<GenericType> implements GenericDAO<GenericType> {
 
     /*
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        ClienteDAOImpl dao = new ClienteDAOImpl();
-        Cliente p = new Cliente();
+        PessoaDAOImpl dao = new PessoaDAOImpl();
+        Pessoa p = new Pessoa();
         p.setNome("Helen Franca Medeiros");
         p.setEmail("helen123@gmail.com");
         p.setCpf("14302380705");
