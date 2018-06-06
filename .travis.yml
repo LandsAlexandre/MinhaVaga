@@ -10,6 +10,14 @@ branches:
    
 before:
   mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+  
+ scripts:    
+    mvn sonar:sonar \
+  -Dsonar.organization=helenfranca-github \
+  -Dsonar.host.url=https://sonarcloud.io \
+  -Dsonar.login=c8915326c2738c40de6b8323ad9433fc08e12a8a
+
  
  notifications:
     slack: bsi-ifserra:TYWamFXEYGbYjKP2ZwLUZECP
+    
