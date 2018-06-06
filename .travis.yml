@@ -2,12 +2,14 @@ language: java
 
 jdk:
  - oraclejdk8 
- 
 
 branches:
   only
     - master
     - devHelen
+   
+before:
+  mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
  
  notifications:
     slack: bsi-ifserra:TYWamFXEYGbYjKP2ZwLUZECP
