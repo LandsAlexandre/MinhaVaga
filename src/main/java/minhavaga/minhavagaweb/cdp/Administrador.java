@@ -5,6 +5,8 @@
  */
 package minhavaga.minhavagaweb.cdp;
 
+import minhavagaweb.model.Pessoa;
+
 /**
  *
  * @author landerson

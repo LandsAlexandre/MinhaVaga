@@ -15,7 +15,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import minhavaga.minhavagaweb.cdp.Cliente;
+import minhavagaweb.model.Cliente;
 import minhavaga.minhavagaweb.cdp.Pagamento;
 import minhavaga.minhavagaweb.cdp.Reserva;
 import minhavaga.minhavagaweb.cdp.SolicitacaoReserva;

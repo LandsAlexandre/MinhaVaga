@@ -14,10 +14,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import minhavaga.minhavagaweb.cdp.Pessoa;
+import minhavagaweb.model.Pessoa;
 import minhavaga.minhavagaweb.utilitarioPersistencia.Conector;
 
 public class PessoaDAOImpl<GenericType> implements GenericDAO<GenericType> {
@@ -36,7 +37,7 @@ public class PessoaDAOImpl<GenericType> implements GenericDAO<GenericType> {
     List<Pessoa> pessoas = new ArrayList<>();
 
     public void selectLogin(Pessoa p) throws SQLException, ClassNotFoundException, ParseException {
-      
+
         Connection con = Conector.getConnection();
         try {
             PreparedStatement statement = con.prepareStatement(SELECT_LOGIN);
@@ -56,8 +57,8 @@ public class PessoaDAOImpl<GenericType> implements GenericDAO<GenericType> {
                 p.setCpf(rs.getString(CPF));
                 SimpleDateFormat formatoData = new SimpleDateFormat("yyyy-MM-dd");
                 Calendar c = Calendar.getInstance();
-                c.setTime(formatoData.parse(rs.getString(DATA_NASCIMENTO)));                
-                p.setNascimento(c);
+                c.setTime(formatoData.parse(rs.getString(DATA_NASCIMENTO)));
+                //p.setNascimento(c);
                 //Redirecionar para pagina de reserva
                 System.out.println("Olá, " + p.getNome() + "! :D ");
 
@@ -108,15 +109,22 @@ public class PessoaDAOImpl<GenericType> implements GenericDAO<GenericType> {
                 String cpf = ((Pessoa) obj).getCpf();
                 String email = ((Pessoa) obj).getEmail();
                 String senha = ((Pessoa) obj).getSenha();
-                Calendar dataNascimento = ((Pessoa) obj).getNascimento();
+                Date data = ((Pessoa) obj).getNascimento();
+                //SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+                java.sql.Date date = new java.sql.Date(data.getTime());
 
                 statement.setInt(1, this.getNextId());
                 statement.setString(2, nome);
                 statement.setString(3, cpf);
                 statement.setString(4, email);
                 statement.setString(5, senha);
-                statement.setDate(6, new java.sql.Date(dataNascimento.getTimeInMillis()));
+                statement.setDate(6, date);
+
                 statement.execute();
+                System.out.println("Inseriu!");
+
+            } catch (Exception ex) {
+                System.out.println("DEU B.O." + ex.toString());
             }
         } catch (SQLException ex) { // Tratando registro duplicado de EMAIL e CPF
 
@@ -127,7 +135,9 @@ public class PessoaDAOImpl<GenericType> implements GenericDAO<GenericType> {
                 //Redirecionar para Recuperar Senha
             }
         } catch (ClassNotFoundException ex) {
+            //System.out.println("EXXXXXX: " + ex);
             Logger.getLogger(PessoaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+
         }
     }
 
@@ -140,13 +150,13 @@ public class PessoaDAOImpl<GenericType> implements GenericDAO<GenericType> {
                 String cpf = ((Pessoa) obj).getCpf();
                 String email = ((Pessoa) obj).getEmail();
                 String senha = ((Pessoa) obj).getSenha();
-                Calendar dataNascimento = ((Pessoa) obj).getNascimento();
+                //Calendar dataNascimento = ((Pessoa) obj).getNascimento();
 
                 statement.setString(1, nome);
                 statement.setString(2, cpf);
                 statement.setString(3, email);
                 statement.setString(4, senha);
-                statement.setDate(5, new java.sql.Date(dataNascimento.getTimeInMillis()));
+                // statement.setDate(5, new java.sql.Date(dataNascimento.getTimeInMillis()));
                 statement.setInt(6, 1);
                 statement.execute();
             }

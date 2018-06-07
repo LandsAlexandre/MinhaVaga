@@ -3,23 +3,33 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package minhavaga.minhavagaweb.cdp;
+package minhavagaweb.model;
 
-import java.util.Calendar;
+import java.util.Date;
 
 /**
  *
  * @author lantrous
  */
-
 public class Pessoa {
+
     private int id;
     private String nome;
     private String email;
     private String senha;
     private String cpf;
-    private Calendar nascimento;
+    private Date datanascimento;
+    //private String teste;
+
+    /*public String getTeste() {
+    return teste;
+    }
     
+    public void setTeste(String teste) {
+    this.teste = teste;
+    }
+     */
+    //private String datanascimento;
     /**
      * @return the nome
      */
@@ -76,12 +86,12 @@ public class Pessoa {
         this.cpf = cpf;
     }
 
-    public Calendar getNascimento() {
-        return nascimento;
+    public Date getNascimento() {
+        return datanascimento;
     }
 
-    public void setNascimento(Calendar nascimento) {
-        this.nascimento = nascimento;
+    public void setNascimento(Date nascimento) {
+        this.datanascimento = nascimento;
     }
 
     public int getId() {
@@ -90,5 +100,10 @@ public class Pessoa {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Nome: " + this.getNome() + "CPF: " + this.getCpf();
     }
 }
