@@ -10,6 +10,7 @@ import java.util.List;
 /**
  *
  * @author landerson
+ * @param <GenericType>
  */
 public interface GenericDAO<GenericType> {
     public List<GenericType> getAll();

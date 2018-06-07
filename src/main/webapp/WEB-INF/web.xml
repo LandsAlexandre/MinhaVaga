@@ -1,25 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
+ 
+         
     <servlet>
-        <servlet-name>RecebeDadosCadastroCliente</servlet-name>
-        <servlet-class>RecebeDadosCadastroCliente</servlet-class>
+        <servlet-name>appServlet</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>/WEB-INF/springapp-servlet.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
     </servlet>
+         
     <servlet-mapping>
-        <servlet-name>RecebeDadosCadastroCliente</servlet-name>
-        <url-pattern>/RecebeDadosCadastroCliente</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>RecebeLogin</servlet-name>
-        <servlet-class>RecebeLogin</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>RecebeLogin</servlet-name>
-        <url-pattern>/RecebeLogin</url-pattern>
+        <servlet-name>appServlet</servlet-name>
+        <url-pattern>/index</url-pattern>
     </servlet-mapping>
     
-    <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
-    </session-config>
+    <servlet-mapping>
+        <servlet-name>appServlet</servlet-name>
+        <url-pattern>/cliente</url-pattern>
+    </servlet-mapping>
+      
+    <servlet-mapping>
+        <servlet-name>appServlet</servlet-name>
+        <url-pattern>/cliente-adicionado</url-pattern>
+    </servlet-mapping>
+ 
+ 
+    <welcome-file-list>
+        <welcome-file></welcome-file>
+    </welcome-file-list>    
+ 
 </web-app>
