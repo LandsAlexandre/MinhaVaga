@@ -7,7 +7,6 @@ package minhavaga.minhavagaweb.cdp;
 
 import minhavagaweb.model.Cliente;
 import java.util.Calendar;
-import java.util.Calendar;
 
 /**
  *
