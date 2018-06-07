@@ -6,7 +6,6 @@ jdk:
 branches:
   only
     - master
-    - devHelen
    
 before:
   mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
