@@ -24,7 +24,7 @@ import minhavaga.minhavagaweb.utilitarioPersistencia.Conector;
 public class PessoaDAOImpl<GenericType> implements GenericDAO<GenericType> {
 
     private final String SELECT = "SELECT * FROM cliente ";
-    private final String SELECT_LOGIN = "SELECT * FROM cliente where email = ? and senha = ?;";
+    private final String SELECT_LOGIN = "SELECT email,senha FROM cliente where email = ? and senha = ?;";
     private final String INSERT = "INSERT INTO cliente (id_cliente,nome,cpf,"
             + "email,senha,dataNascimento) VALUES(?,?,?,?,?,?);";
     private final String DELETE = "DELETE FROM cliente WHERE id_cliente = ?;";
@@ -36,42 +36,30 @@ public class PessoaDAOImpl<GenericType> implements GenericDAO<GenericType> {
 
     List<Pessoa> pessoas = new ArrayList<>();
 
-    public void selectLogin(Pessoa p) throws SQLException, ClassNotFoundException, ParseException {
-
-        Connection con = Conector.getConnection();
+    public boolean selectLogin(String email, String senha) {
+        boolean result = false;
         try {
-            PreparedStatement statement = con.prepareStatement(SELECT_LOGIN);
 
-            String email = p.getEmail();
-            String senha = p.getSenha();
+            Connection con = Conector.getConnection();
 
-            statement.setString(1, email);
-            statement.setString(2, senha);
-            statement.execute();
+            try {
+                try (PreparedStatement statement = con.prepareStatement(SELECT_LOGIN)) {
+                    statement.setString(1, email);
+                    statement.setString(2, senha);
 
-            ResultSet rs = statement.executeQuery();
-
-            while (rs.next()) {
-
-                p.setNome(rs.getString(NOME));
-                p.setCpf(rs.getString(CPF));
-                SimpleDateFormat formatoData = new SimpleDateFormat("yyyy-MM-dd");
-                Calendar c = Calendar.getInstance();
-                c.setTime(formatoData.parse(rs.getString(DATA_NASCIMENTO)));
-                //p.setNascimento(c);
-                //Redirecionar para pagina de reserva
-                System.out.println("Olá, " + p.getNome() + "! :D ");
-
+                    try (ResultSet rs = statement.executeQuery()) {
+                        result = rs.next();
+                    }
+                }
+            } catch (SQLException ex) {
+                System.out.println(">> " + ex);
+                //JOptionPane.showMessageDialog(null, "Select Erro!" + ex);
             }
 
-            rs.close();
-            statement.close();
-            con.close();
-        } catch (SQLException ex) {
-            System.out.println(">> " + ex);
-            //JOptionPane.showMessageDialog(null, "Select Erro!" + ex);
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(PessoaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        return result;
     }
 
     @Override
