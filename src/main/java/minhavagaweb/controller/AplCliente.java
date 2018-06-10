@@ -5,12 +5,13 @@
  */
 package minhavagaweb.controller;
 
-import minhavagaweb.model.Pessoa;
-import minhavagaweb.model.Cliente;
+import minhavagaweb.model.cdp.Pessoa;
+import minhavagaweb.model.cdp.Cliente;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import minhavaga.minhavagaweb.cgd.PessoaDAOImpl;
+import minhavagaweb.model.cgd.PessoaDAOImpl;
+import minhavagaweb.valida.ValidaCPF;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,16 +37,20 @@ public class AplCliente {
     @RequestMapping("cliente")
     public String cadastrarCliente(
             Cliente p, @RequestParam("datanascimento") String datanascimento) throws SQLException, ClassNotFoundException, ParseException {
-        p.toString();
+
         PessoaDAOImpl dao = new PessoaDAOImpl();
+        
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         java.sql.Date data = new java.sql.Date(formato.parse(datanascimento).getTime());
         p.setNascimento(data);
 
-        System.out.println("AQUIIII!> " + p.getNome() + " - " + p.getEmail() + " - " + p.getNascimento());
-        dao.insert(p);
-        return "cliente-adicionado";
-
+        if(ValidaCPF.isValido(p.getCpf())) {
+            dao.insert(p);
+            System.out.println("CADASTRADO> " + p.getNome() + " - " + p.getEmail() + " - " + p.getNascimento());
+            return "cliente-adicionado";
+        }
+        System.out.println("CPF Inválido!");
+        return "cliente";
     }
 
     @RequestMapping(value = "login", method = RequestMethod.GET)
