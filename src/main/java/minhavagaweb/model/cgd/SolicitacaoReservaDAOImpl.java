@@ -15,11 +15,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import minhavagaweb.model.cdp.Cliente;
-import minhavagaweb.model.cdp.Pagamento;
-import minhavagaweb.model.cdp.Reserva;
-import minhavagaweb.model.cdp.SolicitacaoReserva;
-import minhavagaweb.model.cdp.Vaga;
+import minhavagaweb.model.Cliente;
+import minhavagaweb.model.cdp.*;
 import minhavagaweb.model.utilitarioPersistencia.Conector;
 
 public class SolicitacaoReservaDAOImpl<GenericType> implements GenericDAO<GenericType> {

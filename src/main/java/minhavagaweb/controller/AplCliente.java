@@ -5,13 +5,13 @@
  */
 package minhavagaweb.controller;
 
-import minhavagaweb.model.cdp.Pessoa;
-import minhavagaweb.model.cdp.Cliente;
+import minhavagaweb.model.*;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import minhavagaweb.model.cgd.PessoaDAOImpl;
 import minhavagaweb.valida.ValidaCPF;
+import minhavagaweb.valida.ValidaEmail;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -44,12 +44,12 @@ public class AplCliente {
         java.sql.Date data = new java.sql.Date(formato.parse(datanascimento).getTime());
         p.setNascimento(data);
 
-        if(ValidaCPF.isValido(p.getCpf())) {
+        if(ValidaCPF.isValido(p.getCpf()) && ValidaEmail.isEmailValido(p.getEmail())) {
             dao.insert(p);
             System.out.println("CADASTRADO> " + p.getNome() + " - " + p.getEmail() + " - " + p.getNascimento());
             return "cliente-adicionado";
         }
-        System.out.println("CPF Inválido!");
+        System.out.println("Email Inválido!");
         return "cliente";
     }
 

@@ -19,17 +19,7 @@ public class Pessoa {
     private String senha;
     private String cpf;
     private Date datanascimento;
-    //private String teste;
 
-    /*public String getTeste() {
-    return teste;
-    }
-    
-    public void setTeste(String teste) {
-    this.teste = teste;
-    }
-     */
-    //private String datanascimento;
     /**
      * @return the nome
      */

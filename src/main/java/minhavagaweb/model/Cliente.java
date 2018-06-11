@@ -7,24 +7,23 @@ package minhavagaweb.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import minhavaga.minhavagaweb.cdp.Cartao;
-import minhavaga.minhavagaweb.cdp.Pagamento;
-import minhavaga.minhavagaweb.cdp.SolicitacaoReserva;
+import minhavagaweb.model.cdp.*;
 
 /**
  *
  * @author landerson
  */
-public class Cliente extends Pessoa{
+public class Cliente extends Pessoa {
+
     //private int id;
     private List<Cartao> cartoes = new ArrayList<>();
     private Pagamento pagamento;
     private SolicitacaoReserva solicitacao;
-    
+
     public List<Cartao> getCartoes() {
         return this.cartoes;
     }
-    
+
     public void addCartao(Cartao cartao) {
         this.cartoes.add(cartao);
     }

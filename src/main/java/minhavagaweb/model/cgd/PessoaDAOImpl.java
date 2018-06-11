@@ -10,15 +10,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import minhavagaweb.model.cdp.Pessoa;
+import minhavagaweb.model.*;
 import minhavagaweb.model.utilitarioPersistencia.Conector;
 
 public class PessoaDAOImpl<GenericType> implements GenericDAO<GenericType> {
@@ -110,23 +107,61 @@ public class PessoaDAOImpl<GenericType> implements GenericDAO<GenericType> {
 
                 statement.execute();
                 System.out.println("Inseriu!");
+            } catch (SQLException ex) {
 
-            } catch (Exception ex) {
-                System.out.println("DEU B.O." + ex.toString());
-            }
-        } catch (SQLException ex) { // Tratando registro duplicado de EMAIL e CPF
+                if (ex.toString().contains("cpf")) {
+                    out.println("CPF já registrado!");
+                } else if (ex.toString().contains("email")) {
+                    System.out.println("Email já registrado!");
 
-            if (ex.toString().contains("cpf")) {
-                out.println("CPF já registrado!");
-            } else if (ex.toString().contains("email")) {
-                out.println("Email já registrado!");
-                //Redirecionar para Recuperar Senha
+                    //Redirecionar para Recuperar Senha
+                }
+
             }
-        } catch (ClassNotFoundException ex) {
+            // Tratando registro duplicado de EMAIL e CPF
             //System.out.println("EXXXXXX: " + ex);
-            Logger.getLogger(PessoaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
 
+            //System.out.println("EXXXXXX: " + ex);
+        } catch (SQLException | ClassNotFoundException ex) {
+            System.out.println("Erro de Conexão!");
         }
+
+    }
+
+    public String insert1(GenericType obj) {
+        try (Connection connection = Conector.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(INSERT)) {
+                String nome = ((Pessoa) obj).getNome();
+                String cpf = ((Pessoa) obj).getCpf();
+                String email = ((Pessoa) obj).getEmail();
+                String senha = ((Pessoa) obj).getSenha();
+                Date data = ((Pessoa) obj).getNascimento();
+                //SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+                java.sql.Date date = new java.sql.Date(data.getTime());
+
+                statement.setInt(1, this.getNextId());
+                statement.setString(2, nome);
+                statement.setString(3, cpf);
+                statement.setString(4, email);
+                statement.setString(5, senha);
+                statement.setDate(6, date);
+
+                statement.execute();
+                System.out.println("Inseriu!");
+            } catch (SQLException ex) {
+
+                if (ex.toString().contains("cpf")) {
+                    out.println("CPF já registrado!");
+                } else if (ex.toString().contains("email")) {
+                    System.out.println("Email já registrado!");
+                    return "Email já registrado!";
+                    //Redirecionar para Recuperar Senha
+                }
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            System.out.println("Erro de Conexão!");
+        }
+        return null;
     }
 
     @Override
@@ -200,17 +235,4 @@ public class PessoaDAOImpl<GenericType> implements GenericDAO<GenericType> {
         return res;
     }
 
-    /*
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        PessoaDAOImpl dao = new PessoaDAOImpl();
-        Pessoa p = new Pessoa();
-        p.setNome("Helen Franca Medeiros");
-        p.setEmail("helen123@gmail.com");
-        p.setCpf("14302380705");
-        p.setSenha("123456");
-        p.setNascimento(Calendar.getInstance());
-        //dao.insert(p);
-        dao.delete(p);
-        //dao.update(p);
-    }*/
 }
