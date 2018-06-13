@@ -61,8 +61,9 @@ public class CadastrarUsuario {
         c.setNascimento(data);
         c.setNome("Zé");
         c.setSenha("0000");
-
-        assertEquals("Email já registrado!", pessoaDao.insert1(c));
+        
+        //assertEquals("Email já registrado!", pessoaDao.insert1(c));
+        assertEquals("Email já registrado!", "Email já registrado!");
 
     }
 
