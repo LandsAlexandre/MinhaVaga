@@ -5,8 +5,8 @@ jdk:
 
 addons:
     sonarcloud:
-    organization: "helenfranca-github"
-    token:
+     organization: "helenfranca-github"
+     token:
       secure: $sonnar_key
       
 script:  
