@@ -10,7 +10,7 @@ addons:
     sonarcloud:
      organization: "helenfranca-github"
      token:
-      secure: $sonnar_key
+      secure: ed5e8a1e6b4beb31d271c94fe1887f0ec5470748
       
 script:  
   - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
