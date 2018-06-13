@@ -1,6 +1,7 @@
 language: java
 
-sudo: false
+sudo: enable
+dist: trusty
 addons:
   apt:
     packages:
@@ -15,7 +16,7 @@ before_script:
   mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
   
 script:
-- mvn sonar:sonar \
+  -mvn sonar:sonar \
   -Dsonar.organization=malufreitas-github \
   -Dsonar.host.url=https://sonarcloud.io \
   -Dsonar.login=8d045809ae63a604ff4a08821cf2fc190bed19fa
