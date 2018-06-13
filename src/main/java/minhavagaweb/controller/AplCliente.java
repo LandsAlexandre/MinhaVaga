@@ -45,12 +45,16 @@ public class AplCliente {
         java.sql.Date data = new java.sql.Date(formato.parse(datanascimento).getTime());
         p.setNascimento(data);
 
-        if (CPF.isCPFValido(p.getCpf()) && Email.isEmailValido(p.getEmail())) {
-            dao.insert(p);
+        try {
+            if (CPF.isCPFValido(p.getCpf()) && Email.isEmailValido(p.getEmail())) {
+                dao.insert(p);
 
-            return "cliente-adicionado";
+                return "cliente-adicionado";
+            }
+        } catch (Exception ex) {
+            return "emailRegistrado";
         }
-        System.out.println("Email Inválido!");
+
         return "cliente";
     }
 
@@ -66,21 +70,18 @@ public class AplCliente {
     }
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public String fazerLogin(Cliente p) {
-        try {
-            verificarLogin(p.getEmail(), p.getSenha());
-        } catch (RuntimeException e) {
-            return "login";
+    public String fazerLogin(Cliente p) throws SQLException, ClassNotFoundException {
+        if (verificarLogin(p.getEmail(), p.getSenha())) {
+            return "solicitarReserva";
+        } else {
+            return "loginIncorreto";
         }
-        return "home";
     }
 
-    private void verificarLogin(String email, String senha) {
+    private boolean verificarLogin(String email, String senha) throws SQLException, ClassNotFoundException {
         PessoaDAOImpl dao = new PessoaDAOImpl();
-        boolean result = dao.selectLogin(email, senha);
-        if (!result) {
-            throw new RuntimeException("Login incorreto");
-        }
+
+        return dao.selectLogin(email, senha);
     }
 
     @RequestMapping(value = "home", method = RequestMethod.POST)
