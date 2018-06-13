@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import minhavagaweb.model.*;
+import minhavagaweb.model.cdp.*;
 import minhavagaweb.model.utilitarioPersistencia.Conector;
 
 public class PessoaDAOImpl<GenericType> implements GenericDAO<GenericType> {

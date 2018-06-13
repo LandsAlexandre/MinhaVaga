@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package minhavagaweb.model;
+package minhavagaweb.model.cdp;
 
+import minhavagaweb.model.Cartao;
+import minhavagaweb.model.SolicitacaoReserva;
+import minhavagaweb.model.Pagamento;
 import java.util.ArrayList;
 import java.util.List;
 import minhavagaweb.model.cdp.*;

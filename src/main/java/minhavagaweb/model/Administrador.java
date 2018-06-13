@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package minhavagaweb.model.cdp;
+package minhavagaweb.model;
 
-import minhavagaweb.model.Pessoa;
+import minhavagaweb.model.cdp.*;
 
 /**
  *

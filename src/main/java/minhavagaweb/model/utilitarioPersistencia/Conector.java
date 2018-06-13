@@ -21,7 +21,7 @@ public class Conector {
         try {
             Class.forName("org.postgresql.Driver");
             return DriverManager.getConnection(
-                    dbUrl);
+                    "jdbc:postgresql://localhost:5432/ForTests", "postgres", "123");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

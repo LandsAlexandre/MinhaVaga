@@ -3,15 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package minhavagaweb.valida;
+package minhavagaweb.model.cdp;
 
 /**
  *
  * @author ISM
  */
-public class ValidaCPF {
+public class CPF {
+    
+    private String cpf;
 
-    public static boolean isValido(String cpfSemFormatacao) {
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public static boolean isCPFValido(String cpfSemFormatacao) {
 
         if (cpfSemFormatacao.length() != 11 || cpfSemFormatacao.equals("00000000000")
                 || cpfSemFormatacao.equals("99999999999")) {

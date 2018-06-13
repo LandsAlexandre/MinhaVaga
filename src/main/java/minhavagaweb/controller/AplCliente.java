@@ -5,13 +5,14 @@
  */
 package minhavagaweb.controller;
 
-import minhavagaweb.model.*;
+import minhavagaweb.model.cdp.Cliente;
+import minhavagaweb.model.cdp.CPF;
+import minhavagaweb.model.cdp.Email;
+import minhavagaweb.model.cdp.Pessoa;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import minhavagaweb.model.cgd.PessoaDAOImpl;
-import minhavagaweb.valida.ValidaCPF;
-import minhavagaweb.valida.ValidaEmail;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,18 +40,23 @@ public class AplCliente {
             Cliente p, @RequestParam("datanascimento") String datanascimento) throws SQLException, ClassNotFoundException, ParseException {
 
         PessoaDAOImpl dao = new PessoaDAOImpl();
-        
+
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         java.sql.Date data = new java.sql.Date(formato.parse(datanascimento).getTime());
         p.setNascimento(data);
 
-        if(ValidaCPF.isValido(p.getCpf()) && ValidaEmail.isEmailValido(p.getEmail())) {
+        if (CPF.isCPFValido(p.getCpf()) && Email.isEmailValido(p.getEmail())) {
             dao.insert(p);
-            System.out.println("CADASTRADO> " + p.getNome() + " - " + p.getEmail() + " - " + p.getNascimento());
+
             return "cliente-adicionado";
         }
         System.out.println("Email Inválido!");
         return "cliente";
+    }
+
+    public String alterarCliente() {
+
+        return null;
     }
 
     @RequestMapping(value = "login", method = RequestMethod.GET)
@@ -60,29 +66,28 @@ public class AplCliente {
     }
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public String fazerLogin(Cliente p){
+    public String fazerLogin(Cliente p) {
         try {
-            verificarLogin(p.getEmail(),p.getSenha());
-            System.out.println("LOGUEI");
-        }
-        catch(RuntimeException e) {
-            System.out.println("Login incorreto!");
+            verificarLogin(p.getEmail(), p.getSenha());
+        } catch (RuntimeException e) {
             return "login";
         }
         return "home";
     }
-    
+
     private void verificarLogin(String email, String senha) {
         PessoaDAOImpl dao = new PessoaDAOImpl();
         boolean result = dao.selectLogin(email, senha);
-        if(!result) {
+        if (!result) {
             throw new RuntimeException("Login incorreto");
         }
     }
+
     @RequestMapping(value = "home", method = RequestMethod.POST)
     public ModelAndView home() {
         return new ModelAndView("home");
     }
+
     @RequestMapping("index")
     public ModelAndView index() {
         return new ModelAndView("index");

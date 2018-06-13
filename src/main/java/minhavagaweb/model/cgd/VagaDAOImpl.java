@@ -13,10 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import minhavagaweb.model.cdp.Estacionamento;
-import minhavagaweb.model.cdp.Localizacao;
-import minhavagaweb.model.cdp.TipoVaga;
-import minhavagaweb.model.cdp.Vaga;
+import minhavagaweb.model.*;
 import minhavagaweb.model.utilitarioPersistencia.Conector;
 
 public class VagaDAOImpl<GenericType> implements GenericDAO<GenericType> {
