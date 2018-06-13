@@ -1,14 +1,17 @@
 language: java
 
-jdk:
- - oraclejdk8 
+sudo: false
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
 
 branches:
   only
     - master
     - devHelen
    
-before:
+before_script:
   mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
   
 script:
