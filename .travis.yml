@@ -6,6 +6,10 @@ addons:
   apt:
     packages:
       - oracle-java8-installer
+    sonarcloud:
+    organization: "helenfranca-github"
+    token:
+      secure: $sonnar_key
 
 branches:
   only:
@@ -14,13 +18,9 @@ branches:
    
 before_script:
   - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-  
-script:
-  - mvn sonar:sonar
-  - Dsonar.organization=malufreitas-github
-  - Dsonar.host.url=https://sonarcloud.io
-  - Dsonar.login=8d045809ae63a604ff4a08821cf2fc190bed19fa
 
+script:  
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
   
  notifications:
     slack: bsi-ifserra:TYWamFXEYGbYjKP2ZwLUZECP
