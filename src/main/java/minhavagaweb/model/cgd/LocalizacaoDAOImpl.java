@@ -19,14 +19,14 @@ import minhavagaweb.model.utilitarioPersistencia.Conector;
 
 public class LocalizacaoDAOImpl<GenericType> implements GenericDAO<GenericType> {
     
-    private final String SELECT = "SELECT * FROM localizacao ";
-    private final String INSERT = "INSERT INTO localizacao (id_localizacao,latitude,"
+    private static final String SELECT = "SELECT * FROM localizacao ";
+    private static final String INSERT = "INSERT INTO localizacao (id_localizacao,latitude,"
             + "longitude) VALUES (?,?,?);";
-    private final String DELETE = "DELETE FROM localizacao WHERE id_localizacao = ?;";
-    private final String UPDATE = "UPDATE localizacao SET (latitude,longitude)"
+    private static final String DELETE = "DELETE FROM localizacao WHERE id_localizacao = ?;";
+    private static final String UPDATE = "UPDATE localizacao SET (latitude,longitude)"
             + " = (?,?) WHERE id_localizacao = ?;";
     
-    private final String ID_LOCAL = "id_localizacao", LAT = "latitude", LON = "longitude";
+    private static final String ID_LOCAL = "id_localizacao", LAT = "latitude", LON = "longitude";
     
     List<Localizacao> localizacoes = new ArrayList<>();
     @Override
