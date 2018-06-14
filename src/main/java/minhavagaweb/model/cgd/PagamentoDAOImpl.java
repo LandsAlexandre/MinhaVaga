@@ -20,15 +20,15 @@ import minhavagaweb.model.utilitarioPersistencia.Conector;
 
 public class PagamentoDAOImpl<GenericType> implements GenericDAO<GenericType> {
 
-    private final String SELECT = "SELECT * FROM pagamento ";
-    private final String INSERT = "INSERT INTO pagamento (id_pagamento,valor,"
+    private static final String SELECT = "SELECT * FROM pagamento ";
+    private static final String INSERT = "INSERT INTO pagamento (id_pagamento,valor,"
             + "dataPagamento,pago,formaPagamento,id_pagamento) VALUES (?,?,?,?,?,?);";
-    private final String DELETE = "DELETE FROM pagamento WHERE id_pagamento = ?;";
-    private final String UPDATE = "UPDATE pagamento SET (valor,"
+    private static final String DELETE = "DELETE FROM pagamento WHERE id_pagamento = ?;";
+    private static final String UPDATE = "UPDATE pagamento SET (valor,"
             + "dataPagamento,pago,formaPagamento,id_pagamento)"
             + " = (?,?,?,?,?) WHERE id_pagamento = ?;";
 
-    private final String ID_PAGAMENTO = "id_pagamento", VALOR = "valor", DATA = "dataPagamento",
+    private static final String ID_PAGAMENTO = "id_pagamento", VALOR = "valor", DATA = "dataPagamento",
             PAGO = "pago", FORMA = "formaPagamento", ID_CLIENTE = "id_cliente";
 
     List<Pagamento> pagamentos = new ArrayList<>();
