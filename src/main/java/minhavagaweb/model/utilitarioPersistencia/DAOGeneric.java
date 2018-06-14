@@ -23,7 +23,7 @@ public class DAOGeneric {
         try {
             Class.forName("org.postgresql.Driver");
             con = DriverManager.getConnection(
-                    "jdbc:postgresql://localhost:5432/ForTests", "postgres", "123");
+                    dbUrl);
             return con;
         } catch (SQLException e) {
             throw new RuntimeException(e);
