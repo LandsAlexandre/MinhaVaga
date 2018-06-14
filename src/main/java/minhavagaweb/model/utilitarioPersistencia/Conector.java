@@ -20,7 +20,7 @@ public class Conector {
         try {
             Class.forName("org.postgresql.Driver");
             return DriverManager.getConnection(
-                    dbUrl);
+                    "jdbc:postgresql://stampy.db.elephantsql.com:5432/msklitrp", "msklitrp","zOCACHP4G1LbxXVuIPSVUoQ40uDFZ8Jn");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
