@@ -3,25 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package minhavagaweb.model.cdp;
+package minhavagaweb.model;
 
-
-import java.util.ArrayList;
 import java.util.Calendar;
-import minhavagaweb.model.Cliente;
 
 /**
  *
  * @author landerson
  */
 public class Cartao {
+
     private int id;
     private String nomeTitular;
     private String numeroCartao;
     private Calendar dataValidade;
     private String cvv;
-    
-    private Cliente cliente;
+
 
     public String getNomeTitular() {
         return nomeTitular;
@@ -55,14 +52,6 @@ public class Cartao {
         this.cvv = cvv;
     }
 
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
     public int getId() {
         return id;
     }
@@ -70,4 +59,5 @@ public class Cartao {
     public void setId(int id) {
         this.id = id;
     }
+
 }

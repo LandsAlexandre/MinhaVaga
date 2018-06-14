@@ -19,7 +19,7 @@
         <form action="login" method="post">
             Login: <input type="text" name="email" /> <br /> 
             Senha: <input type="password" name="senha" /> <br />
-            <input type="submit" value="Entrar" /> 
+            <input type="submit" value="Entrar"/> 
         </form>
     </body>
 </html>
