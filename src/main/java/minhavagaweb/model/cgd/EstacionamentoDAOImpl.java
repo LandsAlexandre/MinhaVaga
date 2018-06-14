@@ -28,9 +28,13 @@ public class EstacionamentoDAOImpl<GenericType> implements GenericDAO<GenericTyp
     private static final String UPDATE = "UPDATE estacionamento SET (nome,capacidade,"
             + "valor_hora,hora_abre,hora_fecha,id_localizacao) = (?,?,?,?,?) WHERE id_estacionamento = ?;";
     
-    private static final String ID_ESTACIONAMENTO = "id_estacionamento", NOME = "nome", CAPACIDADE = "capacidade",
-            VALOR_HORA = "valor_hora", HORA_ABERTURA = "hora_abre",
-            HORA_FECHAMENTO = "hora_fecha", ID_LOCAL = "id_localizacao";
+    private static final String ID_ESTACIONAMENTO = "id_estacionamento";
+    private static final String NOME = "nome";
+    private static final String CAPACIDADE = "capacidade";
+    private static final String VALOR_HORA = "valor_hora";
+    private static final String HORA_ABERTURA = "hora_abre";
+    private static final String HORA_FECHAMENTO = "hora_fecha";
+    private static final String ID_LOCAL = "id_localizacao";
 
     List<Estacionamento> estacionamentos = new ArrayList<>();
     
@@ -147,7 +151,7 @@ public class EstacionamentoDAOImpl<GenericType> implements GenericDAO<GenericTyp
     @Override
     public int getNextId() {
         int res = -0;
-        String ORDER = "ORDER BY id_estacionamento ASC;";
+        String order = "ORDER BY id_estacionamento ASC;";
         try (Connection connection = Conector.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(SELECT+ORDER,
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
