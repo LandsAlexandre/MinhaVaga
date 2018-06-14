@@ -5,6 +5,8 @@
  */
 package minhavagaweb.model.cdp;
 
+import minhavagaweb.model.cdp.Localizacao;
+import minhavagaweb.model.cdp.Vaga;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;

@@ -3,9 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package minhavagaweb.model.cdp;
+package minhavagaweb.model;
 
+<<<<<<< HEAD:src/main/java/minhavagaweb/model/cdp/Cartao.java
 
+=======
+>>>>>>> 109b7e285f4c924299584f87d0d7e172b484aae8:src/main/java/minhavagaweb/model/Cartao.java
 import java.util.Calendar;
 
 /**
@@ -13,13 +16,13 @@ import java.util.Calendar;
  * @author landerson
  */
 public class Cartao {
+
     private int id;
     private String nomeTitular;
     private String numeroCartao;
     private Calendar dataValidade;
     private String cvv;
-    
-    private Cliente cliente;
+
 
     public String getNomeTitular() {
         return nomeTitular;
@@ -53,14 +56,6 @@ public class Cartao {
         this.cvv = cvv;
     }
 
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
     public int getId() {
         return id;
     }
@@ -68,4 +63,5 @@ public class Cartao {
     public void setId(int id) {
         this.id = id;
     }
+
 }

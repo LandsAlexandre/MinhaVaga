@@ -13,9 +13,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import minhavagaweb.model.cdp.*;
+<<<<<<< HEAD
 import minhavagaweb.model.persistencia.Conector;
 
 public class PessoaDAOImpl<G> extends Conector implements GenericDAO<G> {
+=======
+import minhavagaweb.model.utilitarioPersistencia.DAOGeneric;
+
+public class PessoaDAOImpl<GenericType> extends DAOGeneric implements GenericDAO<GenericType> {
+>>>>>>> 109b7e285f4c924299584f87d0d7e172b484aae8
 
     private static final String SELECT = "SELECT * FROM cliente ";
     private static final String SELECT_LOGIN = "SELECT email,senha FROM cliente where email = ? and senha = ?;";
@@ -35,7 +41,11 @@ public class PessoaDAOImpl<G> extends Conector implements GenericDAO<G> {
     List<Pessoa> pessoas = new ArrayList<>();
 
     public boolean selectLogin(String email, String senha) throws SQLException, ClassNotFoundException {
+<<<<<<< HEAD
         boolean result;
+=======
+        boolean result = false;
+>>>>>>> 109b7e285f4c924299584f87d0d7e172b484aae8
 
         Connection con = this.openConnection();
 
@@ -55,7 +65,11 @@ public class PessoaDAOImpl<G> extends Conector implements GenericDAO<G> {
      * @throws ClassNotFoundException
      */
     @Override
+<<<<<<< HEAD
     public List<G> getAll() throws SQLException, ClassNotFoundException {
+=======
+    public List<GenericType> getAll() throws SQLException, ClassNotFoundException {
+>>>>>>> 109b7e285f4c924299584f87d0d7e172b484aae8
 
         Connection connection = this.openConnection();
         PreparedStatement statement = connection.prepareStatement(SELECT);
@@ -65,6 +79,7 @@ public class PessoaDAOImpl<G> extends Conector implements GenericDAO<G> {
         Pessoa pessoa;
         while (result.next()) {
             pessoa = new Pessoa();
+<<<<<<< HEAD
             pessoa.setNome(result.getString(PessoaDAOImpl.NOME));
             pessoa.setEmail(result.getString(PessoaDAOImpl.EMAIL));
             pessoa.setCpf((String) result.getString(PessoaDAOImpl.CPF));
@@ -78,13 +93,32 @@ public class PessoaDAOImpl<G> extends Conector implements GenericDAO<G> {
 
     @Override
     public boolean insert(G obj) throws SQLException, ClassNotFoundException {
+=======
+            pessoa.setNome(result.getString(this.NOME));
+            pessoa.setEmail(result.getString(this.EMAIL));
+            pessoa.setCpf((String) result.getString(this.CPF));
+            pessoa.setSenha(result.getString(this.SENHA));
+            pessoa.setId(result.getInt(this.ID_CLIENTE));
+            pessoas.add(pessoa);
+        }
+        this.closeConnection(connection);
+        return (List<GenericType>) pessoas;
+    }
+
+    @Override
+    public boolean insert(GenericType obj) throws SQLException, ClassNotFoundException {
+>>>>>>> 109b7e285f4c924299584f87d0d7e172b484aae8
         Connection connection = this.openConnection();
         PreparedStatement statement = connection.prepareStatement(INSERT);
 
         Date data = ((Pessoa) obj).getNascimento();
         java.sql.Date date = new java.sql.Date(data.getTime());
 
+<<<<<<< HEAD
         statement.setInt(1, this.getNextId(ORDER, SELECT, ID_CLIENTE));
+=======
+        statement.setInt(1, this.getNextId());
+>>>>>>> 109b7e285f4c924299584f87d0d7e172b484aae8
         statement.setString(2, ((Pessoa) obj).getNome());
         statement.setString(3, ((Pessoa) obj).getCpf());
         statement.setString(4, ((Pessoa) obj).getEmail());
@@ -93,13 +127,21 @@ public class PessoaDAOImpl<G> extends Conector implements GenericDAO<G> {
 
         boolean stat = statement.execute();
         this.closeConnection(connection);
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 109b7e285f4c924299584f87d0d7e172b484aae8
         return stat;
 
     }
 
     @Override
+<<<<<<< HEAD
     public void update(G obj) throws SQLException, ClassNotFoundException {
+=======
+    public void update(GenericType obj) throws SQLException, ClassNotFoundException {
+>>>>>>> 109b7e285f4c924299584f87d0d7e172b484aae8
 
         Connection connection = this.openConnection();
         PreparedStatement statement = connection.prepareStatement(UPDATE);
@@ -119,7 +161,11 @@ public class PessoaDAOImpl<G> extends Conector implements GenericDAO<G> {
     }
 
     @Override
+<<<<<<< HEAD
     public void delete(G obj) throws SQLException, ClassNotFoundException {
+=======
+    public void delete(GenericType obj) throws SQLException, ClassNotFoundException {
+>>>>>>> 109b7e285f4c924299584f87d0d7e172b484aae8
 
         Connection connection = this.openConnection();
         PreparedStatement statement = connection.prepareStatement(DELETE);
@@ -130,7 +176,11 @@ public class PessoaDAOImpl<G> extends Conector implements GenericDAO<G> {
     }
 
     @Override
+<<<<<<< HEAD
     public G getById(int id) throws ClassNotFoundException, SQLException {
+=======
+    public GenericType getById(int id) throws ClassNotFoundException, SQLException {
+>>>>>>> 109b7e285f4c924299584f87d0d7e172b484aae8
         Connection con = this.openConnection();
 
         Pessoa pessoa = null;
@@ -143,7 +193,28 @@ public class PessoaDAOImpl<G> extends Conector implements GenericDAO<G> {
             }
         }
         this.closeConnection(con);
+<<<<<<< HEAD
         return (G) pessoa;
+=======
+        return (GenericType) pessoa;
+    }
+
+    @Override
+    public int getNextId() throws SQLException, ClassNotFoundException {
+        int res = -0;
+        String ORDER = "ORDER BY id_cliente ASC;";
+        Connection connection = this.openConnection();
+        PreparedStatement statement = connection.prepareStatement(SELECT + ORDER,
+                ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        statement.execute();
+        ResultSet result = statement.executeQuery();
+        if (result.last()) {
+            res = result.getInt(ID_CLIENTE);
+            return res + 1;
+        }
+        this.closeConnection(connection);
+        return res;
+>>>>>>> 109b7e285f4c924299584f87d0d7e172b484aae8
     }
 
 }

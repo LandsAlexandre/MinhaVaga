@@ -3,10 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package minhavagaweb.model.cdp;
+package minhavagaweb.model;
 
+import minhavagaweb.model.cdp.Vaga;
 import java.time.LocalTime;
 import java.util.Calendar;
+<<<<<<< HEAD:src/main/java/minhavagaweb/model/cdp/Reserva.java
+=======
+import minhavagaweb.model.cdp.*;
+>>>>>>> 109b7e285f4c924299584f87d0d7e172b484aae8:src/main/java/minhavagaweb/model/Reserva.java
 
 /**
  *

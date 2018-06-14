@@ -5,6 +5,9 @@
  */
 package minhavagaweb.model.cdp;
 
+import minhavagaweb.model.Cartao;
+import minhavagaweb.model.SolicitacaoReserva;
+import minhavagaweb.model.Pagamento;
 import java.util.ArrayList;
 import java.util.List;
 

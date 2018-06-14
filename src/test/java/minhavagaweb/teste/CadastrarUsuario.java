@@ -5,15 +5,27 @@
  */
 package minhavagaweb.teste;
 
+<<<<<<< HEAD
+=======
+import minhavagaweb.model.cdp.CPF;
+import minhavagaweb.model.cdp.Email;
+import minhavagaweb.model.cdp.Pessoa;
+>>>>>>> 109b7e285f4c924299584f87d0d7e172b484aae8
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import java.text.SimpleDateFormat;
 import minhavagaweb.controller.AplCliente;
+<<<<<<< HEAD
 import minhavagaweb.model.cgd.*;
 import minhavagaweb.model.cdp.*;
 
 import static org.junit.Assert.assertEquals;
+=======
+import minhavagaweb.model.cdp.Cliente;
+import minhavagaweb.model.cgd.*;
+import static org.junit.Assert.*;
+>>>>>>> 109b7e285f4c924299584f87d0d7e172b484aae8
 
 /**
  *
@@ -49,7 +61,11 @@ public class CadastrarUsuario {
 
     @When("^eu cadastre um e-mail que já está cadastrado$")
     public void eu_cadastre_um_e_mail_que_já_está_cadastrado() throws Throwable {
+<<<<<<< HEAD
         String email = "JuliaRodrigues6@hotmail.com";
+=======
+        String email = "helenfranca93@gmail.com";
+>>>>>>> 109b7e285f4c924299584f87d0d7e172b484aae8
         AplCliente apl = new AplCliente();
         Cliente c = new Cliente();
         c.setCpf("11307925014");
@@ -58,6 +74,10 @@ public class CadastrarUsuario {
         c.setSenha("0000");
 
         assertEquals("emailRegistrado",apl.cadastrarCliente(c, "20/01/2001",null));
+<<<<<<< HEAD
+=======
+
+>>>>>>> 109b7e285f4c924299584f87d0d7e172b484aae8
     }
 
     @Then("^eu devo ser informado que o e-mail já está registrado$")
