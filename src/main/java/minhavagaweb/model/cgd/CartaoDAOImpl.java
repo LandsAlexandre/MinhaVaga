@@ -18,7 +18,7 @@ import minhavagaweb.model.cdp.Cartao;
 import minhavagaweb.model.utilitarioPersistencia.Conector;
 
 
-public class CartaoDAOImpl<GENERICTYPE> implements GenericDAO<GenericType> {
+public class CartaoDAOImpl<GENERICTYPE> implements GenericDAO<GENERICTYPE> {
     private static final String SELECT = "SELECT * FROM cartao ";
     private static final String INSERT = "INSERT INTO cartao (id_cartao,nomeTitular,"
             + "numeroCartao,cvv,dataValidade) VALUES(?,?,?,?,?);";
