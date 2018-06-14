@@ -61,7 +61,7 @@ public class CartaoDAOImpl<GENERICTYPE> implements GenericDAO<GENERICTYPE> {
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(CartaoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return (List<GenericType>)cartoes;
+        return (List<GENERICTYPE>)cartoes;
     }
 
     @Override
@@ -128,7 +128,7 @@ public class CartaoDAOImpl<GENERICTYPE> implements GenericDAO<GENERICTYPE> {
             if (c.getId() == id)
                 cartao = c;
         }
-        return (GenericType) cartao;
+        return (GENERICTYPE) cartao;
     }
 
     @Override

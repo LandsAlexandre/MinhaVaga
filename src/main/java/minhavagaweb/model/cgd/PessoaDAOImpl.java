@@ -5,7 +5,7 @@
  */
 package minhavagaweb.model.cgd;
 
-import static java.lang.System.out;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 import minhavagaweb.model.*;
 import minhavagaweb.model.utilitarioPersistencia.Conector;
 
-public class PessoaDAOImpl<GenericType> implements GenericDAO<GenericType> {
+public class PessoaDAOImpl<GENERICTYPE> implements GenericDAO<GENERICTYPE> {
 
     private static final String SELECT = "SELECT * FROM cliente ";
     private static final String SELECT_LOGIN = "SELECT email,senha FROM cliente where email = ? and senha = ?;";
@@ -28,8 +28,11 @@ public class PessoaDAOImpl<GenericType> implements GenericDAO<GenericType> {
     private static final String UPDATE = "UPDATE cliente SET (nome,cpf,"
             + "email,senha,dataNascimento) = (?,?,?,?,?) WHERE id_cliente = ?;";
 
-    private static final String ID_CLIENTE = "id_cliente", NOME = "nome", EMAIL = "email",
-            SENHA = "senha", CPF = "cpf", DATA_NASCIMENTO = "dataNascimento";
+    private static final String ID_CLIENTE = "id_cliente";
+    private static final String NOME = "nome", EMAIL = "email";
+    private static final String SENHA = "senha";
+    private static final String CPF = "cpf";
+    private static final String DATA_NASCIMENTO = "dataNascimento";
 
     List<Pessoa> pessoas = new ArrayList<>();
 
@@ -49,8 +52,6 @@ public class PessoaDAOImpl<GenericType> implements GenericDAO<GenericType> {
                     }
                 }
             } catch (SQLException ex) {
-                System.out.println(">> " + ex);
-                //JOptionPane.showMessageDialog(null, "Select Erro!" + ex);
             }
 
         } catch (SQLException | ClassNotFoundException ex) {
@@ -60,7 +61,7 @@ public class PessoaDAOImpl<GenericType> implements GenericDAO<GenericType> {
     }
 
     @Override
-    public List<GenericType> getAll() {
+    public List<GENERICTYPE> getAll() {
         try (Connection connection = Conector.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(SELECT)) {
                 statement.execute();
@@ -69,11 +70,11 @@ public class PessoaDAOImpl<GenericType> implements GenericDAO<GenericType> {
                 Pessoa pessoa;
                 while (result.next()) {
                     pessoa = new Pessoa();
-                    pessoa.setNome(result.getString(this.NOME));
-                    pessoa.setEmail(result.getString(this.EMAIL));
-                    pessoa.setCpf((String) result.getString(this.CPF));
-                    pessoa.setSenha(result.getString(this.SENHA));
-                    pessoa.setId(result.getInt(this.ID_CLIENTE));
+                    pessoa.setNome(result.getString(PessoaDAOImpl.NOME));
+                    pessoa.setEmail(result.getString(PessoaDAOImpl.EMAIL));
+                    pessoa.setCpf((String) result.getString(PessoaDAOImpl.CPF));
+                    pessoa.setSenha(result.getString(PessoaDAOImpl.SENHA));
+                    pessoa.setId(result.getInt(PessoaDAOImpl.ID_CLIENTE));
                     pessoas.add(pessoa);
                 }
             } catch (SQLException ex) {
@@ -83,11 +84,11 @@ public class PessoaDAOImpl<GenericType> implements GenericDAO<GenericType> {
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(PessoaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return (List<GenericType>) pessoas;
+        return (List<GENERICTYPE>) pessoas;
     }
 
     @Override
-    public void insert(GenericType obj) {
+    public void insert(GENERICTYPE obj) {
         try (Connection connection = Conector.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(INSERT)) {
                 String nome = ((Pessoa) obj).getNome();
@@ -95,7 +96,6 @@ public class PessoaDAOImpl<GenericType> implements GenericDAO<GenericType> {
                 String email = ((Pessoa) obj).getEmail();
                 String senha = ((Pessoa) obj).getSenha();
                 Date data = ((Pessoa) obj).getNascimento();
-                //SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
                 java.sql.Date date = new java.sql.Date(data.getTime());
 
                 statement.setInt(1, this.getNextId());
@@ -110,25 +110,18 @@ public class PessoaDAOImpl<GenericType> implements GenericDAO<GenericType> {
             } catch (SQLException ex) {
 
                 if (ex.toString().contains("cpf")) {
-                    out.println("CPF já registrado!");
+                    Logger.getLogger("CPF já registrado!");
                 } else if (ex.toString().contains("email")) {
-                    System.out.println("Email já registrado!");
-
-                    //Redirecionar para Recuperar Senha
+                    Logger.getLogger("Email já registrado!");
                 }
-
             }
-            // Tratando registro duplicado de EMAIL e CPF
-            //System.out.println("EXXXXXX: " + ex);
-
-            //System.out.println("EXXXXXX: " + ex);
         } catch (SQLException | ClassNotFoundException ex) {
-            System.out.println("Erro de Conexão!");
+            Logger.getLogger("Erro de Conexão!");
         }
 
     }
 
-    public String insert1(GenericType obj) {
+    public String insert1(GENERICTYPE obj) {
         try (Connection connection = Conector.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(INSERT)) {
                 String nome = ((Pessoa) obj).getNome();
@@ -136,7 +129,6 @@ public class PessoaDAOImpl<GenericType> implements GenericDAO<GenericType> {
                 String email = ((Pessoa) obj).getEmail();
                 String senha = ((Pessoa) obj).getSenha();
                 Date data = ((Pessoa) obj).getNascimento();
-                //SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
                 java.sql.Date date = new java.sql.Date(data.getTime());
 
                 statement.setInt(1, this.getNextId());
@@ -147,25 +139,24 @@ public class PessoaDAOImpl<GenericType> implements GenericDAO<GenericType> {
                 statement.setDate(6, date);
 
                 statement.execute();
-                System.out.println("Inseriu!");
+                Logger.getLogger("Inseriu!");
             } catch (SQLException ex) {
 
                 if (ex.toString().contains("cpf")) {
-                    out.println("CPF já registrado!");
+                    Logger.getLogger("CPF já registrado!");
                 } else if (ex.toString().contains("email")) {
-                    System.out.println("Email já registrado!");
+                    Logger.getLogger("Email já registrado!");
                     return "Email já registrado!";
-                    //Redirecionar para Recuperar Senha
                 }
             }
         } catch (SQLException | ClassNotFoundException ex) {
-            System.out.println("Erro de Conexão!");
+            Logger.getLogger("Erro de Conexão!");
         }
         return null;
     }
 
     @Override
-    public void update(GenericType obj) {
+    public void update(GENERICTYPE obj) {
 
         try (Connection connection = Conector.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(UPDATE)) {
@@ -173,13 +164,11 @@ public class PessoaDAOImpl<GenericType> implements GenericDAO<GenericType> {
                 String cpf = ((Pessoa) obj).getCpf();
                 String email = ((Pessoa) obj).getEmail();
                 String senha = ((Pessoa) obj).getSenha();
-                //Calendar dataNascimento = ((Pessoa) obj).getNascimento();
 
                 statement.setString(1, nome);
                 statement.setString(2, cpf);
                 statement.setString(3, email);
                 statement.setString(4, senha);
-                // statement.setDate(5, new java.sql.Date(dataNascimento.getTimeInMillis()));
                 statement.setInt(6, 1);
                 statement.execute();
             }
@@ -189,7 +178,7 @@ public class PessoaDAOImpl<GenericType> implements GenericDAO<GenericType> {
     }
 
     @Override
-    public void delete(GenericType obj) {
+    public void delete(GENERICTYPE obj) {
         try (Connection connection = Conector.getConnection(); PreparedStatement statement = connection.prepareStatement(DELETE)) {
             statement.setInt(1, ((Pessoa) obj).getId());
             statement.execute();
@@ -199,7 +188,7 @@ public class PessoaDAOImpl<GenericType> implements GenericDAO<GenericType> {
     }
 
     @Override
-    public GenericType getById(int id) {
+    public GENERICTYPE getById(int id) {
         Pessoa pessoa = null;
         if (pessoas.isEmpty()) {
             pessoas = (List<Pessoa>) this.getAll();
@@ -209,15 +198,15 @@ public class PessoaDAOImpl<GenericType> implements GenericDAO<GenericType> {
                 pessoa = c;
             }
         }
-        return (GenericType) pessoa;
+        return (GENERICTYPE) pessoa;
     }
 
     @Override
     public int getNextId() {
         int res = -0;
-        String ORDER = "ORDER BY id_cliente ASC;";
+        String order = "ORDER BY id_cliente ASC;";
         try (Connection connection = Conector.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(SELECT + ORDER,
+            try (PreparedStatement statement = connection.prepareStatement(SELECT + order,
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
                 statement.execute();
                 ResultSet result = statement.executeQuery();

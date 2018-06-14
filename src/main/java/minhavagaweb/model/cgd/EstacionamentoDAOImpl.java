@@ -19,7 +19,7 @@ import minhavagaweb.model.cdp.Localizacao;
 import minhavagaweb.model.utilitarioPersistencia.Conector;
 
 
-public class EstacionamentoDAOImpl<GenericType> implements GenericDAO<GenericType> {
+public class EstacionamentoDAOImpl<GENERICTYPE> implements GenericDAO<GENERICTYPE> {
     
     private static final String SELECT = "SELECT * FROM estacionamento;";
     private static final String INSERT = "INSERT INTO estacionamento (id_estacionamento,nome,capacidade,"
@@ -39,7 +39,7 @@ public class EstacionamentoDAOImpl<GenericType> implements GenericDAO<GenericTyp
     List<Estacionamento> estacionamentos = new ArrayList<>();
     
     @Override
-    public List<GenericType> getAll() {
+    public List<GENERICTYPE> getAll() {
         try (Connection connection = Conector.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(SELECT)) {
                 statement.execute();
@@ -68,11 +68,11 @@ public class EstacionamentoDAOImpl<GenericType> implements GenericDAO<GenericTyp
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(EstacionamentoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return (List<GenericType>)estacionamentos;
+        return (List<GENERICTYPE>)estacionamentos;
     }
     
     @Override
-    public GenericType getById(int id) {
+    public GENERICTYPE getById(int id) {
         Estacionamento estacionamento = null;
         if (estacionamentos.isEmpty()) {
             estacionamentos = (List<Estacionamento>) this.getAll();
@@ -81,11 +81,11 @@ public class EstacionamentoDAOImpl<GenericType> implements GenericDAO<GenericTyp
             if (park.getId() == id)
                 estacionamento = park;
         }
-        return (GenericType) estacionamento;
+        return (GENERICTYPE) estacionamento;
     }
     
     @Override
-    public void insert(GenericType obj) {
+    public void insert(GENERICTYPE obj) {
         try (Connection connection = Conector.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(INSERT)) {
                 
@@ -111,7 +111,7 @@ public class EstacionamentoDAOImpl<GenericType> implements GenericDAO<GenericTyp
     }
 
     @Override
-    public void update(GenericType obj) {
+    public void update(GENERICTYPE obj) {
         try (Connection connection = Conector.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(UPDATE)) {
                 
@@ -139,7 +139,7 @@ public class EstacionamentoDAOImpl<GenericType> implements GenericDAO<GenericTyp
     }
 
     @Override
-    public void delete(GenericType obj) {
+    public void delete(GENERICTYPE obj) {
         try (Connection connection = Conector.getConnection(); PreparedStatement statement = connection.prepareStatement(DELETE)) {
             statement.setInt(1, ((Estacionamento)obj).getId());
             statement.execute();
@@ -153,7 +153,7 @@ public class EstacionamentoDAOImpl<GenericType> implements GenericDAO<GenericTyp
         int res = -0;
         String order = "ORDER BY id_estacionamento ASC;";
         try (Connection connection = Conector.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(SELECT+ORDER,
+            try (PreparedStatement statement = connection.prepareStatement(SELECT+order,
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
                 statement.execute();
                 ResultSet result = statement.executeQuery();

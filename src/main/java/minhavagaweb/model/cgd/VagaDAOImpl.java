@@ -19,7 +19,7 @@ import minhavagaweb.model.cdp.TipoVaga;
 import minhavagaweb.model.cdp.Vaga;
 import minhavagaweb.model.utilitarioPersistencia.Conector;
 
-public class VagaDAOImpl<GenericType> implements GenericDAO<GenericType> {
+public class VagaDAOImpl<GENERICTYPE> implements GenericDAO<GENERICTYPE> {
 
     private static final String SELECT = "SELECT * FROM vaga ";
     private static final String INSERT = "INSERT INTO vaga (id_vaga,cobertura,"
@@ -29,14 +29,17 @@ public class VagaDAOImpl<GenericType> implements GenericDAO<GenericType> {
             + "status,id_estacionamento,id_localizacao,id_id_tipo)"
             + " = (?,?,?,?,?) WHERE id_vaga = ?;";
 
-    private static final String ID_VAGA = "id_vaga", COBERTURA = "cobertura",
-            STATUS = "status", ID_ESTACIONAMENTO = "id_estacionamento",
-            ID_LOCAL = "id_localizacao", ID_TIPO = "id_tipo";
+    private static final String ID_VAGA = "id_vaga";
+    private static final String COBERTURA = "cobertura";
+    private static final String STATUS = "status";
+    private static final String ID_ESTACIONAMENTO = "id_estacionamento";
+    private static final String ID_LOCAL = "id_localizacao";
+    private static final String ID_TIPO = "id_tipo";
 
     List<Vaga> vagas = new ArrayList<>();
 
     @Override
-    public List<GenericType> getAll() {
+    public List<GENERICTYPE> getAll() {
         try (Connection connection = Conector.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(SELECT)) {
                 statement.execute();
@@ -54,7 +57,8 @@ public class VagaDAOImpl<GenericType> implements GenericDAO<GenericType> {
                     vaga.setEstacionamento(e);
 
                     LocalizacaoDAOImpl dao2 = new LocalizacaoDAOImpl();
-                    Localizacao local = (Localizacao) dao2.getById(result.getInt(this.ID_LOCAL));
+                    Localizacao local;
+                    local = (Localizacao) dao2.getById(result.getInt(VagaDAOImpl.ID_LOCAL));
                     vaga.setLocal(local);
                     int tipo = result.getInt(this.ID_TIPO);
 
@@ -78,11 +82,11 @@ public class VagaDAOImpl<GenericType> implements GenericDAO<GenericType> {
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(EstacionamentoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return (List<GenericType>) vagas;
+        return (List<GENERICTYPE>) vagas;
     }
 
     @Override
-    public GenericType getById(int id) {
+    public GENERICTYPE getById(int id) {
         Vaga vaga = null;
         if (vagas.isEmpty()) {
             vagas = (List<Vaga>) this.getAll();
@@ -92,26 +96,26 @@ public class VagaDAOImpl<GenericType> implements GenericDAO<GenericType> {
                 vaga = p;
             }
         }
-        return (GenericType) vaga;
+        return (GENERICTYPE) vaga;
     }
 
     @Override
-    public void insert(GenericType obj) {
+    public void insert(GENERICTYPE obj) {
         try (Connection connection = Conector.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(INSERT)) {
 
                 Boolean cobertura = ((Vaga) obj).isCobertura();
                 Boolean status = ((Vaga) obj).isStatus();
-                int id_estacionamento = ((Vaga) obj).getEstacionamento().getId();
-                int id_local = ((Vaga) obj).getLocal().getId();
-                TipoVaga id_tipo = ((Vaga) obj).getTipo();
+                int idEstacionamento = ((Vaga) obj).getEstacionamento().getId();
+                int idLocal = ((Vaga) obj).getLocal().getId();
+                TipoVaga idTipo = ((Vaga) obj).getTipo();
 
                 statement.setInt(1, this.getNextId());
                 statement.setBoolean(2, cobertura);
                 statement.setBoolean(3, status);
-                statement.setInt(4, id_estacionamento);
-                statement.setInt(5, id_local);
-                statement.setInt(6, id_tipo.getValue());
+                statement.setInt(4, idEstacionamento);
+                statement.setInt(5, idLocal);
+                statement.setInt(6, idTipo.getValue());
 
                 statement.execute();
             }
@@ -121,22 +125,22 @@ public class VagaDAOImpl<GenericType> implements GenericDAO<GenericType> {
     }
 
     @Override
-    public void update(GenericType obj) {
+    public void update(GENERICTYPE obj) {
         try (Connection connection = Conector.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(INSERT)) {
 
                 Boolean cobertura = ((Vaga) obj).isCobertura();
                 Boolean status = ((Vaga) obj).isStatus();
-                int id_estacionamento = ((Vaga) obj).getEstacionamento().getId();
-                int id_local = ((Vaga) obj).getLocal().getId();
-                TipoVaga id_tipo = ((Vaga) obj).getTipo();
+                int idEstacionamento = ((Vaga) obj).getEstacionamento().getId();
+                int idLocal = ((Vaga) obj).getLocal().getId();
+                TipoVaga idTipo = ((Vaga) obj).getTipo();
                 int id = ((Vaga) obj).getId();
 
                 statement.setBoolean(1, cobertura);
                 statement.setBoolean(2, status);
-                statement.setInt(3, id_estacionamento);
-                statement.setInt(4, id_local);
-                statement.setInt(5, id_tipo.getValue());
+                statement.setInt(3, idEstacionamento);
+                statement.setInt(4, idLocal);
+                statement.setInt(5, idTipo.getValue());
                 statement.setInt(6, id);
 
                 statement.execute();
@@ -147,7 +151,7 @@ public class VagaDAOImpl<GenericType> implements GenericDAO<GenericType> {
     }
 
     @Override
-    public void delete(GenericType obj) {
+    public void delete(GENERICTYPE obj) {
         try (Connection connection = Conector.getConnection(); PreparedStatement statement = connection.prepareStatement(DELETE)) {
             statement.setInt(1, ((Vaga) obj).getId());
             statement.execute();
@@ -159,9 +163,9 @@ public class VagaDAOImpl<GenericType> implements GenericDAO<GenericType> {
     @Override
     public int getNextId() {
         int res = -0;
-        String ORDER = "ORDER BY id_vaga ASC;";
+        String order = "ORDER BY id_vaga ASC;";
         try (Connection connection = Conector.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(SELECT + ORDER,
+            try (PreparedStatement statement = connection.prepareStatement(SELECT + order,
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
                 statement.execute();
                 ResultSet result = statement.executeQuery();

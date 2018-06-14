@@ -28,8 +28,12 @@ public class PagamentoDAOImpl<GenericType> implements GenericDAO<GenericType> {
             + "dataPagamento,pago,formaPagamento,id_pagamento)"
             + " = (?,?,?,?,?) WHERE id_pagamento = ?;";
 
-    private static final String ID_PAGAMENTO = "id_pagamento", VALOR = "valor", DATA = "dataPagamento",
-            PAGO = "pago", FORMA = "formaPagamento", ID_CLIENTE = "id_cliente";
+    private static final String ID_PAGAMENTO = "id_pagamento";
+    private static final String VALOR = "valor";
+    private static final String DATA = "dataPagamento";
+    private static final String PAGO = "pago";
+    private static final String FORMA = "formaPagamento";
+    private static final String ID_CLIENTE = "id_cliente";
 
     List<Pagamento> pagamentos = new ArrayList<>();
 
@@ -39,7 +43,7 @@ public class PagamentoDAOImpl<GenericType> implements GenericDAO<GenericType> {
             try (PreparedStatement statement = connection.prepareStatement(SELECT)) {
                 statement.execute();
                 ResultSet result = statement.executeQuery();
-
+                
                 Pagamento pagamento;
                 while (result.next()) {
                     pagamento = new Pagamento();
@@ -92,14 +96,14 @@ public class PagamentoDAOImpl<GenericType> implements GenericDAO<GenericType> {
                 Calendar data = ((Pagamento) obj).getDataPagamento();
                 Boolean pago = ((Pagamento) obj).isPago();
                 String forma = ((Pagamento) obj).getFormaPagamento();
-                int id_cliente = ((Pagamento) obj).getCliente().getId();
-
+                int idCliente = ((Pagamento) obj).getCliente().getId();
+                
                 statement.setInt(1, this.getNextId());
                 statement.setDouble(2, valor);
                 statement.setDate(3, new java.sql.Date(data.getTimeInMillis()));
                 statement.setBoolean(4, pago);
                 statement.setString(5, forma);
-                statement.setInt(6, id_cliente);
+                statement.setInt(6, idCliente);
                 statement.execute();
             }
         } catch (SQLException | ClassNotFoundException ex) {
@@ -116,13 +120,13 @@ public class PagamentoDAOImpl<GenericType> implements GenericDAO<GenericType> {
                 Calendar data = ((Pagamento) obj).getDataPagamento();
                 Boolean pago = ((Pagamento) obj).isPago();
                 String forma = ((Pagamento) obj).getFormaPagamento();
-                int id_cliente = ((Pagamento) obj).getCliente().getId();
+                int idCliente = ((Pagamento) obj).getCliente().getId();
 
                 statement.setDouble(2, valor);
                 statement.setDate(3, new java.sql.Date(data.getTimeInMillis()));
                 statement.setBoolean(4, pago);
                 statement.setString(5, forma);
-                statement.setInt(6, id_cliente);
+                statement.setInt(6, idCliente);
 
                 statement.setInt(6, id);
                 statement.execute();
@@ -145,9 +149,9 @@ public class PagamentoDAOImpl<GenericType> implements GenericDAO<GenericType> {
     @Override
     public int getNextId() {
         int res = -0;
-        String ORDER = "ORDER BY id_pagamento ASC;";
+        String order = "ORDER BY id_pagamento ASC;";
         try (Connection connection = Conector.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(SELECT + ORDER,
+            try (PreparedStatement statement = connection.prepareStatement(SELECT + order,
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
                 statement.execute();
                 ResultSet result = statement.executeQuery();

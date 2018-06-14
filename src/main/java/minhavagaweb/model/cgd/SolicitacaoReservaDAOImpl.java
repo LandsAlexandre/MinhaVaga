@@ -19,7 +19,7 @@ import minhavagaweb.model.Cliente;
 import minhavagaweb.model.cdp.*;
 import minhavagaweb.model.utilitarioPersistencia.Conector;
 
-public class SolicitacaoReservaDAOImpl<GENERICTYPE> implements GenericDAO<GenericType> {
+public class SolicitacaoReservaDAOImpl<GENERICTYPE> implements GenericDAO<GENERICTYPE> {
 
     private static final String SELECT = "SELECT * FROM reserva ";
     private static final String INSERT = "INSERT INTO reserva (id_reserva,dataReserva,"
@@ -56,16 +56,16 @@ public class SolicitacaoReservaDAOImpl<GENERICTYPE> implements GenericDAO<Generi
                     reserva = new Reserva();
 
                     Calendar dataR = Calendar.getInstance();
-                    dataR.setTime(result.getDate(this.DATA_R));
+                    dataR.setTime(result.getDate(SolicitacaoReservaDAOImpl.DATA_R));
 
                     solicitacaoReserva.setDataSolicitacao(dataR);
                     solicitacaoReserva.setHoraSolicitacao(
-                            result.getTime(this.HORA_R).toLocalTime());
+                            result.getTime(SolicitacaoReservaDAOImpl.HORA_R).toLocalTime());
 
-                    reserva.setId(result.getInt(this.ID_RESERVA));
+                    reserva.setId(result.getInt(SolicitacaoReservaDAOImpl.ID_RESERVA));
                     reserva.setDataChegada(dataR);
                     reserva.setHoraChegada(result.getTime(
-                            this.HORA_C).toLocalTime());
+                            SolicitacaoReservaDAOImpl.HORA_C).toLocalTime());
 
                     dataR.setTime(result.getDate(this.DATA_S));
                     reserva.setDataSaida(dataR);
@@ -108,7 +108,7 @@ public class SolicitacaoReservaDAOImpl<GENERICTYPE> implements GenericDAO<Generi
                 solicitacaoReserva = sr;
             }
         }
-        return (GenericType) solicitacaoReserva;
+        return (GENERICTYPE) solicitacaoReserva;
     }
 
     @Override
@@ -209,7 +209,7 @@ public class SolicitacaoReservaDAOImpl<GENERICTYPE> implements GenericDAO<Generi
                 statement.execute();
                 ResultSet result = statement.executeQuery();
                 if (result.last()) {
-                    res = result.getInt(this.ID_RESERVA);
+                    res = result.getInt(SolicitacaoReservaDAOImpl.ID_RESERVA);
                     return res + 1;
                 }
             } catch (SQLException ex) {
