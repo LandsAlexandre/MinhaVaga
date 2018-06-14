@@ -15,15 +15,13 @@ public class DAOGeneric {
     private Connection con;
 
     protected Connection openConnection() throws SQLException, ClassNotFoundException {
-        //String dbUrl = System.getenv("DATABASE_URL");
-        //String dbUrl = "<your local database url>";
-
+      
         String dbUrl = System.getenv("JDBC_DATABASE_URL");
         //"jdbc:postgresql://localhost:5432/ForTests", "postgres", "123"
         try {
             Class.forName("org.postgresql.Driver");
             con = DriverManager.getConnection(
-                    dbUrl);
+                     "jdbc:postgresql://stampy.db.elephantsql.com:5432/msklitrp", "msklitrp","zOCACHP4G1LbxXVuIPSVUoQ40uDFZ8Jn");
             return con;
         } catch (SQLException e) {
             throw new RuntimeException(e);
