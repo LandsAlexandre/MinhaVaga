@@ -20,15 +20,15 @@ import minhavagaweb.model.utilitarioPersistencia.Conector;
 
 public class PessoaDAOImpl<GenericType> implements GenericDAO<GenericType> {
 
-    private final String SELECT = "SELECT * FROM cliente ";
-    private final String SELECT_LOGIN = "SELECT email,senha FROM cliente where email = ? and senha = ?;";
-    private final String INSERT = "INSERT INTO cliente (id_cliente,nome,cpf,"
+    private static final String SELECT = "SELECT * FROM cliente ";
+    private static final String SELECT_LOGIN = "SELECT email,senha FROM cliente where email = ? and senha = ?;";
+    private static final String INSERT = "INSERT INTO cliente (id_cliente,nome,cpf,"
             + "email,senha,dataNascimento) VALUES(?,?,?,?,?,?);";
-    private final String DELETE = "DELETE FROM cliente WHERE id_cliente = ?;";
-    private final String UPDATE = "UPDATE cliente SET (nome,cpf,"
+    private static final String DELETE = "DELETE FROM cliente WHERE id_cliente = ?;";
+    private static final String UPDATE = "UPDATE cliente SET (nome,cpf,"
             + "email,senha,dataNascimento) = (?,?,?,?,?) WHERE id_cliente = ?;";
 
-    private final String ID_CLIENTE = "id_cliente", NOME = "nome", EMAIL = "email",
+    private static final String ID_CLIENTE = "id_cliente", NOME = "nome", EMAIL = "email",
             SENHA = "senha", CPF = "cpf", DATA_NASCIMENTO = "dataNascimento";
 
     List<Pessoa> pessoas = new ArrayList<>();
