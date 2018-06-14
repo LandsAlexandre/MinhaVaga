@@ -12,11 +12,11 @@ import java.util.List;
  * @author landerson
  * @param <GenericType>
  */
-public interface GenericDAO<GenericType> {
-    public List<GenericType> getAll();
-    public GenericType getById(int id);
-    public void insert(GenericType obj);
-    public void update(GenericType obj);
-    public void delete(GenericType obj);
+public interface GenericDAO<GENERICTYPE> {
+    public List<GENERICTYPE> getAll();
+    public GENERICTYPE getById(int id);
+    public void insert(GENERICTYPE obj);
+    public void update(GENERICTYPE obj);
+    public void delete(GENERICTYPE obj);
     public int getNextId();
 }
