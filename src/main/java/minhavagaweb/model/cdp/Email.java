@@ -14,14 +14,14 @@ import java.util.regex.Pattern;
  */
 public class Email {
     
-    private String Email;
+    private String email;
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
-    public void setEmail(String Email) {
-        this.Email = Email;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public static boolean isEmailValido(String email) {
