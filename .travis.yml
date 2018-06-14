@@ -1,22 +1,24 @@
 language: java
 
+sudo: enable
+dist: trusty
+
 jdk:
- - oraclejdk8 
+ - oraclejdk8
+
+addons:
+    sonarcloud:
+     organization: "helenfranca-github"
+     token:
+      secure: ed5e8a1e6b4beb31d271c94fe1887f0ec5470748
+      
+script:  
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
 
 branches:
-  only
+  only:
     - master
-   
-before:
-  mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-  
-script:
-- mvn sonar:sonar \
-  -Dsonar.organization=malufreitas-github \
-  -Dsonar.host.url=https://sonarcloud.io \
-  -Dsonar.login=8d045809ae63a604ff4a08821cf2fc190bed19fa
+    - devHelen
 
-  
- notifications:
+notifications:
     slack: bsi-ifserra:TYWamFXEYGbYjKP2ZwLUZECP
-    

@@ -61,6 +61,7 @@ public class CadastrarUsuario {
 
         assertEquals("emailRegistrado",apl.cadastrarCliente(c, "20/01/2001",null));
 
+
     }
 
     @Then("^eu devo ser informado que o e-mail já está registrado$")
