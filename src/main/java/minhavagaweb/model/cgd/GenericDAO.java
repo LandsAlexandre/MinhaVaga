@@ -5,18 +5,19 @@
  */
 package minhavagaweb.model.cgd;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
  *
  * @author landerson
- * @param <GenericType>
+ * @param <G>
  */
-public interface GenericDAO<GENERICTYPE> {
-    public List<GENERICTYPE> getAll();
-    public GENERICTYPE getById(int id);
-    public void insert(GENERICTYPE obj);
-    public void update(GENERICTYPE obj);
-    public void delete(GENERICTYPE obj);
-    public int getNextId();
+public interface GenericDAO<G> {
+    public List<G> getAll() throws SQLException, ClassNotFoundException;
+    public G getById(int id) throws SQLException, ClassNotFoundException;
+    public boolean insert(G obj) throws SQLException, ClassNotFoundException;
+    public void update(G obj) throws SQLException, ClassNotFoundException;
+    public void delete(G obj) throws SQLException, ClassNotFoundException;
+   
 }

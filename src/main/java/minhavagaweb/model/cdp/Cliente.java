@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package minhavagaweb.model;
+package minhavagaweb.model.cdp;
 
 import java.util.ArrayList;
 import java.util.List;
-import minhavagaweb.model.cdp.*;
 
 /**
  *
@@ -15,7 +14,6 @@ import minhavagaweb.model.cdp.*;
  */
 public class Cliente extends Pessoa {
 
-    //private int id;
     private List<Cartao> cartoes = new ArrayList<>();
     private Pagamento pagamento;
     private SolicitacaoReserva solicitacao;
