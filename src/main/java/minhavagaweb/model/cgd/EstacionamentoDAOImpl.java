@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import minhavagaweb.model.Estacionamento;
-import minhavagaweb.model.Localizacao;
+import minhavagaweb.model.cdp.Estacionamento;
+import minhavagaweb.model.cdp.Localizacao;
 import minhavagaweb.model.utilitarioPersistencia.DAOGeneric;
 
 public class EstacionamentoDAOImpl<GenericType> extends DAOGeneric implements GenericDAO<GenericType> {
@@ -75,7 +75,7 @@ public class EstacionamentoDAOImpl<GenericType> extends DAOGeneric implements Ge
     }
 
     @Override
-    public void insert(GenericType obj) throws SQLException, ClassNotFoundException {
+    public boolean insert(GenericType obj) throws SQLException, ClassNotFoundException {
         Connection connection = this.openConnection();
         PreparedStatement statement = connection.prepareStatement(INSERT);
 
@@ -93,9 +93,10 @@ public class EstacionamentoDAOImpl<GenericType> extends DAOGeneric implements Ge
         statement.setTime(5, java.sql.Time.valueOf(abertura));
         statement.setTime(6, java.sql.Time.valueOf(fechamento));
         statement.setInt(7, local.getId());
-        statement.execute();
-
+        boolean stat = statement.execute();
+        
         this.closeConnection(connection);
+        return stat;
     }
 
     @Override

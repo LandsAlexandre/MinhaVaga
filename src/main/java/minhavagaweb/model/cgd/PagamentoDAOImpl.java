@@ -79,7 +79,7 @@ public class PagamentoDAOImpl<GenericType> extends DAOGeneric implements Generic
     }
     
     @Override
-    public void insert(GenericType obj) throws SQLException, ClassNotFoundException {
+    public boolean insert(GenericType obj) throws SQLException, ClassNotFoundException {
         Connection connection = this.openConnection();
         PreparedStatement statement = connection.prepareStatement(INSERT);
         Double valor = ((Pagamento) obj).getValor();
@@ -94,9 +94,10 @@ public class PagamentoDAOImpl<GenericType> extends DAOGeneric implements Generic
         statement.setBoolean(4, pago);
         statement.setString(5, forma);
         statement.setInt(6, id_cliente);
-        statement.execute();
+        boolean stat = statement.execute();
         this.closeConnection(connection);
         
+        return stat;
     }
     
     @Override

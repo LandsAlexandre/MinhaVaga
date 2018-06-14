@@ -16,7 +16,7 @@ import java.util.List;
 public interface GenericDAO<GenericType> {
     
     public List<GenericType> getAll()throws SQLException, ClassNotFoundException;
-    public void insert(GenericType obj) throws SQLException, ClassNotFoundException;
+    public boolean insert(GenericType obj) throws SQLException, ClassNotFoundException;
     public void update(GenericType obj) throws SQLException, ClassNotFoundException;
     public void delete(GenericType obj) throws SQLException, ClassNotFoundException ;
     public GenericType getById(int id) throws SQLException, ClassNotFoundException ;

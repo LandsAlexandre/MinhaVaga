@@ -68,12 +68,11 @@ public class PessoaDAOImpl<GenericType> extends DAOGeneric implements GenericDAO
     }
 
     @Override
-    public void insert(GenericType obj) throws SQLException, ClassNotFoundException {
+    public boolean insert(GenericType obj) throws SQLException, ClassNotFoundException {
         Connection connection = this.openConnection();
         PreparedStatement statement = connection.prepareStatement(INSERT);
 
         Date data = ((Pessoa) obj).getNascimento();
-        //SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         java.sql.Date date = new java.sql.Date(data.getTime());
 
         statement.setInt(1, this.getNextId());
@@ -83,8 +82,10 @@ public class PessoaDAOImpl<GenericType> extends DAOGeneric implements GenericDAO
         statement.setString(5, ((Pessoa) obj).getSenha());
         statement.setDate(6, date);
 
-        statement.execute();
+        boolean stat = statement.execute();
         this.closeConnection(connection);
+        
+        return stat;
 
     }
 
@@ -97,13 +98,11 @@ public class PessoaDAOImpl<GenericType> extends DAOGeneric implements GenericDAO
         String cpf = ((Pessoa) obj).getCpf();
         String email = ((Pessoa) obj).getEmail();
         String senha = ((Pessoa) obj).getSenha();
-        //Calendar dataNascimento = ((Pessoa) obj).getNascimento();
 
         statement.setString(1, nome);
         statement.setString(2, cpf);
         statement.setString(3, email);
         statement.setString(4, senha);
-        // statement.setDate(5, new java.sql.Date(dataNascimento.getTimeInMillis()));
         statement.setInt(6, 1);
         statement.execute();
         this.closeConnection(connection);

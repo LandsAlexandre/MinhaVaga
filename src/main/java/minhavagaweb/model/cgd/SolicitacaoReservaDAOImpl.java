@@ -5,6 +5,7 @@
  */
 package minhavagaweb.model.cgd;
 
+import minhavagaweb.model.cdp.Vaga;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -99,7 +100,7 @@ public class SolicitacaoReservaDAOImpl<GenericType> extends DAOGeneric implement
     }
 
     @Override
-    public void insert(GenericType obj) throws SQLException, ClassNotFoundException {
+    public boolean insert(GenericType obj) throws SQLException, ClassNotFoundException {
         Connection connection = this.openConnection();
         PreparedStatement statement = connection.prepareStatement(INSERT);
         int idR = this.getNextId();
@@ -130,8 +131,9 @@ public class SolicitacaoReservaDAOImpl<GenericType> extends DAOGeneric implement
         statement.setInt(8, idV);
         statement.setInt(9, idP);
 
-        statement.execute();
+        boolean stat = statement.execute();
         this.closeConnection(connection);
+        return stat;
 
     }
 
@@ -176,7 +178,7 @@ public class SolicitacaoReservaDAOImpl<GenericType> extends DAOGeneric implement
     public void delete(GenericType obj) throws SQLException, ClassNotFoundException {
         Connection connection = this.openConnection();
         PreparedStatement statement = connection.prepareStatement(DELETE);
-        statement.setInt(1,((SolicitacaoReserva) obj).getReserva().getId());
+        statement.setInt(1, ((SolicitacaoReserva) obj).getReserva().getId());
         statement.execute();
         this.closeConnection(connection);
     }

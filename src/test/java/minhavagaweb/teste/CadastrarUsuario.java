@@ -56,13 +56,10 @@ public class CadastrarUsuario {
         Cliente c = new Cliente();
         c.setCpf("11307925014");
         c.setEmail(email);
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-        java.sql.Date data = new java.sql.Date(formato.parse("20/01/2001").getTime());
-        c.setNascimento(data);
         c.setNome("Zé");
         c.setSenha("0000");
 
-        assertEquals("emailRegistrado",apl.cadastrarCliente(c, "20/01/2001"));
+        assertEquals("emailRegistrado",apl.cadastrarCliente(c, "20/01/2001",null));
 
     }
 

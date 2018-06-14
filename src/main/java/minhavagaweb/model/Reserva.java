@@ -5,6 +5,7 @@
  */
 package minhavagaweb.model;
 
+import minhavagaweb.model.cdp.Vaga;
 import java.time.LocalTime;
 import java.util.Calendar;
 import minhavagaweb.model.cdp.*;

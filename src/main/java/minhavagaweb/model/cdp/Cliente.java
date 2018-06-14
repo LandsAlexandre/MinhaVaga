@@ -10,7 +10,6 @@ import minhavagaweb.model.SolicitacaoReserva;
 import minhavagaweb.model.Pagamento;
 import java.util.ArrayList;
 import java.util.List;
-import minhavagaweb.model.cdp.*;
 
 /**
  *

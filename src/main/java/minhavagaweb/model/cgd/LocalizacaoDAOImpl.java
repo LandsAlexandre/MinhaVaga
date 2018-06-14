@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import minhavagaweb.model.Localizacao;
+import minhavagaweb.model.cdp.Localizacao;
 import minhavagaweb.model.utilitarioPersistencia.DAOGeneric;
 
 public class LocalizacaoDAOImpl<GenericType> extends DAOGeneric implements GenericDAO<GenericType> {
@@ -61,7 +61,7 @@ public class LocalizacaoDAOImpl<GenericType> extends DAOGeneric implements Gener
     }
     
     @Override
-    public void insert(GenericType obj) throws SQLException, ClassNotFoundException {
+    public boolean insert(GenericType obj) throws SQLException, ClassNotFoundException {
         Connection connection = this.openConnection();
         PreparedStatement statement = connection.prepareStatement(INSERT);
         
@@ -72,8 +72,9 @@ public class LocalizacaoDAOImpl<GenericType> extends DAOGeneric implements Gener
         statement.setDouble(2, lat);
         statement.setDouble(3, lon);
         
-        statement.execute();
+        boolean stat =statement.execute();
         this.closeConnection(connection);
+        return stat;
     }
     
     @Override

@@ -5,6 +5,9 @@
  */
 package minhavagaweb.model.cgd;
 
+import minhavagaweb.model.cdp.Estacionamento;
+import minhavagaweb.model.cdp.Localizacao;
+import minhavagaweb.model.cdp.Vaga;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,7 +21,7 @@ public class VagaDAOImpl<GenericType> extends DAOGeneric implements GenericDAO<G
 
     private final String SELECT = "SELECT * FROM vaga ";
     private final String INSERT = "INSERT INTO vaga (id_vaga,cobertura,"
-            + "status,id_estacionamento,id_localizacao,id_id_tipo) VALUES (?,?,?,?,?,?);";
+            + "status,id_estacionamento,id_localizacao,id_tipo) VALUES (?,?,?,?,?,?);";
     private final String DELETE = "DELETE FROM vaga WHERE id_vaga = ?;";
     private final String UPDATE = "UPDATE vaga SET (cobertura,"
             + "status,id_estacionamento,id_localizacao,id_id_tipo)"
@@ -86,7 +89,7 @@ public class VagaDAOImpl<GenericType> extends DAOGeneric implements GenericDAO<G
     }
 
     @Override
-    public void insert(GenericType obj) throws SQLException, ClassNotFoundException {
+    public boolean insert(GenericType obj) throws SQLException, ClassNotFoundException {
         Connection connection = this.openConnection();
         PreparedStatement statement = connection.prepareStatement(INSERT);
 
@@ -103,8 +106,9 @@ public class VagaDAOImpl<GenericType> extends DAOGeneric implements GenericDAO<G
         statement.setInt(5, id_local);
         statement.setInt(6, id_tipo.getValue());
 
-        statement.execute();
+        boolean stat = statement.execute();
         this.closeConnection(connection);
+        return stat;
     }
 
     @Override

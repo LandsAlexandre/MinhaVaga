@@ -21,6 +21,7 @@ and open the template in the editor.
             CPF: <input type="text" name="cpf" /><br />
             Data de Nascimento: <input type="text" name="datanascimento" /><br />
             Senha: <input type="password" name="senha" size="20" maxlength="15" /><br />
+            <input type="checkbox" name="cadastrarCartao" />Desejo Cadastrar Cartão <br />
             <input type="submit" value="Enviar" />
         </form>
     </body>

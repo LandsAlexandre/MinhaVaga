@@ -58,7 +58,7 @@ public class CartaoDAOImpl<GenericType> extends DAOGeneric implements GenericDAO
     }
 
     @Override
-    public void insert(GenericType obj) throws SQLException, ClassNotFoundException {
+    public boolean insert(GenericType obj) throws SQLException, ClassNotFoundException {
         Connection connection = this.openConnection();
 
         PreparedStatement statement = connection.prepareStatement(this.INSERT);
@@ -73,9 +73,9 @@ public class CartaoDAOImpl<GenericType> extends DAOGeneric implements GenericDAO
         statement.setString(4, cvv);
         statement.setDate(5, new java.sql.Date(dataValidade.getTimeInMillis()));
 
-        statement.execute();
+        boolean stat = statement.execute();
         this.closeConnection(connection);
-
+        return stat;
     }
 
     @Override
