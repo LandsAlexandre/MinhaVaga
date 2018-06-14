@@ -19,14 +19,14 @@ import minhavagaweb.model.utilitarioPersistencia.Conector;
 
 
 public class CartaoDAOImpl<GenericType> implements GenericDAO<GenericType> {
-    private final String SELECT = "SELECT * FROM cartao ";
-    private final String INSERT = "INSERT INTO cartao (id_cartao,nomeTitular,"
+    private static final String SELECT = "SELECT * FROM cartao ";
+    private static final String INSERT = "INSERT INTO cartao (id_cartao,nomeTitular,"
             + "numeroCartao,cvv,dataValidade) VALUES(?,?,?,?,?);";
-    private final String DELETE = "DELETE FROM cartao WHERE id_cartao = ?;";
-    private final String UPDATE = "UPDATE cartao SET (nomeTitular,"
+    private static final String DELETE = "DELETE FROM cartao WHERE id_cartao = ?;";
+    private static final String UPDATE = "UPDATE cartao SET (nomeTitular,"
             + "numeroCartao,cvv,dataValidade) = (?,?,?,?) WHERE id_cartao = ?;";
     
-    private final String NOME = "nomeTitular", NUMERO = "numeroCartao",
+    private static final String NOME = "nomeTitular", NUMERO = "numeroCartao",
             ID_CARTAO = "id_cartao", CVV = "cvv", DATA_VALIDADE = "dataValidade";
     
     List<Cartao> cartoes = new ArrayList<>();
