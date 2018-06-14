@@ -18,7 +18,7 @@ import minhavagaweb.model.cdp.Cartao;
 import minhavagaweb.model.utilitarioPersistencia.Conector;
 
 
-public class CartaoDAOImpl<GenericType> implements GenericDAO<GenericType> {
+public class CartaoDAOImpl<GENERICTYPE> implements GenericDAO<GenericType> {
     private static final String SELECT = "SELECT * FROM cartao ";
     private static final String INSERT = "INSERT INTO cartao (id_cartao,nomeTitular,"
             + "numeroCartao,cvv,dataValidade) VALUES(?,?,?,?,?);";
@@ -26,12 +26,15 @@ public class CartaoDAOImpl<GenericType> implements GenericDAO<GenericType> {
     private static final String UPDATE = "UPDATE cartao SET (nomeTitular,"
             + "numeroCartao,cvv,dataValidade) = (?,?,?,?) WHERE id_cartao = ?;";
     
-    private static final String NOME = "nomeTitular", NUMERO = "numeroCartao",
-            ID_CARTAO = "id_cartao", CVV = "cvv", DATA_VALIDADE = "dataValidade";
+    private static final String NOME = "nomeTitular";
+    private static final String NUMERO = "numeroCartao";
+    private static final String ID_CARTAO = "id_cartao";
+    private static final String CVV = "cvv";
+    private static final String DATA_VALIDADE = "dataValidade";
     
     List<Cartao> cartoes = new ArrayList<>();
     @Override
-    public List<GenericType> getAll() {
+    public List<GENERICTYPE> getAll() {
         try (Connection connection = Conector.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(this.SELECT)) {
                 statement.execute();
@@ -62,7 +65,7 @@ public class CartaoDAOImpl<GenericType> implements GenericDAO<GenericType> {
     }
 
     @Override
-    public void insert(GenericType obj) {
+    public void insert(GENERICTYPE obj) {
         try (Connection connection = Conector.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(this.INSERT)) {
                 String nomeTitular = ((Cartao)obj).getNomeTitular();
@@ -83,7 +86,7 @@ public class CartaoDAOImpl<GenericType> implements GenericDAO<GenericType> {
     }
 
     @Override
-    public void update(GenericType obj) {
+    public void update(GENERICTYPE obj) {
         try (Connection connection = Conector.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(this.UPDATE)) {
                 String nomeTitular = ((Cartao)obj).getNomeTitular();
@@ -105,7 +108,7 @@ public class CartaoDAOImpl<GenericType> implements GenericDAO<GenericType> {
     }
 
     @Override
-    public void delete(GenericType obj) {
+    public void delete(GENERICTYPE obj) {
         try (Connection connection = Conector.getConnection(); 
                 PreparedStatement statement = connection.prepareStatement(this.DELETE)) {
             statement.setInt(1, ((Cartao)obj).getId());
@@ -116,7 +119,7 @@ public class CartaoDAOImpl<GenericType> implements GenericDAO<GenericType> {
     }
 
     @Override
-    public GenericType getById(int id) {
+    public GENERICTYPE getById(int id) {
         Cartao cartao = null;
         if (cartoes.isEmpty()) {
             cartoes = (List<Cartao>) this.getAll();
@@ -131,9 +134,9 @@ public class CartaoDAOImpl<GenericType> implements GenericDAO<GenericType> {
     @Override
     public int getNextId() {
         int res = -0;
-        String ORDER = "ORDER BY id_cartao ASC;";
+        String order = "ORDER BY id_cartao ASC;";
         try (Connection connection = Conector.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(this.SELECT+ORDER,
+            try (PreparedStatement statement = connection.prepareStatement(this.SELECT+order,
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
                 statement.execute();
                 ResultSet result = statement.executeQuery();
@@ -150,21 +153,4 @@ public class CartaoDAOImpl<GenericType> implements GenericDAO<GenericType> {
         }
         return res;
     }
-    /*
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        CartaoDAOImpl dao = new CartaoDAOImpl();
-        Cartao c = new Cartao();
-        Cartao c2 = new Cartao();
-        c.setCvv("123");
-        c.setDataValidade(Calendar.getInstance());
-        c.setNomeTitular("LandsAlexandre");
-        c.setNumeroCartao("123456789");
-        dao.insert(c);
-        c2 = (Cartao) dao.getById(1);
-        dao.getAll();
-        
-        c.setNomeTitular("Lands     Alexandre");
-        dao.update(c);
-        //dao.delete(c);
-    }*/
 }
