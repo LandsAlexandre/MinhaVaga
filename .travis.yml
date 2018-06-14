@@ -23,3 +23,8 @@ branches:
 notifications:
     slack: bsi-ifserra:TYWamFXEYGbYjKP2ZwLUZECP
 
+deploy:
+ provider: heroku
+ api-key: 
+  secure: $HEROKU_API_KEY
+ app: minhavagaweb
