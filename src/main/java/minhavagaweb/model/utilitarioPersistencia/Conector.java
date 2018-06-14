@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -13,11 +15,8 @@ import java.sql.SQLException;
 public class Conector {
 
     public static Connection getConnection() throws SQLException, ClassNotFoundException {
-        //String dbUrl = System.getenv("DATABASE_URL");
-        //String dbUrl = "<your local database url>";
-
+        
         String dbUrl = System.getenv("JDBC_DATABASE_URL");
-        //"jdbc:postgresql://localhost:5432/ForTests", "postgres", "123"
         try {
             Class.forName("org.postgresql.Driver");
             return DriverManager.getConnection(
@@ -33,7 +32,7 @@ public class Conector {
                 con.close();
             }
         } catch (SQLException ex) {
-            System.out.println("Erro ao fechar conexão: " + ex);
+            Logger.getLogger(Conector.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -44,7 +43,7 @@ public class Conector {
                 stmt.close();
             }
         } catch (SQLException ex) {
-            System.out.println("Erro ao fechar conexão: " + ex);
+            Logger.getLogger(Conector.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -55,7 +54,7 @@ public class Conector {
                 rs.close();
             }
         } catch (SQLException ex) {
-            System.out.println("Erro ao fechar conexão: " + ex);
+            Logger.getLogger(Conector.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
