@@ -21,14 +21,14 @@ import minhavagaweb.model.utilitarioPersistencia.Conector;
 
 public class EstacionamentoDAOImpl<GenericType> implements GenericDAO<GenericType> {
     
-    private final String SELECT = "SELECT * FROM estacionamento;";
-    private final String INSERT = "INSERT INTO estacionamento (id_estacionamento,nome,capacidade,"
+    private static final String SELECT = "SELECT * FROM estacionamento;";
+    private static final String INSERT = "INSERT INTO estacionamento (id_estacionamento,nome,capacidade,"
             + "valor_hora,hora_abre,hora_fecha,id_localizacao) VALUES(?,?,?,?,?,?,?);";
-    private final String DELETE = "DELETE FROM estacionamento WHERE id_estacionamento = ?;";
-    private final String UPDATE = "UPDATE estacionamento SET (nome,capacidade,"
+    private static final String DELETE = "DELETE FROM estacionamento WHERE id_estacionamento = ?;";
+    private static final String UPDATE = "UPDATE estacionamento SET (nome,capacidade,"
             + "valor_hora,hora_abre,hora_fecha,id_localizacao) = (?,?,?,?,?) WHERE id_estacionamento = ?;";
     
-    private final String ID_ESTACIONAMENTO = "id_estacionamento", NOME = "nome", CAPACIDADE = "capacidade",
+    private static final String ID_ESTACIONAMENTO = "id_estacionamento", NOME = "nome", CAPACIDADE = "capacidade",
             VALOR_HORA = "valor_hora", HORA_ABERTURA = "hora_abre",
             HORA_FECHAMENTO = "hora_fecha", ID_LOCAL = "id_localizacao";
 
