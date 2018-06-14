@@ -21,15 +21,15 @@ import minhavagaweb.model.utilitarioPersistencia.Conector;
 
 public class VagaDAOImpl<GenericType> implements GenericDAO<GenericType> {
 
-    private final String SELECT = "SELECT * FROM vaga ";
-    private final String INSERT = "INSERT INTO vaga (id_vaga,cobertura,"
+    private static final String SELECT = "SELECT * FROM vaga ";
+    private static final String INSERT = "INSERT INTO vaga (id_vaga,cobertura,"
             + "status,id_estacionamento,id_localizacao,id_id_tipo) VALUES (?,?,?,?,?,?);";
-    private final String DELETE = "DELETE FROM vaga WHERE id_vaga = ?;";
-    private final String UPDATE = "UPDATE vaga SET (cobertura,"
+    private static final String DELETE = "DELETE FROM vaga WHERE id_vaga = ?;";
+    private static final String UPDATE = "UPDATE vaga SET (cobertura,"
             + "status,id_estacionamento,id_localizacao,id_id_tipo)"
             + " = (?,?,?,?,?) WHERE id_vaga = ?;";
 
-    private final String ID_VAGA = "id_vaga", COBERTURA = "cobertura",
+    private static final String ID_VAGA = "id_vaga", COBERTURA = "cobertura",
             STATUS = "status", ID_ESTACIONAMENTO = "id_estacionamento",
             ID_LOCAL = "id_localizacao", ID_TIPO = "id_tipo";
 
