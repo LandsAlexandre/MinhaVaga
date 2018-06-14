@@ -12,6 +12,9 @@ import minhavagaweb.model.cdp.Pessoa;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import minhavagaweb.model.Cartao;
+import minhavagaweb.model.cdp.ValidaCartao;
+import minhavagaweb.model.cgd.CartaoDAOImpl;
 import minhavagaweb.model.cgd.PessoaDAOImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,9 +29,16 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class AplCliente {
 
-    /* public void setCliente(Cliente cliente) {
-    this.cliente = cliente;
-    }*/
+    @RequestMapping(value = "home", method = RequestMethod.POST)
+    public ModelAndView home() {
+        return new ModelAndView("home");
+    }
+
+    @RequestMapping("index")
+    public ModelAndView index() {
+        return new ModelAndView("index");
+    }
+
     @RequestMapping(value = "cliente", method = RequestMethod.GET)
     public ModelAndView cliente() {
 
@@ -37,7 +47,8 @@ public class AplCliente {
 
     @RequestMapping("cliente")
     public String cadastrarCliente(
-            Cliente p, @RequestParam("datanascimento") String datanascimento) throws SQLException, ClassNotFoundException, ParseException {
+            Cliente p, @RequestParam("datanascimento") String datanascimento,
+            @RequestParam(value = "cadastrarCartao", required = false) String cadastrar) throws SQLException, ClassNotFoundException, ParseException {
 
         PessoaDAOImpl dao = new PessoaDAOImpl();
 
@@ -46,16 +57,21 @@ public class AplCliente {
         p.setNascimento(data);
 
         if (CPF.isCPFValido(p.getCpf()) && Email.isEmailValido(p.getEmail())) {
-            dao.insert(p);
-
-            return "cliente-adicionado";
+            try {
+                dao.insert(p);
+                if (cadastrar != null) {
+                    return "cartao";
+                } else {
+                    return "solicitarReserva";
+                }
+            } catch (ClassNotFoundException | SQLException e) {
+                return "emailRegistrado";
+            }
         }
-        System.out.println("Email Inválido!");
         return "cliente";
     }
 
     public String alterarCliente() {
-
         return null;
     }
 
@@ -66,30 +82,30 @@ public class AplCliente {
     }
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public String fazerLogin(Cliente p) {
-        try {
-            verificarLogin(p.getEmail(), p.getSenha());
-        } catch (RuntimeException e) {
-            return "login";
+    public String fazerLogin(Cliente p) throws SQLException, ClassNotFoundException {
+        if (verificarLogin(p.getEmail(), p.getSenha())) {
+            return "solicitarReserva";
+        } else {
+            return "loginIncorreto";
         }
-        return "home";
     }
 
-    private void verificarLogin(String email, String senha) {
+    private boolean verificarLogin(String email, String senha) throws SQLException, ClassNotFoundException {
         PessoaDAOImpl dao = new PessoaDAOImpl();
-        boolean result = dao.selectLogin(email, senha);
-        if (!result) {
-            throw new RuntimeException("Login incorreto");
+        return dao.selectLogin(email, senha);
+    }
+
+    @RequestMapping("cartao")
+    public String cadastrarCartao(Cartao c) throws SQLException, ClassNotFoundException, ParseException, Exception {
+
+        CartaoDAOImpl dao = new CartaoDAOImpl();
+        if (ValidaCartao.validCC(c.getNumeroCartao())) {
+            dao.insert(c);
+            return "solicitarReserva";
+        } else {
+            return "cartao-invalido";
         }
+
     }
 
-    @RequestMapping(value = "home", method = RequestMethod.POST)
-    public ModelAndView home() {
-        return new ModelAndView("home");
-    }
-
-    @RequestMapping("index")
-    public ModelAndView index() {
-        return new ModelAndView("index");
-    }
 }

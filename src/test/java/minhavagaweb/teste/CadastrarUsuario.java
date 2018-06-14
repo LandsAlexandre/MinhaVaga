@@ -8,13 +8,14 @@ package minhavagaweb.teste;
 import minhavagaweb.model.cdp.CPF;
 import minhavagaweb.model.cdp.Email;
 import minhavagaweb.model.cdp.Pessoa;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import java.text.SimpleDateFormat;
+import minhavagaweb.controller.AplCliente;
+import minhavagaweb.model.cdp.Cliente;
 import minhavagaweb.model.cgd.*;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
  *
@@ -51,17 +52,14 @@ public class CadastrarUsuario {
     @When("^eu cadastre um e-mail que já está cadastrado$")
     public void eu_cadastre_um_e_mail_que_já_está_cadastrado() throws Throwable {
         String email = "helenfranca93@gmail.com";
-        PessoaDAOImpl pessoaDao = new PessoaDAOImpl();
-        Pessoa c = new Pessoa();
+        AplCliente apl = new AplCliente();
+        Cliente c = new Cliente();
         c.setCpf("11307925014");
         c.setEmail(email);
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-        java.sql.Date data = new java.sql.Date(formato.parse("20/01/2001").getTime());
-        c.setNascimento(data);
         c.setNome("Zé");
         c.setSenha("0000");
 
-        assertEquals("Email já registrado!", pessoaDao.insert1(c));
+        assertEquals("emailRegistrado",apl.cadastrarCliente(c, "20/01/2001",null));
 
     }
 

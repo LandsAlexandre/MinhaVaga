@@ -5,9 +5,7 @@
  */
 package minhavagaweb.model;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import minhavagaweb.model.cdp.*;
 
 /**
  *
@@ -21,7 +19,6 @@ public class Cartao {
     private Calendar dataValidade;
     private String cvv;
 
-    private Cliente cliente;
 
     public String getNomeTitular() {
         return nomeTitular;
@@ -53,14 +50,6 @@ public class Cartao {
 
     public void setCvv(String cvv) {
         this.cvv = cvv;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
     }
 
     public int getId() {
