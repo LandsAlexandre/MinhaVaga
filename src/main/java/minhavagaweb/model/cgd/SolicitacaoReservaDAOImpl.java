@@ -21,16 +21,16 @@ import minhavagaweb.model.utilitarioPersistencia.Conector;
 
 public class SolicitacaoReservaDAOImpl<GenericType> implements GenericDAO<GenericType> {
 
-    private final String SELECT = "SELECT * FROM reserva ";
-    private final String INSERT = "INSERT INTO reserva (id_reserva,dataReserva,"
+    private static final String SELECT = "SELECT * FROM reserva ";
+    private static final String INSERT = "INSERT INTO reserva (id_reserva,dataReserva,"
             + "horaReserva,horaChegada,dataSaida,horaSaida,id_cliente, id_vaga,"
             + "id_pagamento) VALUES (?,?,?,?,?,?,?,?,?);";
-    private final String DELETE = "DELETE FROM reserva WHERE id_reserva = ?;";
-    private final String UPDATE = "UPDATE reserva SET (dataReserva,"
+    private static final String DELETE = "DELETE FROM reserva WHERE id_reserva = ?;";
+    private static final String UPDATE = "UPDATE reserva SET (dataReserva,"
             + "horaReserva,horaChegada,dataSaida,horaSaida,id_cliente, id_vaga,"
             + "id_pagamento) = (?,?,?,?,?,?,?,?) WHERE id_reserva = ?;";
 
-    private final String ID_RESERVA = "id_reserva", DATA_R = "dataReserva",
+    private static final String ID_RESERVA = "id_reserva", DATA_R = "dataReserva",
             HORA_R = "horaReserva", HORA_C = "horaChegada", DATA_S = "dataSaida",
             HORA_S = "horaSaida", ID_C = "id_cliente", ID_V = "id_vaga",
             ID_P = "id_pagamento";
