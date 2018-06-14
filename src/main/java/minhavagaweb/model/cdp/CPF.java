@@ -11,7 +11,6 @@ package minhavagaweb.model.cdp;
  */
 public class CPF {
     
-<<<<<<< HEAD:src/main/java/minhavagaweb/model/cdp/CPF.java
     private String numCpf;
 
     public CPF(String cpf) {
@@ -24,16 +23,6 @@ public class CPF {
 
     public void setCpf(String cpf) {
         this.numCpf = cpf;
-=======
-    private String cpf;
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
->>>>>>> 109b7e285f4c924299584f87d0d7e172b484aae8:src/main/java/minhavagaweb/model/cdp/CPF.java
     }
 
     public static boolean isCPFValido(String cpfSemFormatacao) {
