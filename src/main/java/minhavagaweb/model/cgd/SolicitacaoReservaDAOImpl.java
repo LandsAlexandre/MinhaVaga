@@ -19,7 +19,7 @@ import minhavagaweb.model.Cliente;
 import minhavagaweb.model.cdp.*;
 import minhavagaweb.model.utilitarioPersistencia.Conector;
 
-public class SolicitacaoReservaDAOImpl<GenericType> implements GenericDAO<GenericType> {
+public class SolicitacaoReservaDAOImpl<GENERICTYPE> implements GenericDAO<GenericType> {
 
     private static final String SELECT = "SELECT * FROM reserva ";
     private static final String INSERT = "INSERT INTO reserva (id_reserva,dataReserva,"
@@ -30,15 +30,20 @@ public class SolicitacaoReservaDAOImpl<GenericType> implements GenericDAO<Generi
             + "horaReserva,horaChegada,dataSaida,horaSaida,id_cliente, id_vaga,"
             + "id_pagamento) = (?,?,?,?,?,?,?,?) WHERE id_reserva = ?;";
 
-    private static final String ID_RESERVA = "id_reserva", DATA_R = "dataReserva",
-            HORA_R = "horaReserva", HORA_C = "horaChegada", DATA_S = "dataSaida",
-            HORA_S = "horaSaida", ID_C = "id_cliente", ID_V = "id_vaga",
-            ID_P = "id_pagamento";
+    private static final String ID_RESERVA = "id_reserva";
+    private static final String DATA_R = "dataReserva";
+    private static final String HORA_R = "horaReserva";
+    private static final String HORA_C = "horaChegada";
+    private static final String DATA_S = "dataSaida";
+    private static final String HORA_S = "horaSaida";
+    private static final String ID_C = "id_cliente";
+    private static final String ID_V = "id_vaga";
+    private static final String ID_P = "id_pagamento";
 
     List<SolicitacaoReserva> reservas = new ArrayList<>();
 
     @Override
-    public List<GenericType> getAll() {
+    public List<GENERICTYPE> getAll() {
         try (Connection connection = Conector.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(SELECT)) {
                 statement.execute();
@@ -89,11 +94,11 @@ public class SolicitacaoReservaDAOImpl<GenericType> implements GenericDAO<Generi
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(SolicitacaoReservaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return (List<GenericType>) reservas;
+        return (List<GENERICTYPE>) reservas;
     }
 
     @Override
-    public GenericType getById(int id) {
+    public GENERICTYPE getById(int id) {
         SolicitacaoReserva solicitacaoReserva = null;
         if (reservas.isEmpty()) {
             reservas = (List<SolicitacaoReserva>) this.getAll();
@@ -107,7 +112,7 @@ public class SolicitacaoReservaDAOImpl<GenericType> implements GenericDAO<Generi
     }
 
     @Override
-    public void insert(GenericType obj) {
+    public void insert(GENERICTYPE obj) {
         try (Connection connection = Conector.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(INSERT)) {
                 int idR = this.getNextId();
@@ -146,7 +151,7 @@ public class SolicitacaoReservaDAOImpl<GenericType> implements GenericDAO<Generi
     }
 
     @Override
-    public void update(GenericType obj) {
+    public void update(GENERICTYPE obj) {
         try (Connection connection = Conector.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(INSERT)) {
                 int idR = ((SolicitacaoReserva) obj).getReserva().getId();
@@ -185,7 +190,7 @@ public class SolicitacaoReservaDAOImpl<GenericType> implements GenericDAO<Generi
     }
 
     @Override
-    public void delete(GenericType obj) {
+    public void delete(GENERICTYPE obj) {
         try (Connection connection = Conector.getConnection(); PreparedStatement statement = connection.prepareStatement(DELETE)) {
             statement.setInt(1, ((SolicitacaoReserva) obj).getReserva().getId());
             statement.execute();
@@ -197,9 +202,9 @@ public class SolicitacaoReservaDAOImpl<GenericType> implements GenericDAO<Generi
     @Override
     public int getNextId() {
         int res = -0;
-        String ORDER = "ORDER BY id_vaga ASC;";
+        String order = "ORDER BY id_vaga ASC;";
         try (Connection connection = Conector.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(SELECT + ORDER,
+            try (PreparedStatement statement = connection.prepareStatement(SELECT + order,
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
                 statement.execute();
                 ResultSet result = statement.executeQuery();
