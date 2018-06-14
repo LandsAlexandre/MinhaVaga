@@ -17,7 +17,7 @@ import minhavagaweb.model.cdp.Localizacao;
 import minhavagaweb.model.utilitarioPersistencia.Conector;
 
 
-public class LocalizacaoDAOImpl<GenericType> implements GenericDAO<GenericType> {
+public class LocalizacaoDAOImpl<GENERICTYPE> implements GenericDAO<GenericType> {
     
     private static final String SELECT = "SELECT * FROM localizacao ";
     private static final String INSERT = "INSERT INTO localizacao (id_localizacao,latitude,"
@@ -26,7 +26,9 @@ public class LocalizacaoDAOImpl<GenericType> implements GenericDAO<GenericType> 
     private static final String UPDATE = "UPDATE localizacao SET (latitude,longitude)"
             + " = (?,?) WHERE id_localizacao = ?;";
     
-    private static final String ID_LOCAL = "id_localizacao", LAT = "latitude", LON = "longitude";
+    private static final String ID_LOCAL = "id_localizacao";
+    private static final String LAT = "latitude";
+    private static final String LON = "longitude";
     
     List<Localizacao> localizacoes = new ArrayList<>();
     @Override
@@ -118,7 +120,7 @@ public class LocalizacaoDAOImpl<GenericType> implements GenericDAO<GenericType> 
     @Override
     public int getNextId() {
         int res = -0;
-        String ORDER = "ORDER BY id_localizacao ASC;";
+        String order = "ORDER BY id_localizacao ASC;";
         try (Connection connection = Conector.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(SELECT+ORDER,
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
