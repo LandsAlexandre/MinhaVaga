@@ -23,7 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class AplCliente {
-    
+
     private static final String SOLICITACAO = "solicitarReserva";
 
     @RequestMapping(value = "cliente", method = RequestMethod.GET)
@@ -58,7 +58,7 @@ public class AplCliente {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         java.sql.Date data = new java.sql.Date(formato.parse(datanascimento).getTime());
         p.setNascimento(data);
-
+ 
         if (CPF.isCPFValido(p.getCpf()) && Email.isEmailValido(p.getEmail())) {
             try {
                 dao.insert(p);

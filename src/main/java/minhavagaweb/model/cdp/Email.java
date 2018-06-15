@@ -19,6 +19,9 @@ public class Email {
     public Email(String email) {
         this.endEmail = email;
     }
+
+    public Email() {
+    }
     
     public String getEmail() {
         return endEmail;

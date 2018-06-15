@@ -15,9 +15,9 @@ public class Pessoa {
 
     private int id;
     private String nome;
-    private String email;
+    private Email email = new Email();
     private String senha;
-    private String cpf;
+    private CPF cpf = new CPF();
     private Date datanascimento;
 
     /**
@@ -38,14 +38,14 @@ public class Pessoa {
      * @return the email
      */
     public String getEmail() {
-        return email;
+        return email.getEmail();
     }
 
     /**
      * @param email the email to set
      */
     public void setEmail(String email) {
-        this.email = email;
+        this.email.setEmail(email);
     }
 
     /**
@@ -66,14 +66,14 @@ public class Pessoa {
      * @return the cpf
      */
     public String getCpf() {
-        return cpf;
+        return this.cpf.getCpf();
     }
 
     /**
-     * @param cpf the cpf to set
+     * @param cpf1
      */
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setCpf(String cpf1) {
+        this.cpf.setCpf(cpf1);
     }
 
     public Date getNascimento() {

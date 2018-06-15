@@ -5,17 +5,11 @@
  */
 package minhavagaweb.teste;
 
-import minhavagaweb.model.cdp.Pessoa;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import java.text.SimpleDateFormat;
 import minhavagaweb.controller.AplCliente;
 import minhavagaweb.model.cdp.Cliente;
-import minhavagaweb.model.cgd.*;
-
-import static org.junit.Assert.assertEquals;
 import minhavagaweb.valida.ValidaCPF;
 import minhavagaweb.valida.ValidaEmail;
 import static org.junit.Assert.assertEquals;
