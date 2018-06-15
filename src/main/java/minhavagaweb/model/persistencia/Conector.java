@@ -12,7 +12,7 @@ import java.sql.SQLException;
  */
 public class Conector {
 
-    public Connection con;
+    protected static Connection con;
 
     protected Connection openConnection() throws ClassNotFoundException {
 
@@ -31,11 +31,11 @@ public class Conector {
         con.close();
     }
 
-    public int getNextId(String order, String select, String id) throws SQLException, ClassNotFoundException {
+    public int getNextId(String select, String id) throws SQLException, ClassNotFoundException {
         int res = -0;
 
         try (Connection connection = this.openConnection();
-                PreparedStatement statement = connection.prepareStatement(select + order,
+                PreparedStatement statement = connection.prepareStatement(select,
                         ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 ResultSet result = statement.executeQuery();) {
             if (result.last()) {
