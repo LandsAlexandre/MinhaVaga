@@ -35,15 +35,13 @@ public class PessoaDAOImpl<G> extends Conector implements GenericDAO<G> {
     List<Pessoa> pessoas = new ArrayList<>();
 
     public boolean selectLogin(String email, String senha) throws SQLException, ClassNotFoundException {
-        boolean result;
+        boolean result = false;
 
         try (Connection connection = this.openConnection();
                 PreparedStatement statement = connection.prepareStatement(SELECT_LOGIN);) {
             statement.setString(1, email);
             statement.setString(2, senha);
-            ResultSet rs = statement.executeQuery();
-
-            result = rs.next();
+            result = statement.execute();
         } finally {
             this.closeConnection(con);
         }
@@ -139,7 +137,7 @@ public class PessoaDAOImpl<G> extends Conector implements GenericDAO<G> {
 
     @Override
     public G getById(int id) throws ClassNotFoundException, SQLException {
-       
+
         Pessoa pessoa = null;
         if (pessoas.isEmpty()) {
             pessoas = (List<Pessoa>) this.getAll();
