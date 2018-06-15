@@ -57,9 +57,7 @@ public class CartaoDAOImpl<G> extends Conector implements GenericDAO<G> {
                 cartoes.add(cartao);
             }
 
-        } catch (SQLException ex) {
-            Logger.getLogger(CartaoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+        }finally {
             this.closeConnection(con);
         }
         return (List<G>) cartoes;
@@ -126,6 +124,13 @@ public class CartaoDAOImpl<G> extends Conector implements GenericDAO<G> {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @Override
     public G getById(int id) throws SQLException, ClassNotFoundException {
         Cartao cartao = null;
