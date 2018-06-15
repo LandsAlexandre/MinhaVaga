@@ -12,13 +12,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import minhavagaweb.model.Cliente;
 import minhavagaweb.model.cdp.*;
-import minhavagaweb.model.utilitarioPersistencia.Conector;
+import minhavagaweb.model.persistencia.Conector;
 
-public class PagamentoDAOImpl<GenericType> implements GenericDAO<GenericType> {
+public class PagamentoDAOImpl<G> extends Conector implements GenericDAO<G> {
 
     private static final String SELECT = "SELECT * FROM pagamento ";
     private static final String INSERT = "INSERT INTO pagamento (id_pagamento,valor,"
@@ -34,48 +31,42 @@ public class PagamentoDAOImpl<GenericType> implements GenericDAO<GenericType> {
     private static final String PAGO = "pago";
     private static final String FORMA = "formaPagamento";
     private static final String ID_CLIENTE = "id_cliente";
+    private static final String ORDER = "ORDER BY id_pagamento ASC";
 
     List<Pagamento> pagamentos = new ArrayList<>();
 
     @Override
-    public List<GenericType> getAll() {
-        try (Connection connection = Conector.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(SELECT)) {
-                statement.execute();
-                ResultSet result = statement.executeQuery();
-                
-                Pagamento pagamento;
-                while (result.next()) {
-                    pagamento = new Pagamento();
-                    pagamento.setId(result.getInt(ID_PAGAMENTO));
-                    pagamento.setValor(result.getDouble(VALOR));
-                    // convertendo data //
-                    Calendar data = Calendar.getInstance();
-                    data.setTime(result.getDate(DATA));
+    public List<G> getAll() throws SQLException, ClassNotFoundException {
+        Connection connection = this.openConnection();
+        PreparedStatement statement = connection.prepareStatement(SELECT);
+  
+        ResultSet result = statement.executeQuery();
 
-                    pagamento.setDataPagamento(data);
-                    pagamento.setPago(result.getBoolean(PAGO));
-                    pagamento.setFormaPagamento(result.getString(FORMA));
+        Pagamento pagamento;
+        while (result.next()) {
+            pagamento = new Pagamento();
+            pagamento.setId(result.getInt(ID_PAGAMENTO));
+            pagamento.setValor(result.getDouble(VALOR));
+            Calendar data = Calendar.getInstance();
+            data.setTime(result.getDate(DATA));
 
-                    Cliente c;
-                    PessoaDAOImpl dao = new PessoaDAOImpl();
-                    c = (Cliente) dao.getById(result.getInt(ID_CLIENTE));
-                    pagamento.setCliente(c);
+            pagamento.setDataPagamento(data);
+            pagamento.setPago(result.getBoolean(PAGO));
+            pagamento.setFormaPagamento(result.getString(FORMA));
 
-                    pagamentos.add(pagamento);
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(PessoaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            Cliente c;
+            PessoaDAOImpl dao = new PessoaDAOImpl();
+            c = (Cliente) dao.getById(result.getInt(ID_CLIENTE));
+            pagamento.setCliente(c);
 
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(PessoaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            pagamentos.add(pagamento);
         }
-        return (List<GenericType>) pagamentos;
+        this.closeConnection(connection);
+        return (List<G>) pagamentos;
     }
 
     @Override
-    public GenericType getById(int id) {
+    public G getById(int id) throws SQLException, ClassNotFoundException {
         Pagamento pagamento = null;
         if (pagamentos.isEmpty()) {
             pagamentos = (List<Pagamento>) this.getAll();
@@ -85,88 +76,60 @@ public class PagamentoDAOImpl<GenericType> implements GenericDAO<GenericType> {
                 pagamento = p;
             }
         }
-        return (GenericType) pagamento;
+        return (G) pagamento;
     }
 
     @Override
-    public void insert(GenericType obj) {
-        try (Connection connection = Conector.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(INSERT)) {
-                Double valor = ((Pagamento) obj).getValor();
-                Calendar data = ((Pagamento) obj).getDataPagamento();
-                Boolean pago = ((Pagamento) obj).isPago();
-                String forma = ((Pagamento) obj).getFormaPagamento();
-                int idCliente = ((Pagamento) obj).getCliente().getId();
-                
-                statement.setInt(1, this.getNextId());
-                statement.setDouble(2, valor);
-                statement.setDate(3, new java.sql.Date(data.getTimeInMillis()));
-                statement.setBoolean(4, pago);
-                statement.setString(5, forma);
-                statement.setInt(6, idCliente);
-                statement.execute();
-            }
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(PessoaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public boolean insert(G obj) throws SQLException, ClassNotFoundException {
+        Connection connection = this.openConnection();
+        PreparedStatement statement = connection.prepareStatement(INSERT);
+        Double valor = ((Pagamento) obj).getValor();
+        Calendar data = ((Pagamento) obj).getDataPagamento();
+        Boolean pago = ((Pagamento) obj).isPago();
+        String forma = ((Pagamento) obj).getFormaPagamento();
+        int id_cliente = ((Pagamento) obj).getCliente().getId();
+
+        statement.setInt(1, this.getNextId(ORDER, SELECT, ID_PAGAMENTO));
+        statement.setDouble(2, valor);
+        statement.setDate(3, new java.sql.Date(data.getTimeInMillis()));
+        statement.setBoolean(4, pago);
+        statement.setString(5, forma);
+        statement.setInt(6, id_cliente);
+        boolean stat = statement.execute();
+        this.closeConnection(connection);
+
+        return stat;
     }
 
     @Override
-    public void update(GenericType obj) {
-        try (Connection connection = Conector.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(UPDATE)) {
-                int id = ((Pagamento) obj).getId();
-                Double valor = ((Pagamento) obj).getValor();
-                Calendar data = ((Pagamento) obj).getDataPagamento();
-                Boolean pago = ((Pagamento) obj).isPago();
-                String forma = ((Pagamento) obj).getFormaPagamento();
-                int idCliente = ((Pagamento) obj).getCliente().getId();
+    public void update(G obj) throws SQLException, ClassNotFoundException {
+        Connection connection = this.openConnection();
+        PreparedStatement statement = connection.prepareStatement(UPDATE);
+        int id = ((Pagamento) obj).getId();
+        Double valor = ((Pagamento) obj).getValor();
+        Calendar data = ((Pagamento) obj).getDataPagamento();
+        Boolean pago = ((Pagamento) obj).isPago();
+        String forma = ((Pagamento) obj).getFormaPagamento();
+        int id_cliente = ((Pagamento) obj).getCliente().getId();
 
-                statement.setDouble(2, valor);
-                statement.setDate(3, new java.sql.Date(data.getTimeInMillis()));
-                statement.setBoolean(4, pago);
-                statement.setString(5, forma);
-                statement.setInt(6, idCliente);
+        statement.setDouble(2, valor);
+        statement.setDate(3, new java.sql.Date(data.getTimeInMillis()));
+        statement.setBoolean(4, pago);
+        statement.setString(5, forma);
+        statement.setInt(6, id_cliente);
 
-                statement.setInt(6, id);
-                statement.execute();
-            }
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(PessoaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        statement.setInt(6, id);
+        statement.execute();
+        this.closeConnection(connection);
     }
 
     @Override
-    public void delete(GenericType obj) {
-        try (Connection connection = Conector.getConnection(); PreparedStatement statement = connection.prepareStatement(DELETE)) {
-            statement.setInt(1, ((Pagamento) obj).getId());
-            statement.execute();
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(PessoaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    @Override
-    public int getNextId() {
-        int res = -0;
-        String order = "ORDER BY id_pagamento ASC;";
-        try (Connection connection = Conector.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(SELECT + order,
-                    ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
-                statement.execute();
-                ResultSet result = statement.executeQuery();
-                if (result.last()) {
-                    res = result.getInt(ID_PAGAMENTO);
-                    return res + 1;
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(CartaoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(CartaoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return res;
+    public void delete(G obj) throws SQLException, ClassNotFoundException {
+        Connection connection = this.openConnection();
+        PreparedStatement statement = connection.prepareStatement(DELETE);
+        statement.setInt(1, ((Pagamento) obj).getId());
+        statement.execute();
+        this.closeConnection(connection);
     }
 
 }

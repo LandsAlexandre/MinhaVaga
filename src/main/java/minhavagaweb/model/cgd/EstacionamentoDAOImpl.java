@@ -12,22 +12,19 @@ import java.sql.SQLException;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import minhavagaweb.model.cdp.Estacionamento;
 import minhavagaweb.model.cdp.Localizacao;
-import minhavagaweb.model.utilitarioPersistencia.Conector;
+import minhavagaweb.model.persistencia.Conector;
 
+public class EstacionamentoDAOImpl<G> extends Conector implements GenericDAO<G> {
 
-public class EstacionamentoDAOImpl<GENERICTYPE> implements GenericDAO<GENERICTYPE> {
-    
     private static final String SELECT = "SELECT * FROM estacionamento;";
     private static final String INSERT = "INSERT INTO estacionamento (id_estacionamento,nome,capacidade,"
             + "valor_hora,hora_abre,hora_fecha,id_localizacao) VALUES(?,?,?,?,?,?,?);";
     private static final String DELETE = "DELETE FROM estacionamento WHERE id_estacionamento = ?;";
     private static final String UPDATE = "UPDATE estacionamento SET (nome,capacidade,"
             + "valor_hora,hora_abre,hora_fecha,id_localizacao) = (?,?,?,?,?) WHERE id_estacionamento = ?;";
-    
+
     private static final String ID_ESTACIONAMENTO = "id_estacionamento";
     private static final String NOME = "nome";
     private static final String CAPACIDADE = "capacidade";
@@ -35,140 +32,109 @@ public class EstacionamentoDAOImpl<GENERICTYPE> implements GenericDAO<GENERICTYP
     private static final String HORA_ABERTURA = "hora_abre";
     private static final String HORA_FECHAMENTO = "hora_fecha";
     private static final String ID_LOCAL = "id_localizacao";
+    private static final String ORDER = "ORDER BY id_estacionamento ASC";
 
     List<Estacionamento> estacionamentos = new ArrayList<>();
-    
+
     @Override
-    public List<GENERICTYPE> getAll() {
-        try (Connection connection = Conector.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(SELECT)) {
-                statement.execute();
-                ResultSet result = statement.executeQuery();
-                
-                Estacionamento estacionamento;
-                while (result.next()) {
-                    estacionamento = new Estacionamento();
-                    estacionamento.setId(result.getInt(ID_ESTACIONAMENTO));
-                    estacionamento.setNome(result.getString(NOME));
-                    estacionamento.setCapacidade(result.getInt(CAPACIDADE));
-                    estacionamento.setValorPorHora(result.getFloat(VALOR_HORA));
-                    estacionamento.setHorarioAbertura(result.getTime(HORA_ABERTURA).toLocalTime());
-                    estacionamento.setHorarioFechamento(result.getTime(HORA_FECHAMENTO).toLocalTime());
-                    
-                    LocalizacaoDAOImpl dao = new LocalizacaoDAOImpl();
-                    Localizacao local = (Localizacao)dao.getById(result.getInt(ID_LOCAL));
-                    estacionamento.setLocal(local);
-                    
-                    estacionamentos.add(estacionamento);
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(EstacionamentoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(EstacionamentoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+    public List<G> getAll() throws SQLException, ClassNotFoundException {
+        Connection connection = this.openConnection();
+        PreparedStatement statement = connection.prepareStatement(SELECT);
+       
+        ResultSet result = statement.executeQuery();
+
+        Estacionamento estacionamento;
+        while (result.next()) {
+            estacionamento = new Estacionamento();
+            estacionamento.setId(result.getInt(ID_ESTACIONAMENTO));
+            estacionamento.setNome(result.getString(NOME));
+            estacionamento.setCapacidade(result.getInt(CAPACIDADE));
+            estacionamento.setValorPorHora(result.getFloat(VALOR_HORA));
+            estacionamento.setHorarioAbertura(result.getTime(HORA_ABERTURA).toLocalTime());
+            estacionamento.setHorarioFechamento(result.getTime(HORA_FECHAMENTO).toLocalTime());
+
+            LocalizacaoDAOImpl dao = new LocalizacaoDAOImpl();
+            Localizacao local = (Localizacao) dao.getById(result.getInt(ID_LOCAL));
+            estacionamento.setLocal(local);
+
+            estacionamentos.add(estacionamento);
         }
-        return (List<GENERICTYPE>)estacionamentos;
+        this.closeConnection(connection);
+        return (List<G>) estacionamentos;
     }
-    
+
     @Override
-    public GENERICTYPE getById(int id) {
+    public G getById(int id) throws SQLException, ClassNotFoundException {
         Estacionamento estacionamento = null;
         if (estacionamentos.isEmpty()) {
             estacionamentos = (List<Estacionamento>) this.getAll();
         }
         for (Estacionamento park : estacionamentos) {
-            if (park.getId() == id)
+            if (park.getId() == id) {
                 estacionamento = park;
-        }
-        return (GENERICTYPE) estacionamento;
-    }
-    
-    @Override
-    public void insert(GENERICTYPE obj) {
-        try (Connection connection = Conector.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(INSERT)) {
-                
-                String nome = ((Estacionamento)obj).getNome();
-                int capacidade = ((Estacionamento)obj).getCapacidade();
-                float valor = ((Estacionamento)obj).getValorPorHora();
-                LocalTime abertura = ((Estacionamento)obj).getHorarioAbertura();
-                LocalTime fechamento = ((Estacionamento)obj).getHorarioFechamento();
-                Localizacao local = ((Estacionamento)obj).getLocal();
-                
-                statement.setInt(1, this.getNextId());
-                statement.setString(2, nome);
-                statement.setInt(3, capacidade);
-                statement.setFloat(4, valor);
-                statement.setTime(5, java.sql.Time.valueOf(abertura));
-                statement.setTime(6, java.sql.Time.valueOf(fechamento));
-                statement.setInt(7, local.getId());
-                statement.execute();
             }
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(EstacionamentoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return (G) estacionamento;
     }
 
     @Override
-    public void update(GENERICTYPE obj) {
-        try (Connection connection = Conector.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(UPDATE)) {
-                
-                int id = ((Estacionamento)obj).getId();
-                String nome = ((Estacionamento)obj).getNome();
-                int capacidade = ((Estacionamento)obj).getCapacidade();
-                float valor = ((Estacionamento)obj).getValorPorHora();
-                LocalTime abertura = ((Estacionamento)obj).getHorarioAbertura();
-                LocalTime fechamento = ((Estacionamento)obj).getHorarioFechamento();
-                Localizacao local = ((Estacionamento)obj).getLocal();
-                
+    public boolean insert(G obj) throws SQLException, ClassNotFoundException {
+        Connection connection = this.openConnection();
+        PreparedStatement statement = connection.prepareStatement(INSERT);
 
-                statement.setString(1, nome);
-                statement.setInt(2, capacidade);
-                statement.setFloat(3, valor);
-                statement.setTime(4, java.sql.Time.valueOf(abertura));
-                statement.setTime(5, java.sql.Time.valueOf(fechamento));
-                statement.setInt(6, local.getId());
-                statement.setInt(7, id);
-                statement.execute();
-            }
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(EstacionamentoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        String nome = ((Estacionamento) obj).getNome();
+        int capacidade = ((Estacionamento) obj).getCapacidade();
+        float valor = ((Estacionamento) obj).getValorPorHora();
+        LocalTime abertura = ((Estacionamento) obj).getHorarioAbertura();
+        LocalTime fechamento = ((Estacionamento) obj).getHorarioFechamento();
+        Localizacao local = ((Estacionamento) obj).getLocal();
+
+        statement.setInt(1, this.getNextId(ORDER, SELECT, ID_ESTACIONAMENTO));
+        statement.setString(2, nome);
+        statement.setInt(3, capacidade);
+        statement.setFloat(4, valor);
+        statement.setTime(5, java.sql.Time.valueOf(abertura));
+        statement.setTime(6, java.sql.Time.valueOf(fechamento));
+        statement.setInt(7, local.getId());
+        boolean stat = statement.execute();
+
+        this.closeConnection(connection);
+        return stat;
     }
 
     @Override
-    public void delete(GENERICTYPE obj) {
-        try (Connection connection = Conector.getConnection(); PreparedStatement statement = connection.prepareStatement(DELETE)) {
-            statement.setInt(1, ((Estacionamento)obj).getId());
-            statement.execute();
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(EstacionamentoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void update(G obj) throws SQLException, ClassNotFoundException {
+        Connection connection = this.openConnection();
+        PreparedStatement statement = connection.prepareStatement(UPDATE);
+
+        int id = ((Estacionamento) obj).getId();
+        String nome = ((Estacionamento) obj).getNome();
+        int capacidade = ((Estacionamento) obj).getCapacidade();
+        float valor = ((Estacionamento) obj).getValorPorHora();
+        LocalTime abertura = ((Estacionamento) obj).getHorarioAbertura();
+        LocalTime fechamento = ((Estacionamento) obj).getHorarioFechamento();
+        Localizacao local = ((Estacionamento) obj).getLocal();
+
+        statement.setString(1, nome);
+        statement.setInt(2, capacidade);
+        statement.setFloat(3, valor);
+        statement.setTime(4, java.sql.Time.valueOf(abertura));
+        statement.setTime(5, java.sql.Time.valueOf(fechamento));
+        statement.setInt(6, local.getId());
+        statement.setInt(7, id);
+        statement.execute();
+
+        this.closeConnection(connection);
     }
 
     @Override
-    public int getNextId() {
-        int res = -0;
-        String order = "ORDER BY id_estacionamento ASC;";
-        try (Connection connection = Conector.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(SELECT+order,
-                    ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
-                statement.execute();
-                ResultSet result = statement.executeQuery();
-                if (result.last()) {
-                    res = result.getInt(ID_ESTACIONAMENTO);
-                    return res+1;
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(CartaoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(CartaoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return res;
+    public void delete(G obj) throws SQLException, ClassNotFoundException {
+        Connection connection = this.openConnection();
+        PreparedStatement statement = connection.prepareStatement(DELETE);
+        statement.setInt(1, ((Estacionamento) obj).getId());
+        statement.execute();
+        this.closeConnection(connection);
+
     }
-    
+
 }
