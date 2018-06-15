@@ -62,7 +62,7 @@ public class CartaoDAOImpl<G> extends Conector implements GenericDAO<G> {
         } catch (SQLException ex) {
             Logger.getLogger(CartaoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            this.closeConnection(con);
+           this.closeConnection(con);
         }
         return (List<G>) cartoes;
 
