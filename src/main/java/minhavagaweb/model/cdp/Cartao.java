@@ -6,9 +6,7 @@
 package minhavagaweb.model.cdp;
 
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import minhavagaweb.model.Cliente;
 
 /**
  *
