@@ -37,10 +37,10 @@ public class CartaoDAOImpl<G> extends Conector implements GenericDAO<G> {
 
     @Override
     public List<G> getAll() throws SQLException, ClassNotFoundException {
-        Connection connection = this.openConnection();
-        PreparedStatement statement = connection.prepareStatement(CartaoDAOImpl.SELECT);
- 
-        try {
+        try{
+            Connection connection = this.openConnection();
+        
+            PreparedStatement statement = connection.prepareStatement(CartaoDAOImpl.SELECT);
             ResultSet result = statement.executeQuery();
 
             Cartao cartao;
@@ -62,7 +62,7 @@ public class CartaoDAOImpl<G> extends Conector implements GenericDAO<G> {
         } catch (SQLException ex) {
             Logger.getLogger(CartaoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            this.closeConnection(connection);
+            this.closeConnection(con);
         }
         return (List<G>) cartoes;
 
