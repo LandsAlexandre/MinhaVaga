@@ -23,7 +23,7 @@ public class EstacionamentoDAOImpl<G> extends Conector implements GenericDAO<G> 
             + "valor_hora,hora_abre,hora_fecha,id_localizacao) VALUES(?,?,?,?,?,?,?);";
     private static final String DELETE = "DELETE FROM estacionamento WHERE id_estacionamento = ?;";
     private static final String UPDATE = "UPDATE estacionamento SET (nome,capacidade,"
-            + "valor_hora,hora_abre,hora_fecha,id_localizacao) = (?,?,?,?,?) WHERE id_estacionamento = ?;";
+            + "valor_hora,hora_abre,hora_fecha,id_localizacao) = (?,?,?,?,?,?) WHERE id_estacionamento = ?;";
 
     private static final String ID_ESTACIONAMENTO = "id_estacionamento";
     private static final String NOME = "nome";
