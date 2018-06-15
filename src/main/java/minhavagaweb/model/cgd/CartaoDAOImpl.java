@@ -37,8 +37,7 @@ public class CartaoDAOImpl<G> extends Conector implements GenericDAO<G> {
 
     @Override
     public List<G> getAll() throws SQLException, ClassNotFoundException {
-        try (Connection connection = this.openConnection()) {
-            PreparedStatement statement = connection.prepareStatement(CartaoDAOImpl.SELECT);
+        try (Connection connection = this.openConnection(); PreparedStatement statement = connection.prepareStatement(CartaoDAOImpl.SELECT);) {            
             ResultSet result = statement.executeQuery();
 
             Cartao cartao;
