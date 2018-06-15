@@ -12,7 +12,7 @@ import java.sql.SQLException;
  */
 public class Conector {
 
-    private Connection con;
+    public Connection con;
 
     protected Connection openConnection() throws ClassNotFoundException {
 
