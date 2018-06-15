@@ -5,27 +5,41 @@
  */
 package minhavagaweb.model.cgd;
 
+import minhavagaweb.model.cdp.Estacionamento;
+import minhavagaweb.model.cdp.Localizacao;
+import minhavagaweb.model.cdp.Vaga;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+<<<<<<< HEAD
 import minhavagaweb.model.cdp.Estacionamento;
 import minhavagaweb.model.cdp.Localizacao;
 import minhavagaweb.model.cdp.TipoVaga;
 import minhavagaweb.model.cdp.Vaga;
-import minhavagaweb.model.utilitarioPersistencia.Conector;
+import minhavagaweb.model.persistencia.Conector;
 
-public class VagaDAOImpl<GENERICTYPE> implements GenericDAO<GENERICTYPE> {
+public class VagaDAOImpl<G> extends Conector implements GenericDAO<G> {
 
     private static final String SELECT = "SELECT * FROM vaga ";
     private static final String INSERT = "INSERT INTO vaga (id_vaga,cobertura,"
             + "status,id_estacionamento,id_localizacao,id_id_tipo) VALUES (?,?,?,?,?,?);";
     private static final String DELETE = "DELETE FROM vaga WHERE id_vaga = ?;";
     private static final String UPDATE = "UPDATE vaga SET (cobertura,"
+=======
+import minhavagaweb.model.*;
+import minhavagaweb.model.utilitarioPersistencia.DAOGeneric;
+
+public class VagaDAOImpl<GenericType> extends DAOGeneric implements GenericDAO<GenericType> {
+
+    private final String SELECT = "SELECT * FROM vaga ";
+    private final String INSERT = "INSERT INTO vaga (id_vaga,cobertura,"
+            + "status,id_estacionamento,id_localizacao,id_tipo) VALUES (?,?,?,?,?,?);";
+    private final String DELETE = "DELETE FROM vaga WHERE id_vaga = ?;";
+    private final String UPDATE = "UPDATE vaga SET (cobertura,"
+>>>>>>> 109b7e285f4c924299584f87d0d7e172b484aae8
             + "status,id_estacionamento,id_localizacao,id_id_tipo)"
             + " = (?,?,?,?,?) WHERE id_vaga = ?;";
 
@@ -35,58 +49,96 @@ public class VagaDAOImpl<GENERICTYPE> implements GenericDAO<GENERICTYPE> {
     private static final String ID_ESTACIONAMENTO = "id_estacionamento";
     private static final String ID_LOCAL = "id_localizacao";
     private static final String ID_TIPO = "id_tipo";
+    private static final String ORDER = "ORDER BY id_vaga ASC";
 
     List<Vaga> vagas = new ArrayList<>();
 
     @Override
-    public List<GENERICTYPE> getAll() {
-        try (Connection connection = Conector.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(SELECT)) {
-                statement.execute();
-                ResultSet result = statement.executeQuery();
+<<<<<<< HEAD
+    public List<G> getAll() throws SQLException, ClassNotFoundException {
+=======
+    public List<GenericType> getAll() throws SQLException, ClassNotFoundException {
+>>>>>>> 109b7e285f4c924299584f87d0d7e172b484aae8
+        Connection connection = this.openConnection();
+        PreparedStatement statement = connection.prepareStatement(SELECT);
+        statement.execute();
+        ResultSet result = statement.executeQuery();
 
-                Vaga vaga;
-                while (result.next()) {
-                    vaga = new Vaga();
-                    vaga.setId(result.getInt(this.ID_VAGA));
-                    vaga.setStatus(result.getBoolean(this.STATUS));
-                    vaga.setCobertura(result.getBoolean(this.COBERTURA));
+        Vaga vaga;
+        while (result.next()) {
+            vaga = new Vaga();
+<<<<<<< HEAD
+            vaga.setId(result.getInt(VagaDAOImpl.ID_VAGA));
+            vaga.setStatus(result.getBoolean(VagaDAOImpl.STATUS));
+            vaga.setCobertura(result.getBoolean(VagaDAOImpl.COBERTURA));
 
-                    EstacionamentoDAOImpl dao1 = new EstacionamentoDAOImpl();
-                    Estacionamento e = (Estacionamento) dao1.getById(result.getInt(this.ID_ESTACIONAMENTO));
-                    vaga.setEstacionamento(e);
+            EstacionamentoDAOImpl dao1 = new EstacionamentoDAOImpl();
+            Estacionamento e = (Estacionamento) dao1.getById(result.getInt(VagaDAOImpl.ID_ESTACIONAMENTO));
+            vaga.setEstacionamento(e);
 
-                    LocalizacaoDAOImpl dao2 = new LocalizacaoDAOImpl();
-                    Localizacao local;
-                    local = (Localizacao) dao2.getById(result.getInt(VagaDAOImpl.ID_LOCAL));
-                    vaga.setLocal(local);
-                    int tipo = result.getInt(this.ID_TIPO);
+            LocalizacaoDAOImpl dao2 = new LocalizacaoDAOImpl();
+            Localizacao local = (Localizacao) dao2.getById(result.getInt(VagaDAOImpl.ID_LOCAL));
+            vaga.setLocal(local);
+            int tipo = result.getInt(VagaDAOImpl.ID_TIPO);
+=======
+            vaga.setId(result.getInt(this.ID_VAGA));
+            vaga.setStatus(result.getBoolean(this.STATUS));
+            vaga.setCobertura(result.getBoolean(this.COBERTURA));
 
-                    switch (tipo){
-                        case 1:
-                            vaga.setTipo(TipoVaga.COMUM);
-                        case 2:
-                            vaga.setTipo(TipoVaga.MOTO);
-                        case 3:
-                            vaga.setTipo(TipoVaga.IDOSO);
-                        case 4:
-                            vaga.setTipo(TipoVaga.DEFICIENTE);
-                    };
+            EstacionamentoDAOImpl dao1 = new EstacionamentoDAOImpl();
+            Estacionamento e = (Estacionamento) dao1.getById(result.getInt(this.ID_ESTACIONAMENTO));
+            vaga.setEstacionamento(e);
 
-                    vagas.add(vaga);
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(EstacionamentoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            LocalizacaoDAOImpl dao2 = new LocalizacaoDAOImpl();
+            Localizacao local = (Localizacao) dao2.getById(result.getInt(this.ID_LOCAL));
+            vaga.setLocal(local);
+            int tipo = result.getInt(this.ID_TIPO);
+>>>>>>> 109b7e285f4c924299584f87d0d7e172b484aae8
+
+            switch (tipo) {
+                case 1:
+                    vaga.setTipo(TipoVaga.COMUM);
+<<<<<<< HEAD
+                    break;
+                case 2:
+                    vaga.setTipo(TipoVaga.MOTO);
+                    break;
+                case 3:
+                    vaga.setTipo(TipoVaga.IDOSO);
+                    break;
+                case 4:
+                    vaga.setTipo(TipoVaga.DEFICIENTE);
+                    break;
+                default:
+                    break;
             }
+=======
+                case 2:
+                    vaga.setTipo(TipoVaga.MOTO);
+                case 3:
+                    vaga.setTipo(TipoVaga.IDOSO);
+                case 4:
+                    vaga.setTipo(TipoVaga.DEFICIENTE);
+            };
+>>>>>>> 109b7e285f4c924299584f87d0d7e172b484aae8
 
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(EstacionamentoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            vagas.add(vaga);
         }
-        return (List<GENERICTYPE>) vagas;
+
+        this.closeConnection(connection);
+<<<<<<< HEAD
+        return (List<G>) vagas;
     }
 
     @Override
-    public GENERICTYPE getById(int id) {
+    public G getById(int id) throws SQLException, ClassNotFoundException {
+=======
+        return (List<GenericType>) vagas;
+    }
+
+    @Override
+    public GenericType getById(int id) throws SQLException, ClassNotFoundException {
+>>>>>>> 109b7e285f4c924299584f87d0d7e172b484aae8
         Vaga vaga = null;
         if (vagas.isEmpty()) {
             vagas = (List<Vaga>) this.getAll();
@@ -96,91 +148,119 @@ public class VagaDAOImpl<GENERICTYPE> implements GenericDAO<GENERICTYPE> {
                 vaga = p;
             }
         }
-        return (GENERICTYPE) vaga;
+        return (G) vaga;
     }
 
     @Override
-    public void insert(GENERICTYPE obj) {
-        try (Connection connection = Conector.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(INSERT)) {
+<<<<<<< HEAD
+    public boolean insert(G obj) throws SQLException, ClassNotFoundException {
+=======
+    public boolean insert(GenericType obj) throws SQLException, ClassNotFoundException {
+>>>>>>> 109b7e285f4c924299584f87d0d7e172b484aae8
+        Connection connection = this.openConnection();
+        PreparedStatement statement = connection.prepareStatement(INSERT);
 
-                Boolean cobertura = ((Vaga) obj).isCobertura();
-                Boolean status = ((Vaga) obj).isStatus();
-                int idEstacionamento = ((Vaga) obj).getEstacionamento().getId();
-                int idLocal = ((Vaga) obj).getLocal().getId();
-                TipoVaga idTipo = ((Vaga) obj).getTipo();
+        Boolean cobertura = ((Vaga) obj).isCobertura();
+        Boolean status = ((Vaga) obj).isStatus();
+        int id_estacionamento = ((Vaga) obj).getEstacionamento().getId();
+        int id_local = ((Vaga) obj).getLocal().getId();
+        TipoVaga id_tipo = ((Vaga) obj).getTipo();
 
-                statement.setInt(1, this.getNextId());
-                statement.setBoolean(2, cobertura);
-                statement.setBoolean(3, status);
-                statement.setInt(4, idEstacionamento);
-                statement.setInt(5, idLocal);
-                statement.setInt(6, idTipo.getValue());
+<<<<<<< HEAD
+        statement.setInt(1, this.getNextId(ORDER, SELECT, ID_VAGA));
+=======
+        statement.setInt(1, this.getNextId());
+>>>>>>> 109b7e285f4c924299584f87d0d7e172b484aae8
+        statement.setBoolean(2, cobertura);
+        statement.setBoolean(3, status);
+        statement.setInt(4, id_estacionamento);
+        statement.setInt(5, id_local);
+        statement.setInt(6, id_tipo.getValue());
 
-                statement.execute();
-            }
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(EstacionamentoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        boolean stat = statement.execute();
+        this.closeConnection(connection);
+        return stat;
     }
 
     @Override
-    public void update(GENERICTYPE obj) {
-        try (Connection connection = Conector.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(INSERT)) {
+<<<<<<< HEAD
+    public void update(G obj) throws SQLException, ClassNotFoundException {
+        Connection connection = this.openConnection();
+        PreparedStatement statement = connection.prepareStatement(UPDATE);
 
-                Boolean cobertura = ((Vaga) obj).isCobertura();
-                Boolean status = ((Vaga) obj).isStatus();
-                int idEstacionamento = ((Vaga) obj).getEstacionamento().getId();
-                int idLocal = ((Vaga) obj).getLocal().getId();
-                TipoVaga idTipo = ((Vaga) obj).getTipo();
-                int id = ((Vaga) obj).getId();
+        Boolean cobertura = ((Vaga) obj).isCobertura();
+        Boolean status = ((Vaga) obj).isStatus();
+        int idEstacionamento = ((Vaga) obj).getEstacionamento().getId();
+        int idLocal = ((Vaga) obj).getLocal().getId();
+        TipoVaga idTipo = ((Vaga) obj).getTipo();
+=======
+    public void update(GenericType obj) throws SQLException, ClassNotFoundException {
+        Connection connection = this.openConnection();
+        PreparedStatement statement = connection.prepareStatement(INSERT);
 
-                statement.setBoolean(1, cobertura);
-                statement.setBoolean(2, status);
-                statement.setInt(3, idEstacionamento);
-                statement.setInt(4, idLocal);
-                statement.setInt(5, idTipo.getValue());
-                statement.setInt(6, id);
+        Boolean cobertura = ((Vaga) obj).isCobertura();
+        Boolean status = ((Vaga) obj).isStatus();
+        int id_estacionamento = ((Vaga) obj).getEstacionamento().getId();
+        int id_local = ((Vaga) obj).getLocal().getId();
+        TipoVaga id_tipo = ((Vaga) obj).getTipo();
+>>>>>>> 109b7e285f4c924299584f87d0d7e172b484aae8
+        int id = ((Vaga) obj).getId();
 
-                statement.execute();
-            }
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(EstacionamentoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        statement.setBoolean(1, cobertura);
+        statement.setBoolean(2, status);
+<<<<<<< HEAD
+        statement.setInt(3, idEstacionamento);
+        statement.setInt(4, idLocal);
+        statement.setInt(5, idTipo.getValue());
+=======
+        statement.setInt(3, id_estacionamento);
+        statement.setInt(4, id_local);
+        statement.setInt(5, id_tipo.getValue());
+>>>>>>> 109b7e285f4c924299584f87d0d7e172b484aae8
+        statement.setInt(6, id);
+
+        statement.execute();
+        this.closeConnection(connection);
+<<<<<<< HEAD
+
     }
 
     @Override
-    public void delete(GENERICTYPE obj) {
-        try (Connection connection = Conector.getConnection(); PreparedStatement statement = connection.prepareStatement(DELETE)) {
-            statement.setInt(1, ((Vaga) obj).getId());
-            statement.execute();
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(PessoaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void delete(G obj) throws SQLException, ClassNotFoundException {
+        Connection connection = this.openConnection();
+        PreparedStatement statement = connection.prepareStatement(DELETE);
+        statement.setInt(1, ((Vaga) obj).getId());
+        statement.execute();
+        this.closeConnection(connection);
+=======
+
     }
 
     @Override
-    public int getNextId() {
+    public void delete(GenericType obj) throws SQLException, ClassNotFoundException {
+        Connection connection = this.openConnection();
+        PreparedStatement statement = connection.prepareStatement(DELETE);
+        statement.setInt(1, ((Vaga) obj).getId());
+        statement.execute();
+        this.closeConnection(connection);
+    }
+
+    @Override
+    public int getNextId() throws SQLException, ClassNotFoundException {
         int res = -0;
-        String order = "ORDER BY id_vaga ASC;";
-        try (Connection connection = Conector.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(SELECT + order,
-                    ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
-                statement.execute();
-                ResultSet result = statement.executeQuery();
-                if (result.last()) {
-                    res = result.getInt(this.ID_VAGA);
-                    return res + 1;
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(CartaoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(CartaoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        String ORDER = "ORDER BY id_vaga ASC;";
+        Connection connection = this.openConnection();
+        PreparedStatement statement = connection.prepareStatement(SELECT + ORDER,
+                ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        statement.execute();
+        ResultSet result = statement.executeQuery();
+        if (result.last()) {
+            res = result.getInt(this.ID_VAGA);
+            return res + 1;
         }
-        return res;
-    }
 
+        this.closeConnection(connection);
+        return res;
+>>>>>>> 109b7e285f4c924299584f87d0d7e172b484aae8
+    }
 }

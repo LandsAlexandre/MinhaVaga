@@ -13,7 +13,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Home Page</title>
     </head>
-    <body>
-        Bem vindo!
+    <body >
+        Bem vindo, ${nome}
     </body>       
 </html>
