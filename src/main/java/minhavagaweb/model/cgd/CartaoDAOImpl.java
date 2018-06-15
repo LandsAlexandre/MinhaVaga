@@ -68,50 +68,62 @@ public class CartaoDAOImpl<G> extends Conector implements GenericDAO<G> {
 
     @Override
     public boolean insert(G obj) throws SQLException, ClassNotFoundException {
-        Connection connection = this.openConnection();
+        boolean stat = false;
+        try (Connection connection = this.openConnection();
+                PreparedStatement statement = connection.prepareStatement(CartaoDAOImpl.INSERT)) {
 
-        PreparedStatement statement = connection.prepareStatement(CartaoDAOImpl.INSERT);
-        String nomeTitular = ((Cartao) obj).getNomeTitular();
-        String cvv = ((Cartao) obj).getCvv();
-        String numero = ((Cartao) obj).getNumeroCartao();
-        Calendar dataValidade = ((Cartao) obj).getDataValidade();
+            String nomeTitular = ((Cartao) obj).getNomeTitular();
+            String cvv = ((Cartao) obj).getCvv();
+            String numero = ((Cartao) obj).getNumeroCartao();
+            Calendar dataValidade = ((Cartao) obj).getDataValidade();
 
-        statement.setInt(1, this.getNextId(ORDER, SELECT, ID_CARTAO));
-        statement.setString(2, nomeTitular);
-        statement.setString(3, numero);
-        statement.setString(4, cvv);
-        statement.setDate(5, new java.sql.Date(dataValidade.getTimeInMillis()));
+            statement.setInt(1, this.getNextId(ORDER, SELECT, ID_CARTAO));
+            statement.setString(2, nomeTitular);
+            statement.setString(3, numero);
+            statement.setString(4, cvv);
+            statement.setDate(5, new java.sql.Date(dataValidade.getTimeInMillis()));
+            stat = statement.execute();
 
-        boolean stat = statement.execute();
-        this.closeConnection(connection);
+        } catch (SQLException ex) {
+            Logger.getLogger(CartaoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            this.closeConnection(con);
+        }
+
         return stat;
     }
 
     @Override
     public void update(G obj) throws SQLException, ClassNotFoundException {
-        Connection connection = this.openConnection();
-        PreparedStatement statement = connection.prepareStatement(CartaoDAOImpl.UPDATE);
-        String nomeTitular = ((Cartao) obj).getNomeTitular();
-        String cvv = ((Cartao) obj).getCvv();
-        String numero = ((Cartao) obj).getNumeroCartao();
-        Calendar dataValidade = ((Cartao) obj).getDataValidade();
+        try (Connection connection = this.openConnection();
+                PreparedStatement statement = connection.prepareStatement(CartaoDAOImpl.UPDATE)) {
+            String nomeTitular = ((Cartao) obj).getNomeTitular();
+            String cvv = ((Cartao) obj).getCvv();
+            String numero = ((Cartao) obj).getNumeroCartao();
+            Calendar dataValidade = ((Cartao) obj).getDataValidade();
 
-        statement.setString(1, nomeTitular);
-        statement.setString(2, numero);
-        statement.setString(3, cvv);
-        statement.setDate(4, new java.sql.Date(dataValidade.getTimeInMillis()));
+            statement.setString(1, nomeTitular);
+            statement.setString(2, numero);
+            statement.setString(3, cvv);
+            statement.setDate(4, new java.sql.Date(dataValidade.getTimeInMillis()));
 
-        statement.setInt(5, 1);
-        statement.execute();
+            statement.setInt(5, 1);
+            statement.execute();
+        } finally {
+            this.closeConnection(con);
+        }
     }
 
     @Override
     public void delete(G obj) throws SQLException, ClassNotFoundException {
-        Connection connection = this.openConnection();
-        PreparedStatement statement = connection.prepareStatement(CartaoDAOImpl.DELETE);
-        statement.setInt(1, ((Cartao) obj).getId());
-        statement.execute();
-        this.closeConnection(connection);
+        try (Connection connection = this.openConnection();
+                PreparedStatement statement = connection.prepareStatement(CartaoDAOImpl.DELETE)) {
+            statement.setInt(1, ((Cartao) obj).getId());
+            statement.execute();
+            this.closeConnection(connection);
+        }finally{
+            this.closeConnection(con);
+        }
     }
 
     @Override
