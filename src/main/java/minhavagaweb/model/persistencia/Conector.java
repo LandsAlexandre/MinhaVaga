@@ -34,17 +34,17 @@ public class Conector {
     public int getNextId(String order, String select, String id) throws SQLException, ClassNotFoundException {
         int res = -0;
 
-        Connection connection = this.openConnection();
-
-        PreparedStatement statement = connection.prepareStatement(select + order,
-                ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-        statement.execute();
-        ResultSet result = statement.executeQuery();
-        if (result.last()) {
-            res = result.getInt(id);
-            return res + 1;
+        try (Connection connection = this.openConnection();
+                PreparedStatement statement = connection.prepareStatement(select + order,
+                        ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ResultSet result = statement.executeQuery();) {
+            if (result.last()) {
+                res = result.getInt(id);
+                return res + 1;
+            }
+        } finally {
+            this.closeConnection(con);
         }
-        this.closeConnection(con);
         return res;
     }
 }
