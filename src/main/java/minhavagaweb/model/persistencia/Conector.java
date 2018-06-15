@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Logger;
 
 /**
  *
@@ -15,7 +14,7 @@ public class Conector {
 
     protected Connection con;
 
-    protected Connection openConnection() throws ClassNotFoundException{
+    protected Connection openConnection() throws ClassNotFoundException, SQLException{
 
         try {
             Class.forName("org.postgresql.Driver");
@@ -24,7 +23,7 @@ public class Conector {
 
             return con;
         } catch (SQLException e) {
-            throw new Error();
+            throw new SQLException(e);
         }
     }
 
