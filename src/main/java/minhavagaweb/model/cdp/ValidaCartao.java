@@ -21,7 +21,8 @@ public class ValidaCartao {
     private static final String[] CARD_NAMES = {"Visa", "Mastercard",
         "American Express", "En Route", "Diner's CLub/Carte Blanche",};
 
-    public ValidaCartao() {
+    private ValidaCartao() {
+        //Construtor
     }
 
     /**
@@ -58,38 +59,43 @@ public class ValidaCartao {
              * ----* VISA prefix=4* ---- length=13 or 16 (can be 15 too!?!
              * maybe)
              */
-            if (digit1.equals("4")) {
-                if (number.length() == 13 || number.length() == 16) {
-                    valid = VISA;
-                }
-            } /*
+            if (digit1.equals("4") && compVisa(number)) {
+                valid = VISA;
+            }/*
              * ----------* MASTERCARD prefix= 51 ... 55* ---------- length= 16
-             */ else if (digit2.compareTo("51") >= 0 && digit2.compareTo("55") <= 0) {
-                if (number.length() == 16) {
-                    valid = MASTERCARD;
-                }
+             */ else if (compMaster(digit2) && (number.length() == 16)) {
+                valid = MASTERCARD;
             } /*
              * ----* AMEX prefix=34 or 37* ---- length=15
-             */ else if (digit2.equals("34") || digit2.equals("37")) {
-                if (number.length() == 15) {
-                    valid = AMERICAN_EXPRESS;
-                }
+             */ else if (compAmerican(digit2) && (number.length() == 15)) {
+                valid = AMERICAN_EXPRESS;
             } /*
              * -----* ENROU prefix=2014 or 2149* ----- length=15
-             */ else if (digit4.equals("2014") || digit4.equals("2149")) {
-                if (number.length() == 15) {
-                    valid = EN_ROUTE;
-                }
+             */ else if (compEn(digit4) && (number.length() == 15)) {
+                valid = EN_ROUTE;
             } /*
              * -----* DCLUB prefix=300 ... 305 or 36 or 38* ----- length=14
-             */ else if (digit3.compareTo("305") <= 0 && isDigitEqual(digit2, digit3)) {
-                if (number.length() == 14) {
-                    valid = DINERS_CLUB;
-                }
+             */ else if (digit3.compareTo("305") <= 0 && isDigitEqual(digit2, digit3) && (number.length() == 14)) {
+                valid = DINERS_CLUB;
             }
         }
         return valid;
+    }
 
+    public static boolean compEn(String digit4) {
+        return digit4.equals("2014") || digit4.equals("2149");
+    }
+
+    public static boolean compAmerican(String digit2) {
+        return digit2.equals("34") || digit2.equals("37");
+    }
+
+    public static boolean compMaster(String digit2) {
+        return digit2.compareTo("51") >= 0 && digit2.compareTo("55") <= 0;
+    }
+
+    public static boolean compVisa(String number) {
+        return number.length() == 13 || number.length() == 16;
     }
 
     public static boolean isDigitEqual(String digit2, String digit3) {
@@ -98,8 +104,7 @@ public class ValidaCartao {
 
     public static boolean isNumber(String n) {
         try {
-
-            Double valueOf = Double.valueOf(n);
+            Double.valueOf(n);
             return true;
         } catch (NumberFormatException e) {
             return false;
@@ -112,25 +117,19 @@ public class ValidaCartao {
 
     public static boolean validCCNumber(String n) {
         try {
-
             int j = n.length();
-
             String[] s1 = new String[j];
             for (int i = 0; i < n.length(); i++) {
                 s1[i] = "" + n.charAt(i);
             }
-
             int checksum = 0;
-
             for (int i = s1.length - 1; i >= 0; i -= 2) {
-
                 if (i > 0) {
                     int k;
                     k = Integer.parseInt(s1[i - 1]) * 2;
                     if (k > 9) {
                         String s = "" + k;
-                        k = Integer.parseInt(s.substring(0, 1))
-                                + Integer.valueOf(s.substring(1));
+                        k = Integer.parseInt(s.substring(0, 1)) + Integer.valueOf(s.substring(1));
                     }
                     checksum += Integer.parseInt(s1[i]) + k;
                 } else {
