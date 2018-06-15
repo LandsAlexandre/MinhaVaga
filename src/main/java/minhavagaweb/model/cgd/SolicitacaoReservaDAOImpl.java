@@ -37,44 +37,46 @@ public class SolicitacaoReservaDAOImpl<G> extends Conector implements GenericDAO
 
     @Override
     public List<G> getAll() throws SQLException, ClassNotFoundException {
-        Connection connection = this.openConnection();
-        PreparedStatement statement = connection.prepareStatement(SELECT);
-        ResultSet result = statement.executeQuery();
+        try (Connection connection = this.openConnection();
+                PreparedStatement statement = connection.prepareStatement(SELECT);
+                ResultSet result = statement.executeQuery();) {
 
-        while (result.next()) {
-            SolicitacaoReserva solicitacaoReserva = new SolicitacaoReserva();
-            Reserva reserva = new Reserva();
+            while (result.next()) {
+                SolicitacaoReserva solicitacaoReserva = new SolicitacaoReserva();
+                Reserva reserva = new Reserva();
 
-            Calendar dataR = Calendar.getInstance();
-            dataR.setTime(result.getDate(SolicitacaoReservaDAOImpl.DATA_R));
+                Calendar dataR = Calendar.getInstance();
+                dataR.setTime(result.getDate(SolicitacaoReservaDAOImpl.DATA_R));
 
-            solicitacaoReserva.setDataSolicitacao(dataR);
-            solicitacaoReserva.setHoraSolicitacao(result.getTime(SolicitacaoReservaDAOImpl.HORA_R).toLocalTime());
+                solicitacaoReserva.setDataSolicitacao(dataR);
+                solicitacaoReserva.setHoraSolicitacao(result.getTime(SolicitacaoReservaDAOImpl.HORA_R).toLocalTime());
 
-            reserva.setId(result.getInt(SolicitacaoReservaDAOImpl.ID_RESERVA));
-            reserva.setDataChegada(dataR);
-            reserva.setHoraChegada(result.getTime(SolicitacaoReservaDAOImpl.HORA_C).toLocalTime());
+                reserva.setId(result.getInt(SolicitacaoReservaDAOImpl.ID_RESERVA));
+                reserva.setDataChegada(dataR);
+                reserva.setHoraChegada(result.getTime(SolicitacaoReservaDAOImpl.HORA_C).toLocalTime());
 
-            dataR.setTime(result.getDate(SolicitacaoReservaDAOImpl.DATA_S));
-            reserva.setDataSaida(dataR);
-            reserva.setHoraSaida(result.getTime(SolicitacaoReservaDAOImpl.HORA_S).toLocalTime());
+                dataR.setTime(result.getDate(SolicitacaoReservaDAOImpl.DATA_S));
+                reserva.setDataSaida(dataR);
+                reserva.setHoraSaida(result.getTime(SolicitacaoReservaDAOImpl.HORA_S).toLocalTime());
 
-            PessoaDAOImpl dao1 = new PessoaDAOImpl();
-            Cliente c = (Cliente) dao1.getById(result.getInt(SolicitacaoReservaDAOImpl.ID_C));
-            reserva.setCliente(c);
+                PessoaDAOImpl dao1 = new PessoaDAOImpl();
+                Cliente c = (Cliente) dao1.getById(result.getInt(SolicitacaoReservaDAOImpl.ID_C));
+                reserva.setCliente(c);
 
-            VagaDAOImpl dao2 = new VagaDAOImpl();
-            Vaga v = (Vaga) dao2.getById(result.getInt(SolicitacaoReservaDAOImpl.ID_V));
-            reserva.setVagaReservada(v);
+                VagaDAOImpl dao2 = new VagaDAOImpl();
+                Vaga v = (Vaga) dao2.getById(result.getInt(SolicitacaoReservaDAOImpl.ID_V));
+                reserva.setVagaReservada(v);
 
-            PagamentoDAOImpl dao3 = new PagamentoDAOImpl();
-            Pagamento p = (Pagamento) dao3.getById(result.getInt(SolicitacaoReservaDAOImpl.ID_P));
-            reserva.setPagamento(p);
+                PagamentoDAOImpl dao3 = new PagamentoDAOImpl();
+                Pagamento p = (Pagamento) dao3.getById(result.getInt(SolicitacaoReservaDAOImpl.ID_P));
+                reserva.setPagamento(p);
 
-            solicitacaoReserva.setReserva(reserva);
-            reservas.add(solicitacaoReserva);
+                solicitacaoReserva.setReserva(reserva);
+                reservas.add(solicitacaoReserva);
+            }
+        } finally {
+            this.closeConnection(con);
         }
-        this.closeConnection(connection);
         return (List<G>) reservas;
     }
 
@@ -94,73 +96,77 @@ public class SolicitacaoReservaDAOImpl<G> extends Conector implements GenericDAO
 
     @Override
     public boolean insert(G obj) throws SQLException, ClassNotFoundException {
-        Connection connection = this.openConnection();
-        PreparedStatement statement = connection.prepareStatement(INSERT);
-        int idR = this.getNextId(ORDER, SELECT, ID_RESERVA);
+        boolean stat = false;
+        try (Connection connection = this.openConnection();
+                PreparedStatement statement = connection.prepareStatement(INSERT);) {
+            int idR = this.getNextId(ORDER, SELECT, ID_RESERVA);
 
-        Calendar dataR = ((SolicitacaoReserva) obj).getDataSolicitacao();
-        LocalTime horaR = ((SolicitacaoReserva) obj).getHoraSolicitacao();
-        LocalTime horaC = ((SolicitacaoReserva) obj).getReserva().getHoraChegada();
-        Calendar dataS = ((SolicitacaoReserva) obj).getReserva().getDataSaida();
-        LocalTime horaS = ((SolicitacaoReserva) obj).getReserva().getHoraSaida();
+            Calendar dataR = ((SolicitacaoReserva) obj).getDataSolicitacao();
+            LocalTime horaR = ((SolicitacaoReserva) obj).getHoraSolicitacao();
+            LocalTime horaC = ((SolicitacaoReserva) obj).getReserva().getHoraChegada();
+            Calendar dataS = ((SolicitacaoReserva) obj).getReserva().getDataSaida();
+            LocalTime horaS = ((SolicitacaoReserva) obj).getReserva().getHoraSaida();
 
-        int idC = ((SolicitacaoReserva) obj).getReserva().getCliente().getId();
-        int idV = ((SolicitacaoReserva) obj).getReserva().getVagaReservada().getId();
-        int idP = ((SolicitacaoReserva) obj).getReserva().getPagamento().getId();
+            int idC = ((SolicitacaoReserva) obj).getReserva().getCliente().getId();
+            int idV = ((SolicitacaoReserva) obj).getReserva().getVagaReservada().getId();
+            int idP = ((SolicitacaoReserva) obj).getReserva().getPagamento().getId();
 
-        statement.setInt(1, idR);
-        statement.setDate(2, new java.sql.Date(dataR.getTimeInMillis()));
-        statement.setTime(3, java.sql.Time.valueOf(horaR));
-        statement.setTime(4, java.sql.Time.valueOf(horaC));
-        statement.setDate(5, new java.sql.Date(dataS.getTimeInMillis()));
-        statement.setTime(6, java.sql.Time.valueOf(horaS));
-        statement.setInt(7, idC);
-        statement.setInt(8, idV);
-        statement.setInt(9, idP);
+            statement.setInt(1, idR);
+            statement.setDate(2, new java.sql.Date(dataR.getTimeInMillis()));
+            statement.setTime(3, java.sql.Time.valueOf(horaR));
+            statement.setTime(4, java.sql.Time.valueOf(horaC));
+            statement.setDate(5, new java.sql.Date(dataS.getTimeInMillis()));
+            statement.setTime(6, java.sql.Time.valueOf(horaS));
+            statement.setInt(7, idC);
+            statement.setInt(8, idV);
+            statement.setInt(9, idP);
 
-        boolean stat = statement.execute();
-
-        this.closeConnection(connection);
-
+            stat = statement.execute();
+        } finally {
+            this.closeConnection(con);
+        }
         return stat;
 
     }
 
     @Override
     public void update(G obj) throws SQLException, ClassNotFoundException {
-        Connection connection = this.openConnection();
-        PreparedStatement statement = connection.prepareStatement(UPDATE);
-        int idR = ((SolicitacaoReserva) obj).getReserva().getId();
-        Calendar dataR = ((SolicitacaoReserva) obj).getDataSolicitacao();
-        LocalTime horaR = ((SolicitacaoReserva) obj).getHoraSolicitacao();
-        LocalTime horaC = ((SolicitacaoReserva) obj).getReserva().getHoraChegada();
-        Calendar dataS = ((SolicitacaoReserva) obj).getReserva().getDataSaida();
-        LocalTime horaS = ((SolicitacaoReserva) obj).getReserva().getHoraSaida();
-        int idC = ((SolicitacaoReserva) obj).getReserva().getCliente().getId();
-        int idV = ((SolicitacaoReserva) obj).getReserva().getVagaReservada().getId();
-        int idP = ((SolicitacaoReserva) obj).getReserva().getPagamento().getId();
+        try (Connection connection = this.openConnection();
+                PreparedStatement statement = connection.prepareStatement(UPDATE);) {
+            int idR = ((SolicitacaoReserva) obj).getReserva().getId();
+            Calendar dataR = ((SolicitacaoReserva) obj).getDataSolicitacao();
+            LocalTime horaR = ((SolicitacaoReserva) obj).getHoraSolicitacao();
+            LocalTime horaC = ((SolicitacaoReserva) obj).getReserva().getHoraChegada();
+            Calendar dataS = ((SolicitacaoReserva) obj).getReserva().getDataSaida();
+            LocalTime horaS = ((SolicitacaoReserva) obj).getReserva().getHoraSaida();
+            int idC = ((SolicitacaoReserva) obj).getReserva().getCliente().getId();
+            int idV = ((SolicitacaoReserva) obj).getReserva().getVagaReservada().getId();
+            int idP = ((SolicitacaoReserva) obj).getReserva().getPagamento().getId();
 
-        statement.setDate(1, new java.sql.Date(dataR.getTimeInMillis()));
-        statement.setTime(2, java.sql.Time.valueOf(horaR));
-        statement.setTime(3, java.sql.Time.valueOf(horaC));
-        statement.setDate(4, new java.sql.Date(dataS.getTimeInMillis()));
-        statement.setTime(5, java.sql.Time.valueOf(horaS));
-        statement.setInt(6, idC);
-        statement.setInt(7, idV);
-        statement.setInt(8, idP);
-        statement.setInt(9, idR);
+            statement.setDate(1, new java.sql.Date(dataR.getTimeInMillis()));
+            statement.setTime(2, java.sql.Time.valueOf(horaR));
+            statement.setTime(3, java.sql.Time.valueOf(horaC));
+            statement.setDate(4, new java.sql.Date(dataS.getTimeInMillis()));
+            statement.setTime(5, java.sql.Time.valueOf(horaS));
+            statement.setInt(6, idC);
+            statement.setInt(7, idV);
+            statement.setInt(8, idP);
+            statement.setInt(9, idR);
 
-        statement.executeQuery();
-        this.closeConnection(connection);
-
+            statement.executeQuery();
+        } finally {
+            this.closeConnection(con);
+        }
     }
 
     @Override
     public void delete(G obj) throws SQLException, ClassNotFoundException {
-        Connection connection = this.openConnection();
-        PreparedStatement statement = connection.prepareStatement(DELETE);
-        statement.setInt(1, ((SolicitacaoReserva) obj).getReserva().getId());
-        statement.execute();
-        this.closeConnection(connection);
+        try (Connection connection = this.openConnection();
+                PreparedStatement statement = connection.prepareStatement(DELETE);) {
+            statement.setInt(1, ((SolicitacaoReserva) obj).getReserva().getId());
+            statement.execute();
+        } finally {
+            this.closeConnection(con);
+        }
     }
 }
