@@ -17,6 +17,9 @@ public class CPF {
         this.numCpf = cpf;
     }
 
+    public CPF() {
+    }
+
     public String getCpf() {
         return numCpf;
     }
