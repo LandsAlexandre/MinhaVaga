@@ -9,9 +9,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import minhavagaweb.controller.AplCliente;
-import minhavagaweb.model.cdp.Cliente;
-import minhavagaweb.valida.ValidaCPF;
-import minhavagaweb.valida.ValidaEmail;
+import minhavagaweb.model.cdp.*;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -27,10 +25,10 @@ public class CadastrarUsuario {
 
     @When("^eu cadastrar dados válidos$")
     public void eu_cadastrar_dados_válidos() throws Throwable {
-        boolean a = ValidaCPF.isValido("14302380705");
+        boolean a = CPF.isCPFValido("14302380705");
         assertEquals(true, a);
 
-        boolean b = ValidaEmail.isEmailValido("helenfranca93@gmail.com");
+        boolean b = Email.isEmailValido("helenfranca93@gmail.com");
         assertEquals(true, b);
 
     }
