@@ -89,14 +89,14 @@ public class PagamentoDAOImpl<G> extends Conector implements GenericDAO<G> {
             Calendar data = ((Pagamento) obj).getDataPagamento();
             Boolean pago = ((Pagamento) obj).isPago();
             String forma = ((Pagamento) obj).getFormaPagamento();
-            int id_cliente = ((Pagamento) obj).getCliente().getId();
+            int idCliente = ((Pagamento) obj).getCliente().getId();
 
             statement.setInt(1, this.getNextId(SELECT + ORDER, ID_PAGAMENTO));
             statement.setDouble(2, valor);
             statement.setDate(3, new java.sql.Date(data.getTimeInMillis()));
             statement.setBoolean(4, pago);
             statement.setString(5, forma);
-            statement.setInt(6, id_cliente);
+            statement.setInt(6, idCliente);
             stat = statement.execute();
         } finally {
             this.closeConnection(con);
@@ -113,13 +113,13 @@ public class PagamentoDAOImpl<G> extends Conector implements GenericDAO<G> {
             Calendar data = ((Pagamento) obj).getDataPagamento();
             Boolean pago = ((Pagamento) obj).isPago();
             String forma = ((Pagamento) obj).getFormaPagamento();
-            int id_cliente = ((Pagamento) obj).getCliente().getId();
+            int idCliente = ((Pagamento) obj).getCliente().getId();
 
             statement.setDouble(2, valor);
             statement.setDate(3, new java.sql.Date(data.getTimeInMillis()));
             statement.setBoolean(4, pago);
             statement.setString(5, forma);
-            statement.setInt(6, id_cliente);
+            statement.setInt(6, idCliente);
 
             statement.setInt(6, id);
             statement.execute();
