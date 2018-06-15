@@ -38,28 +38,30 @@ public class EstacionamentoDAOImpl<G> extends Conector implements GenericDAO<G> 
 
     @Override
     public List<G> getAll() throws SQLException, ClassNotFoundException {
-        Connection connection = this.openConnection();
-        PreparedStatement statement = connection.prepareStatement(SELECT);
-       
-        ResultSet result = statement.executeQuery();
+        try (Connection connection = this.openConnection();
+                PreparedStatement statement = connection.prepareStatement(SELECT);
+                ResultSet result = statement.executeQuery();) {
 
-        Estacionamento estacionamento;
-        while (result.next()) {
-            estacionamento = new Estacionamento();
-            estacionamento.setId(result.getInt(ID_ESTACIONAMENTO));
-            estacionamento.setNome(result.getString(NOME));
-            estacionamento.setCapacidade(result.getInt(CAPACIDADE));
-            estacionamento.setValorPorHora(result.getFloat(VALOR_HORA));
-            estacionamento.setHorarioAbertura(result.getTime(HORA_ABERTURA).toLocalTime());
-            estacionamento.setHorarioFechamento(result.getTime(HORA_FECHAMENTO).toLocalTime());
+            Estacionamento estacionamento;
+            while (result.next()) {
+                estacionamento = new Estacionamento();
+                estacionamento.setId(result.getInt(ID_ESTACIONAMENTO));
+                estacionamento.setNome(result.getString(NOME));
+                estacionamento.setCapacidade(result.getInt(CAPACIDADE));
+                estacionamento.setValorPorHora(result.getFloat(VALOR_HORA));
+                estacionamento.setHorarioAbertura(result.getTime(HORA_ABERTURA).toLocalTime());
+                estacionamento.setHorarioFechamento(result.getTime(HORA_FECHAMENTO).toLocalTime());
 
-            LocalizacaoDAOImpl dao = new LocalizacaoDAOImpl();
-            Localizacao local = (Localizacao) dao.getById(result.getInt(ID_LOCAL));
-            estacionamento.setLocal(local);
+                LocalizacaoDAOImpl dao = new LocalizacaoDAOImpl();
+                Localizacao local = (Localizacao) dao.getById(result.getInt(ID_LOCAL));
+                estacionamento.setLocal(local);
 
-            estacionamentos.add(estacionamento);
+                estacionamentos.add(estacionamento);
+            }
+        } finally {
+            this.closeConnection(con);
         }
-        this.closeConnection(connection);
+
         return (List<G>) estacionamentos;
     }
 
@@ -79,62 +81,66 @@ public class EstacionamentoDAOImpl<G> extends Conector implements GenericDAO<G> 
 
     @Override
     public boolean insert(G obj) throws SQLException, ClassNotFoundException {
-        Connection connection = this.openConnection();
-        PreparedStatement statement = connection.prepareStatement(INSERT);
+        boolean stat = false;
+        try (Connection connection = this.openConnection();
+                PreparedStatement statement = connection.prepareStatement(INSERT);) {
 
-        String nome = ((Estacionamento) obj).getNome();
-        int capacidade = ((Estacionamento) obj).getCapacidade();
-        float valor = ((Estacionamento) obj).getValorPorHora();
-        LocalTime abertura = ((Estacionamento) obj).getHorarioAbertura();
-        LocalTime fechamento = ((Estacionamento) obj).getHorarioFechamento();
-        Localizacao local = ((Estacionamento) obj).getLocal();
+            String nome = ((Estacionamento) obj).getNome();
+            int capacidade = ((Estacionamento) obj).getCapacidade();
+            float valor = ((Estacionamento) obj).getValorPorHora();
+            LocalTime abertura = ((Estacionamento) obj).getHorarioAbertura();
+            LocalTime fechamento = ((Estacionamento) obj).getHorarioFechamento();
+            Localizacao local = ((Estacionamento) obj).getLocal();
 
-        statement.setInt(1, this.getNextId(ORDER, SELECT, ID_ESTACIONAMENTO));
-        statement.setString(2, nome);
-        statement.setInt(3, capacidade);
-        statement.setFloat(4, valor);
-        statement.setTime(5, java.sql.Time.valueOf(abertura));
-        statement.setTime(6, java.sql.Time.valueOf(fechamento));
-        statement.setInt(7, local.getId());
-        boolean stat = statement.execute();
-
-        this.closeConnection(connection);
+            statement.setInt(1, this.getNextId(ORDER, SELECT, ID_ESTACIONAMENTO));
+            statement.setString(2, nome);
+            statement.setInt(3, capacidade);
+            statement.setFloat(4, valor);
+            statement.setTime(5, java.sql.Time.valueOf(abertura));
+            statement.setTime(6, java.sql.Time.valueOf(fechamento));
+            statement.setInt(7, local.getId());
+            stat = statement.execute();
+        } finally {
+            this.closeConnection(con);
+        }
         return stat;
     }
 
     @Override
     public void update(G obj) throws SQLException, ClassNotFoundException {
-        Connection connection = this.openConnection();
-        PreparedStatement statement = connection.prepareStatement(UPDATE);
+        try (Connection connection = this.openConnection();
+                PreparedStatement statement = connection.prepareStatement(UPDATE);) {
 
-        int id = ((Estacionamento) obj).getId();
-        String nome = ((Estacionamento) obj).getNome();
-        int capacidade = ((Estacionamento) obj).getCapacidade();
-        float valor = ((Estacionamento) obj).getValorPorHora();
-        LocalTime abertura = ((Estacionamento) obj).getHorarioAbertura();
-        LocalTime fechamento = ((Estacionamento) obj).getHorarioFechamento();
-        Localizacao local = ((Estacionamento) obj).getLocal();
+            int id = ((Estacionamento) obj).getId();
+            String nome = ((Estacionamento) obj).getNome();
+            int capacidade = ((Estacionamento) obj).getCapacidade();
+            float valor = ((Estacionamento) obj).getValorPorHora();
+            LocalTime abertura = ((Estacionamento) obj).getHorarioAbertura();
+            LocalTime fechamento = ((Estacionamento) obj).getHorarioFechamento();
+            Localizacao local = ((Estacionamento) obj).getLocal();
 
-        statement.setString(1, nome);
-        statement.setInt(2, capacidade);
-        statement.setFloat(3, valor);
-        statement.setTime(4, java.sql.Time.valueOf(abertura));
-        statement.setTime(5, java.sql.Time.valueOf(fechamento));
-        statement.setInt(6, local.getId());
-        statement.setInt(7, id);
-        statement.execute();
-
-        this.closeConnection(connection);
+            statement.setString(1, nome);
+            statement.setInt(2, capacidade);
+            statement.setFloat(3, valor);
+            statement.setTime(4, java.sql.Time.valueOf(abertura));
+            statement.setTime(5, java.sql.Time.valueOf(fechamento));
+            statement.setInt(6, local.getId());
+            statement.setInt(7, id);
+            statement.execute();
+        } finally {
+            this.closeConnection(con);
+        }
     }
 
     @Override
     public void delete(G obj) throws SQLException, ClassNotFoundException {
-        Connection connection = this.openConnection();
-        PreparedStatement statement = connection.prepareStatement(DELETE);
-        statement.setInt(1, ((Estacionamento) obj).getId());
-        statement.execute();
-        this.closeConnection(connection);
-
+        try (Connection connection = this.openConnection();
+                PreparedStatement statement = connection.prepareStatement(DELETE);) {
+            statement.setInt(1, ((Estacionamento) obj).getId());
+            statement.execute();
+        } finally {
+            this.closeConnection(con);
+        }
     }
 
 }
