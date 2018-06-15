@@ -92,7 +92,7 @@ public class EstacionamentoDAOImpl<G> extends Conector implements GenericDAO<G> 
             LocalTime fechamento = ((Estacionamento) obj).getHorarioFechamento();
             Localizacao local = ((Estacionamento) obj).getLocal();
 
-            statement.setInt(1, this.getNextId(ORDER, SELECT, ID_ESTACIONAMENTO));
+            statement.setInt(1, this.getNextId(SELECT + ORDER, ID_ESTACIONAMENTO));
             statement.setString(2, nome);
             statement.setInt(3, capacidade);
             statement.setFloat(4, valor);

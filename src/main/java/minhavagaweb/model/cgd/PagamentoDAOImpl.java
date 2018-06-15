@@ -91,7 +91,7 @@ public class PagamentoDAOImpl<G> extends Conector implements GenericDAO<G> {
             String forma = ((Pagamento) obj).getFormaPagamento();
             int id_cliente = ((Pagamento) obj).getCliente().getId();
 
-            statement.setInt(1, this.getNextId(ORDER, SELECT, ID_PAGAMENTO));
+            statement.setInt(1, this.getNextId(SELECT + ORDER, ID_PAGAMENTO));
             statement.setDouble(2, valor);
             statement.setDate(3, new java.sql.Date(data.getTimeInMillis()));
             statement.setBoolean(4, pago);

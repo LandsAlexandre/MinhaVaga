@@ -67,7 +67,7 @@ public class LocalizacaoDAOImpl<G> extends Conector implements GenericDAO<G> {
             Double lat = ((Localizacao) obj).getLatitude();
             Double lon = ((Localizacao) obj).getLongitude();
 
-            statement.setInt(1, this.getNextId(ORDER, SELECT, ID_LOCAL));
+            statement.setInt(1, this.getNextId(SELECT + ORDER, ID_LOCAL));
             statement.setDouble(2, lat);
             statement.setDouble(3, lon);
 

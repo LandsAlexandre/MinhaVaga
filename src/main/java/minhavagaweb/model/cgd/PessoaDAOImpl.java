@@ -85,7 +85,7 @@ public class PessoaDAOImpl<G> extends Conector implements GenericDAO<G> {
             Date data = ((Pessoa) obj).getNascimento();
             java.sql.Date date = new java.sql.Date(data.getTime());
 
-            statement.setInt(1, this.getNextId(ORDER, SELECT, ID_CLIENTE));
+            statement.setInt(1, this.getNextId(SELECT + ORDER, ID_CLIENTE));
             statement.setString(2, ((Pessoa) obj).getNome());
             statement.setString(3, ((Pessoa) obj).getCpf());
             statement.setString(4, ((Pessoa) obj).getEmail());

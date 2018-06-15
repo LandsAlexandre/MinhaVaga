@@ -99,7 +99,7 @@ public class SolicitacaoReservaDAOImpl<G> extends Conector implements GenericDAO
         boolean stat = false;
         try (Connection connection = this.openConnection();
                 PreparedStatement statement = connection.prepareStatement(INSERT);) {
-            int idR = this.getNextId(ORDER, SELECT, ID_RESERVA);
+            int idR = this.getNextId(SELECT + ORDER, ID_RESERVA);
 
             Calendar dataR = ((SolicitacaoReserva) obj).getDataSolicitacao();
             LocalTime horaR = ((SolicitacaoReserva) obj).getHoraSolicitacao();

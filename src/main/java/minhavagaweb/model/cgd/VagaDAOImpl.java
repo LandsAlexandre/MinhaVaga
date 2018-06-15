@@ -110,7 +110,7 @@ public class VagaDAOImpl<G> extends Conector implements GenericDAO<G> {
             int id_local = ((Vaga) obj).getLocal().getId();
             TipoVaga id_tipo = ((Vaga) obj).getTipo();
 
-            statement.setInt(1, this.getNextId(ORDER, SELECT, ID_VAGA));
+            statement.setInt(1, this.getNextId(SELECT + ORDER , ID_VAGA));
             statement.setBoolean(2, cobertura);
             statement.setBoolean(3, status);
             statement.setInt(4, id_estacionamento);

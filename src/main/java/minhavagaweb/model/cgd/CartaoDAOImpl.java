@@ -75,7 +75,7 @@ public class CartaoDAOImpl<G> extends Conector implements GenericDAO<G> {
             String numero = ((Cartao) obj).getNumeroCartao();
             Calendar dataValidade = ((Cartao) obj).getDataValidade();
 
-            statement.setInt(1, this.getNextId(ORDER + SELECT, ID_CARTAO));
+            statement.setInt(1, this.getNextId(SELECT + ORDER, ID_CARTAO));
             statement.setString(2, nomeTitular);
             statement.setString(3, numero);
             statement.setString(4, cvv);
