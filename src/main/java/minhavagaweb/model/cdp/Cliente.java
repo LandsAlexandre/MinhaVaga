@@ -5,6 +5,7 @@
  */
 package minhavagaweb.model.cdp;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  *
  * @author landerson
  */
-public class Cliente extends Pessoa {
+public class Cliente extends Pessoa implements Serializable{
 
     private List<Cartao> cartoes = new ArrayList<>();
     private Pagamento pagamento;
