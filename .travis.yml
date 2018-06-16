@@ -13,8 +13,11 @@ addons:
             secure: ed5e8a1e6b4beb31d271c94fe1887f0ec5470748
       
 script:  
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
+    - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
 
+after_success:
+    - pwd
+    - ls
 branches:
   only:
     - master
