@@ -41,7 +41,9 @@ public class PessoaDAOImpl<G> extends Conector implements GenericDAO<G> {
                 PreparedStatement statement = connection.prepareStatement(SELECT_LOGIN);) {
             statement.setString(1, email);
             statement.setString(2, senha);
-            result = statement.execute();
+            
+            ResultSet resultadoConsulta = statement.executeQuery();
+            result = resultadoConsulta.next();
         } finally {
             this.closeConnection(con);
         }
