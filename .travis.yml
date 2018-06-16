@@ -16,8 +16,7 @@ script:
     - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
 
 after_success:
-    - pwd
-    - ls
+    - HEROKU_API_KEY=$HEROKU_API_KEY mvn clean heroku:deploy-war
 branches:
   only:
     - master
@@ -26,9 +25,17 @@ branches:
 notifications:
     slack: bsi-ifserra:TYWamFXEYGbYjKP2ZwLUZECP
 
-deploy:
-    provider: heroku
-    api-key: 
-        secure: $HEROKU_API_KEY
-    skip_cleanup: true
-    app: minhavagaweb
+#before_deploy:
+#    - apt-get install heroku
+#    - heroku
+#    - heroku plugins:install heroku-cli-deploy
+#deploy:
+#    provider: heroku
+#    api-key: 
+#        secure: $HEROKU_API_KEY
+#    skip_cleanup: true
+#    app: minhavagaweb
+#
+#after_deploy:
+#    - ls -R
+#*/
