@@ -25,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class AplCliente {
 
     private static final String SOLICITACAO = "solicitarReserva";
+    private static final String CARTAO_INVALIDO = "cartao-invalido";
 
     @RequestMapping(value = "cliente", method = RequestMethod.GET)
     public ModelAndView cliente() {
@@ -58,7 +59,7 @@ public class AplCliente {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         java.sql.Date data = new java.sql.Date(formato.parse(datanascimento).getTime());
         p.setNascimento(data);
- 
+
         if (CPF.isCPFValido(p.getCpf()) && Email.isEmailValido(p.getEmail())) {
             try {
                 dao.insert(p);
@@ -95,15 +96,13 @@ public class AplCliente {
      * @throws Exception
      */
     @RequestMapping("cartao")
-    public String cadastrarCartao(Cartao c) throws Exception {
+    public String cadastrarCartao(Cartao c) throws SQLException, ClassNotFoundException {
 
         CartaoDAOImpl dao = new CartaoDAOImpl();
-        if (ValidaCartao.validCC(c.getNumeroCartao())) {
-            dao.insert(c);
-            return SOLICITACAO;
+        if (ValidaCartao.validCC(c.getNumeroCartao()) && dao.insert(c)){
+                return SOLICITACAO;
         } else {
-            return "cartao-invalido";
+            return CARTAO_INVALIDO;
         }
-
     }
 }
