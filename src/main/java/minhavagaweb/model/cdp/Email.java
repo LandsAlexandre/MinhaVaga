@@ -16,11 +16,8 @@ public class Email {
     
     private String endEmail;
 
-    public Email(String email) {
-        this.endEmail = email;
-    }
-
     public Email() {
+        //Construtor
     }
     
     public String getEmail() {
