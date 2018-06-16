@@ -98,6 +98,9 @@
                 <version>2.0.3</version>
                 <configuration>
                     <appName>minhavagaweb</appName>
+                    <processTypes>
+                        <web>java $JAVA_OPTS -jar webapp-runner.jar ${WEBAPP_RUNNER_OPTS} --port $PORT ./target/MinhaVaga-1.0-SNAPSHOT.war</web>
+                    </processTypes>
                 </configuration>
 
             </plugin>
