@@ -27,7 +27,8 @@ public class CPF {
 
     public static boolean isCPFValido(String cpfSemFormatacao) {
 
-        if (formatOk(cpfSemFormatacao)){
+        if (cpfSemFormatacao.length() != 11 || cpfSemFormatacao.equals("00000000000")
+                || cpfSemFormatacao.equals("99999999999")) {
             return false;
         }
 
@@ -38,11 +39,6 @@ public class CPF {
         String dv2 = gerarDV(digitos + dv1);
 
         return dvs.equals(dv1 + dv2);
-    }
-    
-    public static boolean formatOk(String cpfSemFormatacao){
-        return cpfSemFormatacao.length() != 11 || cpfSemFormatacao.equals("00000000000")
-                || cpfSemFormatacao.equals("99999999999");
     }
 
     private static String gerarDV(String digitos) {
