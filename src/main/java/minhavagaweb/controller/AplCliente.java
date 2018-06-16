@@ -25,31 +25,39 @@ import org.springframework.web.servlet.ModelAndView;
 public class AplCliente {
 
     private static final String SOLICITACAO = "solicitarReserva";
+    private static final String HOMEPAGE = "home";
     private static final String CARTAO_INVALIDO = "cartao-invalido";
+    private static final String INDEX = "index";
+    private static final String TELACADASTROCLIENTE = "cliente";
+    private static final String TELACADASTROCARTAO = "cliente";
+    private static final String TELALOGIN = "login";
 
-    @RequestMapping(value = "cliente", method = RequestMethod.GET)
+    @RequestMapping(value = TELACADASTROCLIENTE, method = RequestMethod.GET)
     public ModelAndView cliente() {
-
-        return new ModelAndView("cliente", "command", new Cliente());
+        return new ModelAndView(TELACADASTROCLIENTE, "command", new Cliente());
     }
 
-    @RequestMapping(value = "home", method = RequestMethod.POST)
+    @RequestMapping(HOMEPAGE)
     public ModelAndView home() {
-        return new ModelAndView("home");
+        return new ModelAndView(HOMEPAGE);
     }
 
-    @RequestMapping("index")
+    @RequestMapping(SOLICITACAO)
+    public ModelAndView solicitarReserva() {
+        return new ModelAndView(SOLICITACAO);
+    }
+
+    @RequestMapping(INDEX)
     public ModelAndView index() {
-        return new ModelAndView("index");
+        return new ModelAndView(INDEX);
     }
 
-    @RequestMapping(value = "login", method = RequestMethod.GET)
+    @RequestMapping(TELALOGIN)
     public ModelAndView login() {
-
-        return new ModelAndView("login", "Pessoa", new Pessoa());
+        return new ModelAndView(TELALOGIN, "Pessoa", new Pessoa());
     }
 
-    @RequestMapping("cliente")
+    @RequestMapping(TELACADASTROCLIENTE)
     public String cadastrarCliente(
             Cliente p, @RequestParam("datanascimento") String datanascimento,
             @RequestParam(value = "cadastrarCartao", required = false) String cadastrar) throws ParseException {
@@ -72,24 +80,10 @@ public class AplCliente {
                 return "emailRegistrado";
             }
         }
-        return "cliente";
+        return TELACADASTROCLIENTE;
     }
 
-    @RequestMapping(value = "login", method = RequestMethod.POST)
-    public String fazerLogin(Cliente p) throws SQLException, ClassNotFoundException {
-        if (verificarLogin(p.getEmail(), p.getSenha())) {
-            return SOLICITACAO;
-        } else {
-            return "loginIncorreto";
-        }
-    }
-
-    private boolean verificarLogin(String email, String senha) throws SQLException, ClassNotFoundException {
-        PessoaDAOImpl dao = new PessoaDAOImpl();
-        return dao.selectLogin(email, senha);
-    }
-
-    /**
+    /*
      *
      * @param c
      * @return
@@ -99,8 +93,8 @@ public class AplCliente {
     public String cadastrarCartao(Cartao c) throws SQLException, ClassNotFoundException {
 
         CartaoDAOImpl dao = new CartaoDAOImpl();
-        if (ValidaCartao.validCC(c.getNumeroCartao()) && dao.insert(c)){
-                return SOLICITACAO;
+        if (ValidaCartao.validCC(c.getNumeroCartao()) && dao.insert(c)) {
+            return SOLICITACAO;
         } else {
             return CARTAO_INVALIDO;
         }
