@@ -8,7 +8,6 @@ package minhavagaweb.controller;
 import minhavagaweb.model.cdp.Cartao;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import minhavagaweb.model.cdp.*;
 import minhavagaweb.model.cgd.*;
 import minhavagaweb.model.cgt.AplCliente;

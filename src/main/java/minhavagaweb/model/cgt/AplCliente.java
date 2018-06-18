@@ -22,7 +22,11 @@ public class AplCliente {
     private static final String TELACADASTROCLIENTE = "cliente";
     private static final String TELASOLICITACAO = "solicitarReserva";
     private static final String TELAEMAILREGISTRADO = "emailRegistrado";
-
+    
+    private AplCliente() {
+        throw new IllegalStateException("AplCliente");
+    }
+    
     public static String cadastrarCliente(
             Cliente p, String datanascimento,
             String cadastrar) throws ParseException {
