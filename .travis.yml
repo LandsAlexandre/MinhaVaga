@@ -21,6 +21,8 @@ branches:
   only:
     - master
     - devHelen
+    - devMalu
+    - devLands
 
 notifications:
     slack: bsi-ifserra:TYWamFXEYGbYjKP2ZwLUZECP
