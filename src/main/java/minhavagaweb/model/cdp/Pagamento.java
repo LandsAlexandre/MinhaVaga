@@ -5,13 +5,14 @@
  */
 package minhavagaweb.model.cdp;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
 /**
  *
  * @author landerson
  */
-public class Pagamento {
+public class Pagamento  implements Serializable{
     private int id;
     private double valor;
     private Calendar dataPagamento;
