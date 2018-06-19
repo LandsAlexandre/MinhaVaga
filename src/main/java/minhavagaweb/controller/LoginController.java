@@ -5,10 +5,9 @@
  */
 package minhavagaweb.controller;
 
-import java.sql.SQLException;
 import javax.servlet.http.HttpSession;
 import minhavagaweb.model.cdp.Cliente;
-import minhavagaweb.model.cgd.PessoaDAOImpl;
+import minhavagaweb.model.cgt.AplCliente;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -18,18 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class LoginController {
+    public static final String EFETUALOGIN = "efetuaLogin";
     
-    @RequestMapping(value = "efetuaLogin")
-    public String fazerLogin(Cliente p, HttpSession session) throws SQLException, ClassNotFoundException {
-        if (verificarLogin(p.getEmail(), p.getSenha())) {
-            session.setAttribute("usuarioLogado", p);
-            return "solicitarReserva";
-        } else {
-            return "loginIncorreto";
-        }
-    }
-    private boolean verificarLogin(String email, String senha) throws SQLException, ClassNotFoundException {
-        PessoaDAOImpl dao = new PessoaDAOImpl();
-        return dao.selectLogin(email, senha);
+    @RequestMapping(EFETUALOGIN)
+    public String fazerLogin(Cliente p, HttpSession session) {
+        return AplCliente.fazerLogin(p, session);
     }
 }
