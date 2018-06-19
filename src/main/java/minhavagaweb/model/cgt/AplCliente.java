@@ -8,9 +8,15 @@ package minhavagaweb.model.cgt;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import javax.servlet.http.HttpSession;
+import minhavagaweb.controller.GenController;
+import minhavagaweb.controller.LoginInterceptor;
 import minhavagaweb.model.cdp.CPF;
+import minhavagaweb.model.cdp.Cartao;
 import minhavagaweb.model.cdp.Cliente;
 import minhavagaweb.model.cdp.Email;
+import minhavagaweb.model.cdp.ValidaCartao;
+import minhavagaweb.model.cgd.CartaoDAOImpl;
 import minhavagaweb.model.cgd.PessoaDAOImpl;
 
 /**
@@ -18,15 +24,14 @@ import minhavagaweb.model.cgd.PessoaDAOImpl;
  * @author landerson
  */
 public class AplCliente {
+
     private static final String TELACADASTROCARTAO = "cartao";
-    private static final String TELACADASTROCLIENTE = "cliente";
-    private static final String TELASOLICITACAO = "solicitarReserva";
     private static final String TELAEMAILREGISTRADO = "emailRegistrado";
-    
+
     private AplCliente() {
         throw new IllegalStateException("AplCliente");
     }
-    
+
     public static String cadastrarCliente(
             Cliente p, String datanascimento,
             String cadastrar) throws ParseException {
@@ -41,14 +46,51 @@ public class AplCliente {
             try {
                 dao.insert(p);
                 if (cadastrar != null) {
-                    return TELACADASTROCARTAO;
+                    return AplCliente.TELACADASTROCARTAO;
                 } else {
-                    return TELASOLICITACAO;
+                    return GenController.TELASOLICITACAO;
                 }
             } catch (ClassNotFoundException | SQLException e) {
                 return TELAEMAILREGISTRADO;
             }
         }
-        return TELACADASTROCLIENTE;
+        return GenController.TELACADASTROCLIENTE;
+    }
+
+    public static String fazerLogin(Cliente p, HttpSession session) {
+        if (verificarLogin(p.getEmail(), p.getSenha())) {
+            session.setAttribute(LoginInterceptor.USERLOGGED, p);
+            return GenController.TELASOLICITACAO;
+        } else {
+            return LoginInterceptor.LOGININCORRETO;
+        }
+    }
+
+    private static boolean verificarLogin(String email, String senha) {
+        PessoaDAOImpl dao = new PessoaDAOImpl();
+        Boolean result;
+        try {
+            result = dao.selectLogin(email, senha);
+        } catch (ClassNotFoundException | SQLException e) {
+            result = false;
+        }
+        return result;
+    }
+
+    public static String cadastrarCartao(Cartao c) {
+        CartaoDAOImpl dao = new CartaoDAOImpl();
+        String pagina;
+        if (ValidaCartao.validCC(c.getNumeroCartao())) {
+            try {
+                dao.insert(c);
+            }
+            catch (ClassNotFoundException | SQLException e) {
+                return AplCliente.TELACADASTROCARTAO;
+            }
+            pagina = GenController.TELASOLICITACAO;
+        } else {
+            pagina = GenController.CARTAO_INVALIDO;
+        }
+        return pagina;
     }
 }
