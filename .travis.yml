@@ -26,18 +26,3 @@ branches:
 
 notifications:
     slack: bsi-ifserra:TYWamFXEYGbYjKP2ZwLUZECP
-
-#before_deploy:
-#    - apt-get install heroku
-#    - heroku
-#    - heroku plugins:install heroku-cli-deploy
-#deploy:
-#    provider: heroku
-#    api-key: 
-#        secure: $HEROKU_API_KEY
-#    skip_cleanup: true
-#    app: minhavagaweb
-#
-#after_deploy:
-#    - ls -R
-#*/

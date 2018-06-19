@@ -5,6 +5,7 @@
  */
 package minhavagaweb.model.cdp;
 
+import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.Calendar;
 
@@ -12,16 +13,16 @@ import java.util.Calendar;
  *
  * @author landerson
  */
-public class Reserva {
+public class Reserva implements Serializable{
     private int id;
     private LocalTime horaChegada;
     private LocalTime horaSaida;
     private Calendar dataChegada;
     private Calendar dataSaida;
 
-    private Vaga vagaReservada;
-    private Cliente cliente;
-    private Pagamento pagamento;
+    private transient Vaga vagaReservada;
+    private transient Cliente cliente;
+    private transient Pagamento pagamento;
 
     public LocalTime getHoraChegada() {
         return horaChegada;

@@ -5,6 +5,7 @@
  */
 package minhavagaweb.model.cdp;
 
+import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.Calendar;
 
@@ -12,7 +13,7 @@ import java.util.Calendar;
  *
  * @author landerson
  */
-public class SolicitacaoReserva {
+public class SolicitacaoReserva implements Serializable{
     private Calendar dataSolicitacao;
     private LocalTime horaSolicitacao;
     private Reserva reserva;

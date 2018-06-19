@@ -5,6 +5,7 @@
  */
 package minhavagaweb.model.cdp;
 
+import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,7 +13,7 @@ import java.util.regex.Pattern;
  *
  * @author ISM
  */
-public class Email {
+public class Email implements Serializable{
     
     private String endEmail;
 

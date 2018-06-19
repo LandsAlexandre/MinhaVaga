@@ -8,9 +8,9 @@ package minhavagaweb.controller;
 import minhavagaweb.model.cdp.Cartao;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import minhavagaweb.model.cdp.*;
 import minhavagaweb.model.cgd.*;
+import minhavagaweb.model.cgt.AplCliente;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,14 +22,13 @@ import org.springframework.web.servlet.ModelAndView;
  * @author 20142bsi0070
  */
 @Controller
-public class AplCliente {
+public class GenController {
 
     private static final String SOLICITACAO = "solicitarReserva";
     private static final String HOMEPAGE = "home";
     private static final String CARTAO_INVALIDO = "cartao-invalido";
     private static final String INDEX = "index";
     private static final String TELACADASTROCLIENTE = "cliente";
-    private static final String TELACADASTROCARTAO = "cliente";
     private static final String TELALOGIN = "login";
 
     @RequestMapping(value = TELACADASTROCLIENTE, method = RequestMethod.GET)
@@ -61,26 +60,7 @@ public class AplCliente {
     public String cadastrarCliente(
             Cliente p, @RequestParam("datanascimento") String datanascimento,
             @RequestParam(value = "cadastrarCartao", required = false) String cadastrar) throws ParseException {
-
-        PessoaDAOImpl dao = new PessoaDAOImpl();
-
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-        java.sql.Date data = new java.sql.Date(formato.parse(datanascimento).getTime());
-        p.setNascimento(data);
-
-        if (CPF.isCPFValido(p.getCpf()) && Email.isEmailValido(p.getEmail())) {
-            try {
-                dao.insert(p);
-                if (cadastrar != null) {
-                    return "cartao";
-                } else {
-                    return SOLICITACAO;
-                }
-            } catch (ClassNotFoundException | SQLException e) {
-                return "emailRegistrado";
-            }
-        }
-        return TELACADASTROCLIENTE;
+        return AplCliente.cadastrarCliente(p, datanascimento, cadastrar);
     }
 
     /*

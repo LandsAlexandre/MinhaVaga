@@ -8,8 +8,8 @@ package minhavagaweb.teste;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import minhavagaweb.controller.AplCliente;
 import minhavagaweb.model.cdp.*;
+import minhavagaweb.model.cgt.AplCliente;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -47,14 +47,13 @@ public class CadastrarUsuario {
     @When("^eu cadastre um e-mail que já está cadastrado$")
     public void eu_cadastre_um_e_mail_que_já_está_cadastrado() throws Throwable {
         String email = "JuliaRodrigues6@hotmail.com";
-        AplCliente apl = new AplCliente();
         Cliente c = new Cliente();
         c.setCpf("11307925014");
         c.setEmail(email);
         c.setNome("Zé");
         c.setSenha("0000");
 
-        assertEquals("emailRegistrado", apl.cadastrarCliente(c, "20/01/2001", null));
+        assertEquals("emailRegistrado", AplCliente.cadastrarCliente(c, "20/01/2001", null));
 
     }
 
