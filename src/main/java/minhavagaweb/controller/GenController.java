@@ -25,7 +25,7 @@ public class GenController {
     public static final String TELASOLICITACAO = "solicitarReserva";
     public static final String HOMEPAGE = "home";
     public static final String CARTAO_INVALIDO = "cartao-invalido";
-    public static final String INDEX = "index";
+    public static final String TELAINDEX = "index";
     public static final String TELACADASTROCLIENTE = "cliente";
     public static final String TELALOGIN = "login";
 
@@ -44,9 +44,9 @@ public class GenController {
         return new ModelAndView(GenController.TELASOLICITACAO);
     }
 
-    @RequestMapping(INDEX)
+    @RequestMapping(TELAINDEX)
     public ModelAndView index() {
-        return new ModelAndView(GenController.INDEX);
+        return new ModelAndView(GenController.TELAINDEX);
     }
 
     @RequestMapping(TELALOGIN)
