@@ -19,9 +19,9 @@ public class Pagamento  implements Serializable{
     private boolean pago;
     private String formaPagamento;
     
-    private Cliente cliente;
-    private Cartao cartao;
-    private Reserva reserva;
+    private transient Cliente cliente;
+    private transient Cartao cartao;
+    private transient Reserva reserva;
     
     public double getValor() {
         return valor;

@@ -5,6 +5,7 @@
  */
 package minhavagaweb.model.cdp;
 
+import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
  *
  * @author landerson
  */
-public class Estacionamento {
+public class Estacionamento implements Serializable{
     private int id;
     private String nome;
     private LocalTime horarioAbertura;
@@ -21,8 +22,8 @@ public class Estacionamento {
     private float valorPorHora;
     private int capacidade;
     
-    private List<Vaga> vagas = new ArrayList<>();
-    private Localizacao local;
+    private transient List<Vaga> vagas = new ArrayList<>();
+    private transient Localizacao local;
 
     public String getNome() {
         return nome;

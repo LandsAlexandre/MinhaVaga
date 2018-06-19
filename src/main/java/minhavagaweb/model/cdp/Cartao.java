@@ -6,20 +6,21 @@
 package minhavagaweb.model.cdp;
 
 
+import java.io.Serializable;
 import java.util.Calendar;
 
 /**
  *
  * @author landerson
  */
-public class Cartao {
+public class Cartao implements Serializable{
     private int id;
     private String nomeTitular;
     private String numeroCartao;
     private Calendar dataValidade;
     private String cvv;
     
-    private Cliente cliente;
+    private transient Cliente cliente;
 
     public String getNomeTitular() {
         return nomeTitular;

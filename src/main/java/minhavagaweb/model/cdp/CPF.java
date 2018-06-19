@@ -5,11 +5,13 @@
  */
 package minhavagaweb.model.cdp;
 
+import java.io.Serializable;
+
 /**
  *
  * @author ISM
  */
-public class CPF {
+public class CPF implements Serializable{
     
     private String numCpf;
 

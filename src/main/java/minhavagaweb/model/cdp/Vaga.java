@@ -5,18 +5,20 @@
  */
 package minhavagaweb.model.cdp;
 
+import java.io.Serializable;
+
 /**
  *
  * @author landerson
  */
-public class Vaga {
+public class Vaga implements Serializable{
     private int id;
     private boolean status;
     private boolean cobertura;
     
-    private TipoVaga tipo;
-    private Localizacao local;
-    private Estacionamento estacionamento;
+    private transient TipoVaga tipo;
+    private transient Localizacao local;
+    private transient Estacionamento estacionamento;
     
     public int getId() {
         return id;

@@ -5,11 +5,13 @@
  */
 package minhavagaweb.model.cdp;
 
+import java.io.Serializable;
+
 /**
  *
  * @author landerson
  */
-public class Localizacao {
+public class Localizacao implements Serializable{
     private int id;
     private double latitude;
     private double longitude;
