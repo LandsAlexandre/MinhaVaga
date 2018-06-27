@@ -14,8 +14,8 @@ import java.util.List;
  */
 public class Cliente extends Pessoa{
 
-    private List<Cartao> cartoes = new ArrayList<>();
-    private Pagamento pagamento;
+    private final List<Cartao> cartoes = new ArrayList<>();
+    private final List<Pagamento> pagamento = new ArrayList<>();
     private SolicitacaoReserva solicitacao;
 
     public List<Cartao> getCartoes() {
@@ -26,12 +26,12 @@ public class Cliente extends Pessoa{
         this.cartoes.add(cartao);
     }
 
-    public Pagamento getPagamento() {
+    public List<Pagamento> getPagamento() {
         return pagamento;
     }
 
-    public void setPagamento(Pagamento pagamento) {
-        this.pagamento = pagamento;
+    public void addPagamento(Pagamento pagamento) {
+        this.pagamento.add(pagamento);
     }
 
     public SolicitacaoReserva getSolicitacao() {
