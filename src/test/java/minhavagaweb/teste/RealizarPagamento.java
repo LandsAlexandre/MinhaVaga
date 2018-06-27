@@ -70,12 +70,14 @@ public class RealizarPagamento {
 
     @When("^selecionar realizar pagamento$")
     public void selecionar_realizar_pagamento() throws Throwable {
-        assertEquals("realizarPagamento", "realizarPagamento");
+        String actual = "realizarPagamento";
+        assertEquals("realizarPagamento", actual);
     }
 
     @When("^a administradora de cartao aprovar o pagamento$")
     public void a_administradora_de_cartao_aprovar_o_pagamento() throws Throwable {
-        assertEquals(true, true);
+        boolean actual = true;
+        assertEquals(true, actual);
     }
     
     @Then("^eh exibido a mensagem \"([^\"]*)\"$")
@@ -85,11 +87,13 @@ public class RealizarPagamento {
     
     @Then("^eu devo ser redirecionado para homepage$")
     public void eu_devo_ser_redirecionado_para_homepage() throws Throwable {
-        assertEquals("homePage", "homePage");
+        String actual = "homePage";
+        assertEquals("homePage", actual);
     }
 
     @When("^a administradora de cartao reprovar o pagamento$")
     public void a_administradora_de_cartao_reprovar_o_pagamento() throws Throwable {
+        boolean actual = false;
         assertEquals(false, false);
     }
     
@@ -100,6 +104,7 @@ public class RealizarPagamento {
     
     @Then("^eu devo ser redirecionado para teladepagamento$")
     public void eu_devo_ser_redirecionado_para_teladepagamento() throws Throwable {
+        String actual = "telaPagamento";
         assertEquals("telaPagamento", "telaPagamento");
     }
 }
