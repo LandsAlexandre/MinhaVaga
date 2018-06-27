@@ -94,7 +94,7 @@ public class RealizarPagamento {
     @When("^a administradora de cartao reprovar o pagamento$")
     public void a_administradora_de_cartao_reprovar_o_pagamento() throws Throwable {
         boolean actual = false;
-        assertEquals(false, false);
+        assertEquals(false, actual);
     }
     
     @Then("^eh mostrado a mensagem \"([^\"]*)\"$")
