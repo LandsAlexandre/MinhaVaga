@@ -105,6 +105,6 @@ public class RealizarPagamento {
     @Then("^eu devo ser redirecionado para teladepagamento$")
     public void eu_devo_ser_redirecionado_para_teladepagamento() throws Throwable {
         String actual = "telaPagamento";
-        assertEquals("telaPagamento", "telaPagamento");
+        assertEquals("telaPagamento", actual);
     }
 }
