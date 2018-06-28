@@ -25,8 +25,8 @@ import minhavagaweb.model.cgd.PessoaDAOImpl;
  */
 public class AplCliente {
 
-    private static final String TELACADASTROCARTAO = "cartao";
-    private static final String TELAEMAILREGISTRADO = "emailRegistrado";
+    public static final String TELACADASTROCARTAO = "cartao";
+    public static final String TELAEMAILREGISTRADO = "emailRegistrado";
 
     private AplCliente() {
         throw new IllegalStateException("AplCliente");
@@ -36,7 +36,7 @@ public class AplCliente {
             Cliente p, String datanascimento,
             String cadastrar) throws ParseException {
 
-        PessoaDAOImpl dao = new PessoaDAOImpl();
+        PessoaDAOImpl<Cliente> dao = new PessoaDAOImpl<>();
 
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         java.sql.Date data = new java.sql.Date(formato.parse(datanascimento).getTime());
@@ -67,7 +67,7 @@ public class AplCliente {
     }
 
     private static boolean verificarLogin(String email, String senha) {
-        PessoaDAOImpl dao = new PessoaDAOImpl();
+        PessoaDAOImpl<Cliente> dao = new PessoaDAOImpl<>();
         Boolean result;
         try {
             result = dao.selectLogin(email, senha);
@@ -78,7 +78,7 @@ public class AplCliente {
     }
 
     public static String cadastrarCartao(Cartao c) {
-        CartaoDAOImpl dao = new CartaoDAOImpl();
+        CartaoDAOImpl<Cartao> dao = new CartaoDAOImpl<>();
         String pagina;
         if (ValidaCartao.validCC(c.getNumeroCartao())) {
             try {
