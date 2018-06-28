@@ -5,6 +5,7 @@
  */
 package minhavagaweb.model.cgd;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,19 +19,19 @@ import minhavagaweb.model.persistencia.Conector;
 
 public class EstacionamentoDAOImpl<G> extends Conector implements GenericDAO<G> {
 
-    private static final String SELECT = "SELECT * FROM estacionamento;";
+    private static final String SELECT = "SELECT * FROM estacionamento ";
     private static final String INSERT = "INSERT INTO estacionamento (id_estacionamento,nome,capacidade,"
-            + "valor_hora,hora_abre,hora_fecha,id_localizacao) VALUES(?,?,?,?,?,?,?);";
+            + "valor_hora,horario_abre,horario_fecha,id_localizacao) VALUES(?,?,?,?,?,?,?);";
     private static final String DELETE = "DELETE FROM estacionamento WHERE id_estacionamento = ?;";
     private static final String UPDATE = "UPDATE estacionamento SET (nome,capacidade,"
-            + "valor_hora,hora_abre,hora_fecha,id_localizacao) = (?,?,?,?,?,?) WHERE id_estacionamento = ?;";
+            + "valor_hora,horario_abre,horario_fecha,id_localizacao) = (?,?,?,?,?,?) WHERE id_estacionamento = ?;";
 
     private static final String ID_ESTACIONAMENTO = "id_estacionamento";
     private static final String NOME = "nome";
     private static final String CAPACIDADE = "capacidade";
     private static final String VALOR_HORA = "valor_hora";
-    private static final String HORA_ABERTURA = "hora_abre";
-    private static final String HORA_FECHAMENTO = "hora_fecha";
+    private static final String HORA_ABERTURA = "horario_abre";
+    private static final String HORA_FECHAMENTO = "horario_fecha";
     private static final String ID_LOCAL = "id_localizacao";
     private static final String ORDER = "ORDER BY id_estacionamento ASC";
 
@@ -48,7 +49,7 @@ public class EstacionamentoDAOImpl<G> extends Conector implements GenericDAO<G> 
                 estacionamento.setId(result.getInt(ID_ESTACIONAMENTO));
                 estacionamento.setNome(result.getString(NOME));
                 estacionamento.setCapacidade(result.getInt(CAPACIDADE));
-                estacionamento.setValorPorHora(result.getFloat(VALOR_HORA));
+                estacionamento.setValorPorHora(result.getBigDecimal(VALOR_HORA).floatValue());
                 estacionamento.setHorarioAbertura(result.getTime(HORA_ABERTURA).toLocalTime());
                 estacionamento.setHorarioFechamento(result.getTime(HORA_FECHAMENTO).toLocalTime());
 
@@ -91,11 +92,10 @@ public class EstacionamentoDAOImpl<G> extends Conector implements GenericDAO<G> 
             LocalTime abertura = ((Estacionamento) obj).getHorarioAbertura();
             LocalTime fechamento = ((Estacionamento) obj).getHorarioFechamento();
             Localizacao local = ((Estacionamento) obj).getLocal();
-
             statement.setInt(1, this.getNextId(SELECT + ORDER, ID_ESTACIONAMENTO));
             statement.setString(2, nome);
             statement.setInt(3, capacidade);
-            statement.setFloat(4, valor);
+            statement.setBigDecimal(4, BigDecimal.valueOf(valor));
             statement.setTime(5, java.sql.Time.valueOf(abertura));
             statement.setTime(6, java.sql.Time.valueOf(fechamento));
             statement.setInt(7, local.getId());
@@ -121,7 +121,7 @@ public class EstacionamentoDAOImpl<G> extends Conector implements GenericDAO<G> 
 
             statement.setString(1, nome);
             statement.setInt(2, capacidade);
-            statement.setFloat(3, valor);
+            statement.setBigDecimal(3, BigDecimal.valueOf(valor));
             statement.setTime(4, java.sql.Time.valueOf(abertura));
             statement.setTime(5, java.sql.Time.valueOf(fechamento));
             statement.setInt(6, local.getId());

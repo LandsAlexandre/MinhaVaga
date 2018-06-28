@@ -25,13 +25,13 @@ public class EfetuarLogin {
 
     @Given("^usuário cadastrado$")
     public void usuário_cadastrado() throws Throwable {
-        Pessoa pessoa = (Pessoa) pessoaDAO.getById(22);
+        Pessoa pessoa = (Pessoa) pessoaDAO.getById(1);
         assertNotNull(pessoa);
     }
 
     @When("^eu tentar logar com dados válidos$")
     public void eu_tentar_logar_com_dados_válidos() throws Throwable {
-        boolean loginValido = pessoaDAO.selectLogin("helenfranca93@gmail.com", "lela123");
+        boolean loginValido = pessoaDAO.selectLogin("CauãPires1@yahoo.com.br", "E9#8EheXc$");
         assertEquals(true, loginValido);
     }
 

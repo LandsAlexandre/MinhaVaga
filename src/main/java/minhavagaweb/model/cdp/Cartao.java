@@ -19,8 +19,6 @@ public class Cartao implements Serializable{
     private String numeroCartao;
     private Calendar dataValidade;
     private String cvv;
-    
-    private transient Cliente cliente;
 
     public String getNomeTitular() {
         return nomeTitular;
@@ -52,14 +50,6 @@ public class Cartao implements Serializable{
 
     public void setCvv(String cvv) {
         this.cvv = cvv;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
     }
 
     public int getId() {

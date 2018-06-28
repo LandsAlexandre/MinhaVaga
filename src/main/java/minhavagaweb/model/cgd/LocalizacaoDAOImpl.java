@@ -11,7 +11,7 @@ import minhavagaweb.model.persistencia.Conector;
 
 public class LocalizacaoDAOImpl<G> extends Conector implements GenericDAO<G> {
 
-    private static final String SELECT = "SELECT * FROM localizacao;";
+    private static final String SELECT = "SELECT * FROM localizacao ";
     private static final String INSERT = "INSERT INTO localizacao (id_localizacao,latitude,"
             + "longitude) VALUES (?,?,?);";
     private static final String DELETE = "DELETE FROM localizacao WHERE id_localizacao = ?;";
@@ -28,7 +28,7 @@ public class LocalizacaoDAOImpl<G> extends Conector implements GenericDAO<G> {
     @Override
     public List<G> getAll() throws SQLException, ClassNotFoundException {
         try (Connection connection = this.openConnection();
-                PreparedStatement statement = connection.prepareStatement(SELECT);
+                PreparedStatement statement = connection.prepareStatement(SELECT+"ORDER BY id_localizacao DESC");
                 ResultSet result = statement.executeQuery();) {
 
             while (result.next()) {
