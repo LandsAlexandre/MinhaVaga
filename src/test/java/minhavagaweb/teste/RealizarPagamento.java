@@ -8,10 +8,16 @@ package minhavagaweb.teste;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+
+import java.time.LocalTime;
+import java.util.Calendar;
 import java.util.List;
 import minhavagaweb.model.cdp.Cartao;
 import minhavagaweb.model.cdp.Cliente;
 import minhavagaweb.model.cdp.Pagamento;
+import minhavagaweb.model.cdp.Reserva;
+import minhavagaweb.model.cdp.SolicitacaoReserva;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -23,6 +29,8 @@ public class RealizarPagamento {
     Cliente c;
     Pagamento pagamentoGerado;
     Cartao card;
+    SolicitacaoReserva sReserva;
+    Reserva reserva;
     List<Pagamento> listaPgmto;
     List<Cartao> listaCartoes;
 
@@ -36,15 +44,35 @@ public class RealizarPagamento {
             c.setSenha("0000");
 
             pagamentoGerado = new Pagamento();
+            pagamentoGerado.setValor(12);
+            pagamentoGerado.setId(30000000);
+            pagamentoGerado.setFormaPagamento("Dinheiro");
+            pagamentoGerado.setDataPagamento(Calendar.getInstance());
             pagamentoGerado.setPago(false);
 
             c.addPagamento(pagamentoGerado);
+            
+            sReserva = new SolicitacaoReserva();
+            sReserva.setDataSolicitacao(Calendar.getInstance());
+            sReserva.setHoraSolicitacao(LocalTime.now());
+            
+            reserva = new Reserva();
+            reserva.setHoraChegada(LocalTime.now());
+            reserva.setDataChegada(Calendar.getInstance());
+            reserva.setId(30000000);
+            reserva.setDataSaida(Calendar.getInstance());
+            reserva.setHoraSaida(LocalTime.now().plusHours(2));
+            reserva.setCliente(c);
+            reserva.setPagamento(pagamentoGerado);
+            
+            sReserva.setReserva(reserva);
+            
+            c.setSolicitacao(sReserva);
+            
             listaPgmto = c.getPagamento();
 
             card = new Cartao();
             card.setNumeroCartao("4556705017773858");
-            //26/11/2018
-            //751
             c.addCartao(card);
             listaCartoes = c.getCartoes();
         }
