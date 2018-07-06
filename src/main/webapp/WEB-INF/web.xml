@@ -51,6 +51,27 @@
         <servlet-name>appServlet</servlet-name>
         <url-pattern>/efetuaLogin</url-pattern>
     </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>appServlet</servlet-name>
+        <url-pattern>/encontrarVaga</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>appServlet</servlet-name>
+        <url-pattern>/confirmaSolicitacao</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>appServlet</servlet-name>
+        <url-pattern>/solicitacaoConfirmada</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>appServlet</servlet-name>
+        <url-pattern>/reservas</url-pattern>
+    </servlet-mapping>
+    
     <welcome-file-list>
         <welcome-file>index</welcome-file>
     </welcome-file-list>    
