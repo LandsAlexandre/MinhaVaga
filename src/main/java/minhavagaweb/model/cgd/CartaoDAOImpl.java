@@ -99,14 +99,13 @@ public class CartaoDAOImpl<G> extends Conector implements GenericDAO<G> {
             String cvv = ((Cartao) obj).getCvv();
             String numero = ((Cartao) obj).getNumeroCartao();
             Calendar dataValidade = ((Cartao) obj).getDataValidade();
-            int id = ((Cartao) obj).getId();
 
             statement.setString(1, nomeTitular);
             statement.setString(2, numero);
             statement.setString(3, cvv);
             statement.setDate(4, new java.sql.Date(dataValidade.getTimeInMillis()));
 
-            statement.setInt(5, id);
+            statement.setInt(5, 1);
             statement.execute();
         } finally {
             this.closeConnection(con);

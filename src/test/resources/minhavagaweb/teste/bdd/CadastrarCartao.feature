@@ -13,14 +13,6 @@ Scenario: Cartão inválido
     Then deve me aparecer a mensagem "Cartão inválido!"
     And serei redirecionado para a tela de inserção de dados
 
-Scenario: Atualizando um cartao
-	Given eu tenha um cartao cadastrado
-	When eu atualizar seus dados
-	Then eu deverei ver a mensagem "Atualização completa!"
 
-Scenario: Deletando um cartao
-	Given eu ja tenha um cartao cadastrado
-	When eu deletar este cartao
-	Then ele nao estara mais guardado
 
 

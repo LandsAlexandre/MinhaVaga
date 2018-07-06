@@ -50,7 +50,7 @@ public class RealizarPagamento {
             pagamentoGerado.setDataPagamento(Calendar.getInstance());
             pagamentoGerado.setPago(false);
 
-            c.addPagamento(pagamentoGerado);
+            c.setPagamento(pagamentoGerado);
             
             sReserva = new SolicitacaoReserva();
             sReserva.setDataSolicitacao(Calendar.getInstance());
@@ -69,7 +69,7 @@ public class RealizarPagamento {
             
             c.setSolicitacao(sReserva);
             
-            listaPgmto = c.getPagamento();
+            listaPgmto = c.getPagamentos();
 
             card = new Cartao();
             card.setNumeroCartao("4556705017773858");

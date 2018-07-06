@@ -8,7 +8,7 @@ package minhavagaweb.controller;
 import minhavagaweb.model.cdp.Cartao;
 import java.text.ParseException;
 import minhavagaweb.model.cdp.*;
-import minhavagaweb.model.cgt.AplCliente;
+import minhavagaweb.model.cgt.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -41,7 +41,16 @@ public class GenController {
 
     @RequestMapping(TELASOLICITACAO)
     public ModelAndView solicitarReserva() {
-        return new ModelAndView(GenController.TELASOLICITACAO);
+        AplSolicitacao aplSolicitacao = new AplSolicitacao();
+        Cliente cliente = new Cliente();
+        Pagamento pag = new Pagamento();
+        pag.setPago(true);
+        cliente.setPagamento(pag);
+        if (aplSolicitacao.verificaPendencia(cliente)) {
+            return new ModelAndView(GenController.HOMEPAGE);
+        } else {
+            return new ModelAndView(GenController.TELASOLICITACAO);
+        }
     }
 
     @RequestMapping(TELAINDEX)

@@ -32,9 +32,7 @@ public class AplCliente {
         throw new IllegalStateException("AplCliente");
     }
 
-    public static String cadastrarCliente(
-            Cliente p, String datanascimento,
-            String cadastrar) throws ParseException {
+    public static String cadastrarCliente(Cliente p, String datanascimento, String cadastrar) throws ParseException {
 
         PessoaDAOImpl<Cliente> dao = new PessoaDAOImpl<>();
 
