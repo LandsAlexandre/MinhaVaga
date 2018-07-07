@@ -21,28 +21,17 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class ControllerSolicita {
-
-    AplSolicitacao aplSolicitacao = new AplSolicitacao();
-    Vaga vagaReservada;
+	public static String TELACONFIRMARSOLICITACAO = "confirmaSolicitacao";
+	
     @RequestMapping(value = "encontrarVaga")
     public String encontrarVaga(@RequestParam("selectLocal") int estacionamento, @RequestParam("selectTipo") 
-            int tipo) throws SQLException, ClassNotFoundException {
-    	try {
-    		vagaReservada = aplSolicitacao.solicita(estacionamento, tipo);
-    		if (vagaReservada == null) {
-    			throw new NullPointerException();
-    		}
-    	}
-    	catch(NullPointerException n) {
-    		return "vagaNaoEncontrada";
-    	}
-        return "confirmaSolicitacao";
+            int tipo) throws ClassNotFoundException {
+    	return AplSolicitacao.encontrarVaga(estacionamento, tipo);
     }
     
     @RequestMapping("solicitacaoConfirmada")
     public void confirmada() throws SQLException, ClassNotFoundException {
-        Reserva reserva = new Reserva();
-        reserva.setVagaReservada(vagaReservada);
+        AplSolicitacao.confirmarSolicitacao();
     }
     
 

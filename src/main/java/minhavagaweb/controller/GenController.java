@@ -28,12 +28,18 @@ public class GenController {
     public static final String TELAINDEX = "index";
     public static final String TELACADASTROCLIENTE = "cliente";
     public static final String TELALOGIN = "login";
+    public static final String TELAVAGANENCONTRADA = "vagaNaoEncontrada";
 
     @RequestMapping(value = GenController.TELACADASTROCLIENTE, method = RequestMethod.GET)
     public ModelAndView cliente() {
         return new ModelAndView(GenController.TELACADASTROCLIENTE, "command", new Cliente());
     }
-
+    
+    @RequestMapping(TELAVAGANENCONTRADA)
+    public ModelAndView vagaNaoEncontrada() {
+    	return new ModelAndView(TELAVAGANENCONTRADA);
+    }
+    
     @RequestMapping(HOMEPAGE)
     public ModelAndView home() {
         return new ModelAndView(GenController.HOMEPAGE);
