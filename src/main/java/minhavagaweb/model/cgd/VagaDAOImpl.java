@@ -19,8 +19,8 @@ import minhavagaweb.model.persistencia.Conector;
 
 public class VagaDAOImpl<G> extends Conector implements GenericDAO<G> {
 
-    private static final String SELECT = "SELECT * FROM vaga ;";
-    private static final String SELECT_1 = "SELECT * FROM vaga WHERE nome = ?;";
+    private static final String SELECT = "SELECT * FROM vaga ";
+    private static final String SELECT_1 = "SELECT * FROM vaga WHERE id_estacionamento = ?;";
     private static final String INSERT = "INSERT INTO vaga (id_vaga,cobertura,"
             + "status,id_estacionamento,id_localizacao,id_id_tipo) VALUES (?,?,?,?,?,?);";
     private static final String DELETE = "DELETE FROM vaga WHERE id_vaga = ?;";
@@ -34,7 +34,7 @@ public class VagaDAOImpl<G> extends Conector implements GenericDAO<G> {
     private static final String ID_ESTACIONAMENTO = "id_estacionamento";
     private static final String ID_LOCAL = "id_localizacao";
     private static final String ID_TIPO = "id_tipo";
-    private static final String ORDER = "ORDER BY id_vaga ASC";
+    private static final String ORDER = "ORDER BY id_vaga ASC;";
 
     List<Vaga> vagas = new ArrayList<>();
 
@@ -42,7 +42,7 @@ public class VagaDAOImpl<G> extends Conector implements GenericDAO<G> {
     public List<G> getAll() throws SQLException, ClassNotFoundException {
         try (Connection connection = this.openConnection();
                 PreparedStatement statement = connection.prepareStatement(SELECT);
-                ResultSet result = statement.executeQuery();) {
+        		ResultSet result = statement.executeQuery();) {
 
             Vaga vaga;
             while (result.next()) {
@@ -51,12 +51,12 @@ public class VagaDAOImpl<G> extends Conector implements GenericDAO<G> {
                 vaga.setStatus(result.getBoolean(VagaDAOImpl.STATUS));
                 vaga.setCobertura(result.getBoolean(VagaDAOImpl.COBERTURA));
 
-                EstacionamentoDAOImpl dao1 = new EstacionamentoDAOImpl();
-                Estacionamento e = (Estacionamento) dao1.getById(result.getInt(VagaDAOImpl.ID_ESTACIONAMENTO));
+                EstacionamentoDAOImpl<Estacionamento> dao1 = new EstacionamentoDAOImpl<>();
+                Estacionamento e = dao1.getById(result.getInt(VagaDAOImpl.ID_ESTACIONAMENTO));
                 vaga.setEstacionamento(e);
 
-                LocalizacaoDAOImpl dao2 = new LocalizacaoDAOImpl();
-                Localizacao local = (Localizacao) dao2.getById(result.getInt(VagaDAOImpl.ID_LOCAL));
+                LocalizacaoDAOImpl<Localizacao> dao2 = new LocalizacaoDAOImpl<>();
+                Localizacao local = dao2.getById(result.getInt(VagaDAOImpl.ID_LOCAL));
                 vaga.setLocal(local);
                 int tipo = result.getInt(VagaDAOImpl.ID_TIPO);
 
@@ -84,49 +84,59 @@ public class VagaDAOImpl<G> extends Conector implements GenericDAO<G> {
         }
         return (List<G>) vagas;
     }
-/*
-    public Vaga getOneVaga(String nome) throws SQLException, ClassNotFoundException {
-        Vaga vaga = new Vaga();
-        try (Connection connection = this.openConnection();
+
+    public List<G> getAll(int idEstacionamento) throws SQLException, ClassNotFoundException {
+    	vagas = new ArrayList<>();
+    	try (Connection connection = this.openConnection();
                 PreparedStatement statement = connection.prepareStatement(SELECT_1)) {
-            statement.setString(1, nome);
+            
+        	statement.setInt(1, idEstacionamento);
             ResultSet result = statement.executeQuery();
-
-            result.next();
-
-            vaga.setId(result.getInt(VagaDAOImpl.ID_VAGA));
-            vaga.setStatus(result.getBoolean(VagaDAOImpl.STATUS));
-            vaga.setCobertura(result.getBoolean(VagaDAOImpl.COBERTURA));
-            EstacionamentoDAOImpl dao1 = new EstacionamentoDAOImpl();
-            Estacionamento e = (Estacionamento) dao1.getById(result.getInt(VagaDAOImpl.ID_ESTACIONAMENTO));
-            vaga.setEstacionamento(e);
-            LocalizacaoDAOImpl dao2 = new LocalizacaoDAOImpl();
-            Localizacao local = (Localizacao) dao2.getById(result.getInt(VagaDAOImpl.ID_LOCAL));
-            vaga.setLocal(local);
-            int tipo = result.getInt(VagaDAOImpl.ID_TIPO);
-
-            switch (tipo) {
-                case 1:
-                    vaga.setTipo(TipoVaga.COMUM);
-                    break;
-                case 2:
-                    vaga.setTipo(TipoVaga.MOTO);
-                    break;
-                case 3:
-                    vaga.setTipo(TipoVaga.IDOSO);
-                    break;
-                case 4:
-                    vaga.setTipo(TipoVaga.DEFICIENTE);
-                    break;
-                default:
-                    break;
+            Vaga vaga;
+            int i = 0;
+            while(result.next()) {
+            	System.out.println(i);
+            	i++;
+            	vaga = new Vaga();
+	            vaga.setId(result.getInt(VagaDAOImpl.ID_VAGA));
+	            vaga.setStatus(result.getBoolean(VagaDAOImpl.STATUS));
+	            vaga.setCobertura(result.getBoolean(VagaDAOImpl.COBERTURA));
+	            
+	            EstacionamentoDAOImpl<Estacionamento> dao1 = new EstacionamentoDAOImpl<>();
+	            Estacionamento e = dao1.getById(result.getInt(VagaDAOImpl.ID_ESTACIONAMENTO));
+	            
+	            vaga.setEstacionamento(e);
+	            
+	            LocalizacaoDAOImpl<Localizacao> dao2 = new LocalizacaoDAOImpl<>();
+	            Localizacao local = dao2.getById(result.getInt(VagaDAOImpl.ID_LOCAL));
+	            
+	            vaga.setLocal(local);
+	            int tipo = result.getInt(VagaDAOImpl.ID_TIPO);
+	
+	            switch (tipo) {
+	                case 1:
+	                    vaga.setTipo(TipoVaga.COMUM);
+	                    break;
+	                case 2:
+	                    vaga.setTipo(TipoVaga.MOTO);
+	                    break;
+	                case 3:
+	                    vaga.setTipo(TipoVaga.IDOSO);
+	                    break;
+	                case 4:
+	                    vaga.setTipo(TipoVaga.DEFICIENTE);
+	                    break;
+	                default:
+	                    break;
+	            }
+	            vagas.add(vaga);
             }
         } finally {
             this.closeConnection(con);
         }
-        return vaga;
+        return (List<G>) vagas;
     }
-*/
+
     @Override
     public G getById(int id) throws SQLException, ClassNotFoundException {
         Vaga vaga = null;
