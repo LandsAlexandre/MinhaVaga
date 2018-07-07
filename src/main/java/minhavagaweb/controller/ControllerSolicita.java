@@ -5,15 +5,12 @@
  */
 package minhavagaweb.controller;
 
-import java.sql.SQLException;
-import javax.servlet.http.HttpServletRequest;
-import minhavagaweb.model.cdp.*;
-import minhavagaweb.model.cgt.AplSolicitacao;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import minhavagaweb.model.cgt.AplSolicitacao;
 
 /**
  *
@@ -21,8 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class ControllerSolicita {
-	public static String TELACONFIRMARSOLICITACAO = "confirmaSolicitacao";
-	
+	public static final String TELACONFIRMARSOLICITACAO = "confirmaSolicitacao";
+	public static final String TELAMINHASRESERVAS = "reservas"; 
     @RequestMapping(value = "encontrarVaga")
     public String encontrarVaga(@RequestParam("selectLocal") int estacionamento, @RequestParam("selectTipo") 
             int tipo) throws ClassNotFoundException {
@@ -30,16 +27,14 @@ public class ControllerSolicita {
     }
     
     @RequestMapping("solicitacaoConfirmada")
-    public void confirmada() throws SQLException, ClassNotFoundException {
+    public void confirmada() {
         AplSolicitacao.confirmarSolicitacao();
     }
     
 
-    @RequestMapping(value = "reservas")
-    public void minhasReservas() throws SQLException, ClassNotFoundException {
-
-        System.out.println("Minhas reservas");
-
+    @RequestMapping(TELAMINHASRESERVAS)
+    public ModelAndView minhasReservas() {
+    	return new ModelAndView(TELAMINHASRESERVAS);
     }
 
 }

@@ -24,7 +24,7 @@ public class Estacionamento implements Serializable{
     private float valorPorHora;
     private int capacidade;
     
-    private transient List<Vaga> vagas = new ArrayList<Vaga>();
+    private transient List<Vaga> vagas = new ArrayList<>();
     private transient Localizacao local = new Localizacao();
 
     public String getNome() {
@@ -97,7 +97,6 @@ public class Estacionamento implements Serializable{
     		 try {
 				vagas = vagaDAO.getAll(this.id);
 			} catch (ClassNotFoundException | SQLException e) {
-				System.out.println("vagas.isEmpty()");
 				return null;
 			}
 		 }

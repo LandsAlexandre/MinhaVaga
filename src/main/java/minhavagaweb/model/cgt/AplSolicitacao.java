@@ -19,7 +19,6 @@ import minhavagaweb.model.cgd.*;
  * @author ISM
  */
 public class AplSolicitacao {
-    private static Estacionamento park = new Estacionamento();
     private static EstacionamentoDAOImpl<Estacionamento> estacionaDAO = new EstacionamentoDAOImpl<>();
     private static Vaga vagaSolicitada = new Vaga();
     
@@ -28,7 +27,8 @@ public class AplSolicitacao {
     }
     
     public static String encontrarVaga(int idEstacionamento,int idTipo) throws ClassNotFoundException {
-		try {
+    	Estacionamento park = new Estacionamento();
+    	try {
 			park = estacionaDAO.getById(idEstacionamento);
 			vagaSolicitada = park.getVagaDisponivel(idTipo);
 			if (vagaSolicitada.getId() != 0 || park.getId() != 0) {
