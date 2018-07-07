@@ -23,6 +23,7 @@ branches:
     - devHelen
     - devMalu
     - devLands
+    - resolvingConflicts
 
 notifications:
     slack: bsi-ifserra:TYWamFXEYGbYjKP2ZwLUZECP
