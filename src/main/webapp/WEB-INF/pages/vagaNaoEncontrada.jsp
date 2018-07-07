@@ -12,7 +12,7 @@
 	        
 		</script>
 	</head>
-	<body>
-		onload="show()"
+	<body
+		onload="show()">
 	</body>
 </html>
