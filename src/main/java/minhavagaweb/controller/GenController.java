@@ -45,20 +45,6 @@ public class GenController {
         return new ModelAndView(GenController.HOMEPAGE);
     }
 
-    @RequestMapping(TELASOLICITACAO)
-    public ModelAndView solicitarReserva() {
-        AplSolicitacao aplSolicitacao = new AplSolicitacao();
-        Cliente cliente = new Cliente();
-        Pagamento pag = new Pagamento();
-        pag.setPago(true);
-        cliente.setPagamento(pag);
-        if (aplSolicitacao.verificaPendencia(cliente)) {
-            return new ModelAndView(GenController.HOMEPAGE);
-        } else {
-            return new ModelAndView(GenController.TELASOLICITACAO);
-        }
-    }
-
     @RequestMapping(TELAINDEX)
     public ModelAndView index() {
         return new ModelAndView(GenController.TELAINDEX);
