@@ -20,7 +20,7 @@ import minhavagaweb.model.persistencia.Conector;
 public class VagaDAOImpl<G> extends Conector implements GenericDAO<G> {
 
     private static final String SELECT = "SELECT * FROM vaga ";
-    private static final String SELECT_1 = "SELECT * FROM vaga WHERE id_estacionamento = ?;";
+    private static final String SELECT_1 = "SELECT * FROM vaga WHERE id_estacionamento = ? and status = false LIMIT 5;";
     private static final String INSERT = "INSERT INTO vaga (id_vaga,cobertura,"
             + "status,id_estacionamento,id_localizacao,id_id_tipo) VALUES (?,?,?,?,?,?);";
     private static final String DELETE = "DELETE FROM vaga WHERE id_vaga = ?;";
@@ -91,46 +91,46 @@ public class VagaDAOImpl<G> extends Conector implements GenericDAO<G> {
                 PreparedStatement statement = connection.prepareStatement(SELECT_1)) {
             
         	statement.setInt(1, idEstacionamento);
-            ResultSet result = statement.executeQuery();
-            Vaga vaga;
-            int i = 0;
-            while(result.next()) {
-            	System.out.println(i);
-            	i++;
-            	vaga = new Vaga();
-	            vaga.setId(result.getInt(VagaDAOImpl.ID_VAGA));
-	            vaga.setStatus(result.getBoolean(VagaDAOImpl.STATUS));
-	            vaga.setCobertura(result.getBoolean(VagaDAOImpl.COBERTURA));
+            
+        	try (ResultSet result = statement.executeQuery()) {
+	            Vaga vaga;
 	            
-	            EstacionamentoDAOImpl<Estacionamento> dao1 = new EstacionamentoDAOImpl<>();
-	            Estacionamento e = dao1.getById(result.getInt(VagaDAOImpl.ID_ESTACIONAMENTO));
-	            
-	            vaga.setEstacionamento(e);
-	            
-	            LocalizacaoDAOImpl<Localizacao> dao2 = new LocalizacaoDAOImpl<>();
-	            Localizacao local = dao2.getById(result.getInt(VagaDAOImpl.ID_LOCAL));
-	            
-	            vaga.setLocal(local);
-	            int tipo = result.getInt(VagaDAOImpl.ID_TIPO);
-	
-	            switch (tipo) {
-	                case 1:
-	                    vaga.setTipo(TipoVaga.COMUM);
-	                    break;
-	                case 2:
-	                    vaga.setTipo(TipoVaga.MOTO);
-	                    break;
-	                case 3:
-	                    vaga.setTipo(TipoVaga.IDOSO);
-	                    break;
-	                case 4:
-	                    vaga.setTipo(TipoVaga.DEFICIENTE);
-	                    break;
-	                default:
-	                    break;
-	            }
-	            vagas.add(vaga);
-            }
+	            while(result.next()) {
+	            	vaga = new Vaga();
+		            vaga.setId(result.getInt(VagaDAOImpl.ID_VAGA));
+		            vaga.setStatus(result.getBoolean(VagaDAOImpl.STATUS));
+		            vaga.setCobertura(result.getBoolean(VagaDAOImpl.COBERTURA));
+		            
+		            EstacionamentoDAOImpl<Estacionamento> dao1 = new EstacionamentoDAOImpl<>();
+		            Estacionamento e = dao1.getById(result.getInt(VagaDAOImpl.ID_ESTACIONAMENTO));
+		            
+		            vaga.setEstacionamento(e);
+		            
+		            LocalizacaoDAOImpl<Localizacao> dao2 = new LocalizacaoDAOImpl<>();
+		            Localizacao local = dao2.getById(result.getInt(VagaDAOImpl.ID_LOCAL));
+		            
+		            vaga.setLocal(local);
+		            int tipo = result.getInt(VagaDAOImpl.ID_TIPO);
+		
+		            switch (tipo) {
+		                case 1:
+		                    vaga.setTipo(TipoVaga.COMUM);
+		                    break;
+		                case 2:
+		                    vaga.setTipo(TipoVaga.MOTO);
+		                    break;
+		                case 3:
+		                    vaga.setTipo(TipoVaga.IDOSO);
+		                    break;
+		                case 4:
+		                    vaga.setTipo(TipoVaga.DEFICIENTE);
+		                    break;
+		                default:
+		                    break;
+		            }
+		            vagas.add(vaga);
+	            }	            
+        	}
         } finally {
             this.closeConnection(con);
         }
