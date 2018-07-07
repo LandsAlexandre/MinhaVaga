@@ -32,8 +32,6 @@ public class AplSolicitacao {
 			park = estacionaDAO.getById(idEstacionamento);
 			vagaSolicitada = park.getVagaDisponivel(idTipo);
 			if (vagaSolicitada.getId() != 0 || park.getId() != 0) {
-				System.out.println("VS: " + vagaSolicitada);
-				System.out.println("ES: " + park);
 				throw new NullPointerException();
 			}
 		}
