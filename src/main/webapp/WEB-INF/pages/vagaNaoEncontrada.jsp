@@ -6,7 +6,7 @@
 	<title>Vaga não encontrada!</title>
 		<script>
 		    function show(){
-		    	alert("Infelizmente, não temos vaga disponíve neste momento!\n\nPor favor, tente novamente, em alguns minutos.");
+		    	alert("Infelizmente não temos vaga disponível neste momento!\n\nPor favor, tente novamente, em alguns minutos.");
 		        window.location.href="home";
 		    }
 	        
