@@ -54,6 +54,11 @@ public class GenController {
     public ModelAndView login() {
         return new ModelAndView(GenController.TELALOGIN, "Pessoa", new Pessoa());
     }
+    
+    @RequestMapping(TELASOLICITACAO)
+    public ModelAndView solicitarReserva() {
+        return new ModelAndView(TELASOLICITACAO);
+    }
 
     @RequestMapping(TELACADASTROCLIENTE)
     public String cadastrarCliente(
