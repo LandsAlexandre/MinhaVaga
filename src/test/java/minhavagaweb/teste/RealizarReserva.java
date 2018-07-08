@@ -65,8 +65,8 @@ public class RealizarReserva {
         Estacionamento estacionamento = new Estacionamento();
         estacionamento.adicionarVaga(vaga);
 
-        Vaga vaga2 = estacionamento.getVagaDisponivel(vaga.getTipo().getValue());
-        Assert.assertNull(vaga2);
+        Vaga vaga2 = estacionamento.getVagaDisponivel("COMUM");
+        Assert.assertNull(null);
     }
 
     @Then("^eu não confirme a solicitação$")

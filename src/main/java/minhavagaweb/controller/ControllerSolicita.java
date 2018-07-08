@@ -18,23 +18,24 @@ import minhavagaweb.model.cgt.AplSolicitacao;
  */
 @Controller
 public class ControllerSolicita {
-	public static final String TELACONFIRMARSOLICITACAO = "confirmaSolicitacao";
-	public static final String TELAMINHASRESERVAS = "reservas"; 
+
+    public static final String TELACONFIRMARSOLICITACAO = "confirmaSolicitacao";
+    public static final String TELAMINHASRESERVAS = "reservas";
+
     @RequestMapping(value = "encontrarVaga")
-    public String encontrarVaga(@RequestParam("selectLocal") int estacionamento, @RequestParam("selectTipo") 
-            int tipo) throws ClassNotFoundException {
-    	return AplSolicitacao.encontrarVaga(estacionamento, tipo);
+    public String encontrarVaga(@RequestParam("selectLocal") int estacionamento, @RequestParam("selectTipo") String tipo) throws ClassNotFoundException {
+        return AplSolicitacao.encontrarVaga(estacionamento, tipo);
     }
-    
+
     @RequestMapping("solicitacaoConfirmada")
-    public void confirmada() {
+    public String confirmada() {
         AplSolicitacao.confirmarSolicitacao();
+        return "home";
     }
-    
 
     @RequestMapping(TELAMINHASRESERVAS)
     public ModelAndView minhasReservas() {
-    	return new ModelAndView(TELAMINHASRESERVAS);
+        return new ModelAndView(TELAMINHASRESERVAS);
     }
 
 }

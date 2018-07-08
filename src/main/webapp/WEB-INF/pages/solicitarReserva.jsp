@@ -34,7 +34,7 @@
             <br>
             <select name="selectTipo">
                 <% for(int i=0; i<tipos.size();i++ ){ %>
-                <option value="<%=i+1 %>"><%=tipos.get(i).toString()%></option>
+                <option value="<%=tipos.get(i).toString() %>"><%=tipos.get(i).toString()%></option>
                 <%}%>
             </select>
             <input type="submit" value="Enviar" />

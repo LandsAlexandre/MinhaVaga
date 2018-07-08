@@ -19,37 +19,35 @@ import minhavagaweb.model.cgd.*;
  * @author ISM
  */
 public class AplSolicitacao {
+
     private static EstacionamentoDAOImpl<Estacionamento> estacionaDAO = new EstacionamentoDAOImpl<>();
     private static Vaga vagaSolicitada = new Vaga();
-    
+
     public boolean verificaPendencia(Cliente cliente) {
         return cliente.estahPendente();
     }
-    
-    public static String encontrarVaga(int idEstacionamento,int idTipo) throws ClassNotFoundException {
-    	Estacionamento park = new Estacionamento();
-    	try {
-			park = estacionaDAO.getById(idEstacionamento);
-			vagaSolicitada = park.getVagaDisponivel(idTipo);
-			if (vagaSolicitada.getId() != 0 || park.getId() != 0) {
-				throw new NullPointerException();
-			}
-		}
-		catch(NullPointerException | SQLException e) {
-			return GenController.TELAVAGANENCONTRADA;
-		}
-		return ControllerSolicita.TELACONFIRMARSOLICITACAO;
-	}
+
+    public static String encontrarVaga(int idEstacionamento, String idTipo) throws ClassNotFoundException {
+        Estacionamento park = new Estacionamento();
+        try {
+            park = estacionaDAO.getById(idEstacionamento);
+            vagaSolicitada = park.getVagaDisponivel(idTipo);
+        } catch (NullPointerException | SQLException e) {
+            return GenController.TELAVAGANENCONTRADA;
+        }
+        return ControllerSolicita.TELACONFIRMARSOLICITACAO;
+    }
 
     public static void confirmarSolicitacao() {
-    	SolicitacaoReserva solicitacao = new SolicitacaoReserva();
+        SolicitacaoReserva solicitacao = new SolicitacaoReserva();
         Reserva reserva = new Reserva();
-    	solicitacao.setDataSolicitacao(Calendar.getInstance());
-    	solicitacao.setHoraSolicitacao(LocalTime.now());
-    	
-    	reserva.setDataChegada(solicitacao.getDataSolicitacao());
+        solicitacao.setDataSolicitacao(Calendar.getInstance());
+        solicitacao.setHoraSolicitacao(LocalTime.now());
+
+        reserva.setDataChegada(solicitacao.getDataSolicitacao());
         reserva.setVagaReservada(vagaSolicitada);
-        
+
         solicitacao.setReserva(reserva);
+       
     }
 }
