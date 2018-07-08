@@ -60,7 +60,7 @@ public class AplCliente {
             if (session.getAttribute(LoginInterceptor.USERLOGGED) == null) {
             	session.setAttribute(LoginInterceptor.USERLOGGED, p);
         	}
-            return GenController.TELASOLICITACAO;
+            return GenController.HOMEPAGE;
         } else {
             return LoginInterceptor.LOGININCORRETO;
         }
