@@ -14,6 +14,13 @@
         <title>Home Page</title>
     </head>
     <body >
-        Bem vindo, ${nome}
+        <p>Bem vindo, ${nome}!<br /></p>
+        
+        
+        <p>Uma nova reserva? Clique <a href="solicitarReserva">aqui</a>.<br />
+        Visualizar seu histórico de reservas? Clique <a href="reservas">aqui</a>.<br />
+        </p>
+        
+        
     </body>       
 </html>

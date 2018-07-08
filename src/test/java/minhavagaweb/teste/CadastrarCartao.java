@@ -30,7 +30,7 @@ public class CadastrarCartao {
     
     @Given("^cartão não cadastrado$")
     public void cartão_não_cadastrado() throws Throwable {
-        Cartao cartao = (Cartao) cartaoDAO.getById(100);
+        Cartao cartao = (Cartao) cartaoDAO.getById(cartaoDAO.getNextId("select * from cartao order by id_cartao asc", "id_cartao"));
         assertEquals(null, cartao);
     }
 
