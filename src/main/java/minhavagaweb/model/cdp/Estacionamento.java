@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import minhavagaweb.model.cgd.VagaDAOImpl;
 
+
 /**
  *
  * @author landerson
