@@ -34,7 +34,7 @@ public class PessoaDAOImpl<G> extends Conector implements GenericDAO<G> {
     private static final String DATA = "dataNascimento";
 
     List<Pessoa> pessoas = new ArrayList<>();
-    static Pessoa pessoa;
+    public Pessoa pessoa;
     public boolean selectLogin(String email, String senha) throws SQLException, ClassNotFoundException {
         boolean result = false;
 
@@ -79,16 +79,16 @@ public class PessoaDAOImpl<G> extends Conector implements GenericDAO<G> {
                 PreparedStatement statement = connection.prepareStatement(SELECT);
                 ResultSet result = statement.executeQuery();) {
 
-            Pessoa pessoa;
+            Pessoa pessoa1;
             while (result.next()) {
-                pessoa = new Pessoa();
-                pessoa.setNome(result.getString(PessoaDAOImpl.NOME));
-                pessoa.setEmail(result.getString(PessoaDAOImpl.EMAIL));
-                pessoa.setCpf((String) result.getString(PessoaDAOImpl.CPF));
-                pessoa.setSenha(result.getString(PessoaDAOImpl.SENHA));
-                pessoa.setId(result.getInt(PessoaDAOImpl.ID_CLIENTE));
-                pessoa.setNascimento(result.getDate(PessoaDAOImpl.DATA));
-                pessoas.add(pessoa);
+                pessoa1 = new Pessoa();
+                pessoa1.setNome(result.getString(PessoaDAOImpl.NOME));
+                pessoa1.setEmail(result.getString(PessoaDAOImpl.EMAIL));
+                pessoa1.setCpf((String) result.getString(PessoaDAOImpl.CPF));
+                pessoa1.setSenha(result.getString(PessoaDAOImpl.SENHA));
+                pessoa1.setId(result.getInt(PessoaDAOImpl.ID_CLIENTE));
+                pessoa1.setNascimento(result.getDate(PessoaDAOImpl.DATA));
+                pessoas.add(pessoa1);
             }
         } finally {
             this.closeConnection(con);
@@ -158,16 +158,16 @@ public class PessoaDAOImpl<G> extends Conector implements GenericDAO<G> {
     @Override
     public G getById(int id) throws ClassNotFoundException, SQLException {
 
-        Pessoa pessoa = null;
+        Pessoa pessoa2 = null;
         if (pessoas.isEmpty()) {
             pessoas = (List<Pessoa>) this.getAll();
         }
         for (Pessoa c : pessoas) {
             if (c.getId() == id) {
-                pessoa = c;
+                pessoa2 = c;
             }
         }
-        return (G) pessoa;
+        return (G) pessoa2;
     }
 
 }
