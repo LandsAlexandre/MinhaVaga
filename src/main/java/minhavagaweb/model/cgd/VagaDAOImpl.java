@@ -19,8 +19,10 @@ import minhavagaweb.model.persistencia.Conector;
 
 public class VagaDAOImpl<G> extends Conector implements GenericDAO<G> {
 
+
     private static final String SELECT = "SELECT * FROM vaga ";
     private static final String SELECT_1 = "SELECT * FROM vaga WHERE id_estacionamento = ? and status = true LIMIT 5;";
+
     private static final String INSERT = "INSERT INTO vaga (id_vaga,cobertura,"
             + "status,id_estacionamento,id_localizacao,id_id_tipo) VALUES (?,?,?,?,?,?);";
     private static final String DELETE = "DELETE FROM vaga WHERE id_vaga = ?;";
@@ -136,7 +138,6 @@ public class VagaDAOImpl<G> extends Conector implements GenericDAO<G> {
         }
         return (List<G>) vagas;
     }
-
     @Override
     public G getById(int id) throws SQLException, ClassNotFoundException {
         Vaga vaga = null;

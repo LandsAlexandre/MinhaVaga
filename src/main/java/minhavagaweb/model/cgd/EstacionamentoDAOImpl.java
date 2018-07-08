@@ -20,6 +20,7 @@ import minhavagaweb.model.persistencia.Conector;
 public class EstacionamentoDAOImpl<G> extends Conector implements GenericDAO<G> {
 
     private static final String SELECT = "SELECT * FROM estacionamento ";
+    private static final String SELECT_1 = "SELECT * FROM estacionamento WHERE nome = ?;";
     private static final String INSERT = "INSERT INTO estacionamento (id_estacionamento,nome,capacidade,"
             + "valor_hora,horario_abre,horario_fecha,id_localizacao) VALUES(?,?,?,?,?,?,?);";
     private static final String DELETE = "DELETE FROM estacionamento WHERE id_estacionamento = ?;";
