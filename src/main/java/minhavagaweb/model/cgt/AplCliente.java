@@ -15,6 +15,7 @@ import minhavagaweb.model.cdp.CPF;
 import minhavagaweb.model.cdp.Cartao;
 import minhavagaweb.model.cdp.Cliente;
 import minhavagaweb.model.cdp.Email;
+import minhavagaweb.model.cdp.Pessoa;
 import minhavagaweb.model.cdp.ValidaCartao;
 import minhavagaweb.model.cgd.CartaoDAOImpl;
 import minhavagaweb.model.cgd.PessoaDAOImpl;
@@ -54,11 +55,23 @@ public class AplCliente {
         }
         return GenController.TELACADASTROCLIENTE;
     }
-
+    public static Cliente recuperarDadosClientePeloLogin(Cliente login) {
+		Pessoa p = new Pessoa();
+    	try {
+			p = PessoaDAOImpl.recuperarPessoa(login.getEmail(), login.getSenha());
+		} catch (ClassNotFoundException | SQLException e) {
+			
+		}
+    	login.setId(p.getId());
+    	login.setNascimento(p.getNascimento());
+    	login.setCpf(p.getCpf());
+    	login.setNome(p.getNome());
+    	return login;
+    }
     public static String fazerLogin(Cliente p, HttpSession session) {
         if (verificarLogin(p.getEmail(), p.getSenha())) {
             if (session.getAttribute(LoginInterceptor.USERLOGGED) == null) {
-            	session.setAttribute(LoginInterceptor.USERLOGGED, p);
+            	session.setAttribute(LoginInterceptor.USERLOGGED, recuperarDadosClientePeloLogin(p));
         	}
             return GenController.HOMEPAGE;
         } else {

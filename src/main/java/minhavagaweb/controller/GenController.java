@@ -7,9 +7,13 @@ package minhavagaweb.controller;
 
 import minhavagaweb.model.cdp.Cartao;
 import java.text.ParseException;
+
+import javax.servlet.http.HttpSession;
+
 import minhavagaweb.model.cdp.*;
 import minhavagaweb.model.cgt.*;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,8 +45,10 @@ public class GenController {
     }
     
     @RequestMapping(HOMEPAGE)
-    public ModelAndView home() {
-        return new ModelAndView(GenController.HOMEPAGE);
+    public ModelAndView home(Model model, HttpSession sessao) {
+        Cliente p = (Cliente) sessao.getAttribute(LoginInterceptor.USERLOGGED);
+        model.addAttribute("nome", p.getNome());
+    	return new ModelAndView(GenController.HOMEPAGE);
     }
 
     @RequestMapping(TELAINDEX)

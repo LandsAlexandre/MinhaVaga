@@ -5,11 +5,15 @@
  */
 package minhavagaweb.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import minhavagaweb.model.cdp.Cliente;
 import minhavagaweb.model.cgt.AplSolicitacao;
 
 /**
@@ -26,9 +30,12 @@ public class ControllerSolicita {
     	return AplSolicitacao.encontrarVaga(estacionamento, tipo);
     }
     
-    @RequestMapping("solicitacaoConfirmada")
-    public void confirmada() {
+    @RequestMapping(value = "solicitacaoConfirmada")
+    public String confirmada(Model model, HttpSession sessao) {
         AplSolicitacao.confirmarSolicitacao();
+        Cliente p = (Cliente) sessao.getAttribute(LoginInterceptor.USERLOGGED);
+        model.addAttribute("nome", p.getNome());
+        return GenController.HOMEPAGE;
     }
     
 

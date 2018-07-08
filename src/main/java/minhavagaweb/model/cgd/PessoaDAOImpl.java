@@ -18,7 +18,7 @@ import minhavagaweb.model.persistencia.Conector;
 public class PessoaDAOImpl<G> extends Conector implements GenericDAO<G> {
 
     private static final String SELECT = "SELECT * FROM cliente ";
-    private static final String SELECT_LOGIN = "SELECT email,senha FROM cliente where email = ? and senha = ?;";
+    private static final String SELECT_LOGIN = "SELECT * FROM cliente where email = ? and senha = ?;";
     private static final String INSERT = "INSERT INTO cliente (id_cliente,nome,cpf,"
             + "email,senha,dataNascimento) VALUES(?,?,?,?,?,?);";
     private static final String DELETE = "DELETE FROM cliente WHERE id_cliente = ?;";
@@ -31,9 +31,10 @@ public class PessoaDAOImpl<G> extends Conector implements GenericDAO<G> {
     private static final String SENHA = "senha";
     private static final String CPF = "cpf";
     private static final String ORDER = "ORDER BY id_cliente ASC";
+    private static final String DATA = "dataNascimento";
 
     List<Pessoa> pessoas = new ArrayList<>();
-
+    static Pessoa pessoa;
     public boolean selectLogin(String email, String senha) throws SQLException, ClassNotFoundException {
         boolean result = false;
 
@@ -42,14 +43,28 @@ public class PessoaDAOImpl<G> extends Conector implements GenericDAO<G> {
             statement.setString(1, email);
             statement.setString(2, senha);
             try (ResultSet resultadoConsulta = statement.executeQuery()) {
-                result = resultadoConsulta.next();
+            	result = resultadoConsulta.next();
+            	pessoa = new Pessoa();
+            	pessoa.setNome(resultadoConsulta.getString(NOME));
+                pessoa.setEmail(resultadoConsulta.getString(EMAIL));
+                pessoa.setCpf((String) resultadoConsulta.getString(CPF));
+                pessoa.setSenha(resultadoConsulta.getString(SENHA));
+                pessoa.setId(resultadoConsulta.getInt(ID_CLIENTE));
+                pessoa.setNascimento(resultadoConsulta.getDate(DATA));
             }
         } finally {
             this.closeConnection(con);
         }
         return result;
     }
-
+    
+    public static Pessoa recuperarPessoa(String email, String senha) throws ClassNotFoundException, SQLException {
+		PessoaDAOImpl<Pessoa> dao = new PessoaDAOImpl<>();
+    	if (pessoa == null) {
+			dao.selectLogin(email, senha);
+		}
+    	return pessoa;
+    }
     /**
      *
      * @return @throws SQLException
@@ -70,6 +85,7 @@ public class PessoaDAOImpl<G> extends Conector implements GenericDAO<G> {
                 pessoa.setCpf((String) result.getString(PessoaDAOImpl.CPF));
                 pessoa.setSenha(result.getString(PessoaDAOImpl.SENHA));
                 pessoa.setId(result.getInt(PessoaDAOImpl.ID_CLIENTE));
+                pessoa.setNascimento(result.getDate(PessoaDAOImpl.DATA));
                 pessoas.add(pessoa);
             }
         } finally {
