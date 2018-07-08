@@ -28,29 +28,21 @@ public class GenController {
     public static final String TELAINDEX = "index";
     public static final String TELACADASTROCLIENTE = "cliente";
     public static final String TELALOGIN = "login";
+    public static final String TELAVAGANENCONTRADA = "vagaNaoEncontrada";
 
     @RequestMapping(value = GenController.TELACADASTROCLIENTE, method = RequestMethod.GET)
     public ModelAndView cliente() {
         return new ModelAndView(GenController.TELACADASTROCLIENTE, "command", new Cliente());
     }
-
+    
+    @RequestMapping(TELAVAGANENCONTRADA)
+    public ModelAndView vagaNaoEncontrada() {
+    	return new ModelAndView(TELAVAGANENCONTRADA);
+    }
+    
     @RequestMapping(HOMEPAGE)
     public ModelAndView home() {
         return new ModelAndView(GenController.HOMEPAGE);
-    }
-
-    @RequestMapping(TELASOLICITACAO)
-    public ModelAndView solicitarReserva() {
-        AplSolicitacao aplSolicitacao = new AplSolicitacao();
-        Cliente cliente = new Cliente();
-        Pagamento pag = new Pagamento();
-        pag.setPago(true);
-        cliente.setPagamento(pag);
-        if (aplSolicitacao.verificaPendencia(cliente)) {
-            return new ModelAndView(GenController.HOMEPAGE);
-        } else {
-            return new ModelAndView(GenController.TELASOLICITACAO);
-        }
     }
 
     @RequestMapping(TELAINDEX)
@@ -61,6 +53,11 @@ public class GenController {
     @RequestMapping(TELALOGIN)
     public ModelAndView login() {
         return new ModelAndView(GenController.TELALOGIN, "Pessoa", new Pessoa());
+    }
+    
+    @RequestMapping(TELASOLICITACAO)
+    public ModelAndView solicitarReserva() {
+        return new ModelAndView(TELASOLICITACAO);
     }
 
     @RequestMapping(TELACADASTROCLIENTE)

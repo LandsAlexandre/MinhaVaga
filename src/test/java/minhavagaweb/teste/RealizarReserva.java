@@ -62,15 +62,10 @@ public class RealizarReserva {
         vaga.setTipo(TipoVaga.COMUM);
         vaga.setStatus(false);
 
-        Vaga vaga1 = new Vaga();
-        vaga1.setTipo(TipoVaga.MOTO);
-        vaga1.setStatus(true);
-
         Estacionamento estacionamento = new Estacionamento();
         estacionamento.adicionarVaga(vaga);
-        estacionamento.adicionarVaga(vaga1);
 
-        Vaga vaga2 = estacionamento.getVagaDisponivel(vaga1.getTipo().getValue());
+        Vaga vaga2 = estacionamento.getVagaDisponivel(vaga.getTipo().getValue());
         Assert.assertNull(vaga2);
     }
 

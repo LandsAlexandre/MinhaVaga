@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import minhavagaweb.model.cgd.VagaDAOImpl;
 
 import minhavagaweb.model.cgd.EstacionamentoDAOImpl;
 import minhavagaweb.model.cgd.VagaDAOImpl;
@@ -27,7 +28,7 @@ public class Estacionamento implements Serializable{
     private int capacidade;
     
     private transient List<Vaga> vagas = new ArrayList<>();
-    private transient Localizacao local;
+    private transient Localizacao local = new Localizacao();
 
     public String getNome() {
         return nome;
@@ -94,12 +95,16 @@ public class Estacionamento implements Serializable{
     }
     
      public Vaga getVagaDisponivel(int idTipo) {
-    	 VagaDAOImpl<Vaga> vagaDAO = new VagaDAOImpl<>(); 
-    	 try {
-			this.vagas = vagaDAO.getAll();
-		} catch (ClassNotFoundException | SQLException e) {
-			return null;
-		}
+
+    	 if (vagas.isEmpty()) {
+    		 VagaDAOImpl<Vaga> vagaDAO = new VagaDAOImpl<>();
+    		 try {
+				vagas = vagaDAO.getAll(this.id);
+			} catch (ClassNotFoundException | SQLException e) {
+				return null;
+			}
+		 }
+
     	 for (Vaga vaga : vagas) {
             if (vaga.getTipo().getValue() == idTipo && vaga.isStatus()) {
                 return vaga;

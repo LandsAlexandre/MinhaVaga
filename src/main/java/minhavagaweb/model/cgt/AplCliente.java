@@ -57,8 +57,10 @@ public class AplCliente {
 
     public static String fazerLogin(Cliente p, HttpSession session) {
         if (verificarLogin(p.getEmail(), p.getSenha())) {
-            session.setAttribute(LoginInterceptor.USERLOGGED, p);
-            return GenController.TELASOLICITACAO;
+            if (session.getAttribute(LoginInterceptor.USERLOGGED) == null) {
+            	session.setAttribute(LoginInterceptor.USERLOGGED, p);
+        	}
+            return GenController.HOMEPAGE;
         } else {
             return LoginInterceptor.LOGININCORRETO;
         }
