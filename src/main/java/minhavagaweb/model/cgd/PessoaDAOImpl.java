@@ -44,13 +44,15 @@ public class PessoaDAOImpl<G> extends Conector implements GenericDAO<G> {
             statement.setString(2, senha);
             try (ResultSet resultadoConsulta = statement.executeQuery()) {
             	result = resultadoConsulta.next();
-            	pessoa = new Pessoa();
-            	pessoa.setNome(resultadoConsulta.getString(NOME));
-                pessoa.setEmail(resultadoConsulta.getString(EMAIL));
-                pessoa.setCpf((String) resultadoConsulta.getString(CPF));
-                pessoa.setSenha(resultadoConsulta.getString(SENHA));
-                pessoa.setId(resultadoConsulta.getInt(ID_CLIENTE));
-                pessoa.setNascimento(resultadoConsulta.getDate(DATA));
+            	if(result) {
+	            	pessoa = new Pessoa();
+	            	pessoa.setNome(resultadoConsulta.getString(NOME));
+	                pessoa.setEmail(resultadoConsulta.getString(EMAIL));
+	                pessoa.setCpf((String) resultadoConsulta.getString(CPF));
+	                pessoa.setSenha(resultadoConsulta.getString(SENHA));
+	                pessoa.setId(resultadoConsulta.getInt(ID_CLIENTE));
+	                pessoa.setNascimento(resultadoConsulta.getDate(DATA));
+            	}
             }
         } finally {
             this.closeConnection(con);
