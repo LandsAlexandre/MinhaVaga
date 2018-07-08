@@ -92,6 +92,7 @@ public class Estacionamento implements Serializable{
     }
     
      public Vaga getVagaDisponivel(int idTipo) {
+
     	 if (vagas.isEmpty()) {
     		 VagaDAOImpl<Vaga> vagaDAO = new VagaDAOImpl<>();
     		 try {
@@ -100,6 +101,7 @@ public class Estacionamento implements Serializable{
 				return null;
 			}
 		 }
+
     	 for (Vaga vaga : vagas) {
             if (vaga.getTipo().getValue() == idTipo && vaga.isStatus()) {
                 return vaga;

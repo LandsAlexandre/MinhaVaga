@@ -8,7 +8,6 @@ package minhavagaweb.model.cgt;
 import java.sql.SQLException;
 import java.time.LocalTime;
 import java.util.Calendar;
-
 import minhavagaweb.controller.ControllerSolicita;
 import minhavagaweb.controller.GenController;
 import minhavagaweb.model.cdp.*;
@@ -19,6 +18,7 @@ import minhavagaweb.model.cgd.*;
  * @author ISM
  */
 public class AplSolicitacao {
+
     private static EstacionamentoDAOImpl<Estacionamento> estacionaDAO = new EstacionamentoDAOImpl<>();
     private static Vaga vagaSolicitada = new Vaga();
     
