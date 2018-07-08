@@ -34,7 +34,7 @@ public class PessoaDAOImpl<G> extends Conector implements GenericDAO<G> {
     private static final String DATA = "dataNascimento";
 
     List<Pessoa> pessoas = new ArrayList<>();
-    private static Pessoa pessoa;
+    private static Pessoa pessoa = new Pessoa();
     public boolean selectLogin(String email, String senha) throws SQLException, ClassNotFoundException {
         boolean result = false;
 
@@ -45,7 +45,6 @@ public class PessoaDAOImpl<G> extends Conector implements GenericDAO<G> {
             try (ResultSet resultadoConsulta = statement.executeQuery()) {
             	result = resultadoConsulta.next();
             	if(result) {
-	            	pessoa = new Pessoa();
 	            	pessoa.setNome(resultadoConsulta.getString(NOME));
 	                pessoa.setEmail(resultadoConsulta.getString(EMAIL));
 	                pessoa.setCpf((String) resultadoConsulta.getString(CPF));
