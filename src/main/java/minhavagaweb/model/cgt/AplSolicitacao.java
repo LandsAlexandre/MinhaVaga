@@ -31,7 +31,7 @@ public class AplSolicitacao {
     	try {
 			park = estacionaDAO.getById(idEstacionamento);
 			vagaSolicitada = park.getVagaDisponivel(idTipo);
-			if (vagaSolicitada.getId() != 0 || park.getId() != 0) {
+			if (vagaSolicitada.getId() == 0 || park.getId() == 0) {
 				throw new NullPointerException();
 			}
 		}
