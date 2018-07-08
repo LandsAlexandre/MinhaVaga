@@ -14,22 +14,22 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
  * @author landerson
  */
 public class LoginInterceptor extends HandlerInterceptorAdapter {
-    private static final String USERLOGGED = "usuarioLogado";
-    private static final String LOGIN = "login";
-    private static final String CLIENTE = "cliente";
+    public static final String USERLOGGED = "usuarioLogado";
+    public static final String LOGININCORRETO = "loginIncorreto";
+    
     @Override
     public boolean preHandle(HttpServletRequest request,
             HttpServletResponse response,
             Object controller) throws Exception {
         String uri = request.getRequestURI();
-        if (uri.endsWith(LOGIN) || uri.endsWith(CLIENTE)) {
+        if (uri.endsWith(GenController.TELALOGIN) || uri.endsWith(GenController.TELACADASTROCLIENTE)) {
             return true;
         }
         else if (request.getSession().getAttribute(USERLOGGED) != null) {
             request.setAttribute(USERLOGGED, request.getSession().getAttribute(USERLOGGED));
             return true;
         }
-        response.sendRedirect(LOGIN);
+        response.sendRedirect(GenController.TELALOGIN);
         return false;
     }
 }

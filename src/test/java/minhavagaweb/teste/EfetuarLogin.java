@@ -8,13 +8,10 @@ package minhavagaweb.teste;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import junit.framework.Assert;
-import minhavagaweb.model.cgt.AplCliente;
 import minhavagaweb.model.cdp.*;
 import minhavagaweb.model.cgd.PessoaDAOImpl;
 import static org.junit.Assert.assertEquals;
 
-import minhavagaweb.model.cgd.GenericDAO;
 import static org.junit.Assert.assertNotNull;
 
 /**
@@ -28,13 +25,13 @@ public class EfetuarLogin {
 
     @Given("^usuário cadastrado$")
     public void usuário_cadastrado() throws Throwable {
-        Pessoa pessoa = (Pessoa) pessoaDAO.getById(22);
+        Pessoa pessoa = (Pessoa) pessoaDAO.getById(1);
         assertNotNull(pessoa);
     }
 
     @When("^eu tentar logar com dados válidos$")
     public void eu_tentar_logar_com_dados_válidos() throws Throwable {
-        boolean loginValido = pessoaDAO.selectLogin("helenfranca93@gmail.com", "lela123");
+        boolean loginValido = pessoaDAO.selectLogin("CauãPires1@yahoo.com.br", "E9#8EheXc$");
         assertEquals(true, loginValido);
     }
 

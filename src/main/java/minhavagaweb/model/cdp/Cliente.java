@@ -12,10 +12,10 @@ import java.util.List;
  *
  * @author landerson
  */
-public class Cliente extends Pessoa{
+public class Cliente extends Pessoa {
 
-    private List<Cartao> cartoes = new ArrayList<>();
-    private Pagamento pagamento;
+    private final List<Cartao> cartoes = new ArrayList<>();
+    private final List<Pagamento> pagamentos = new ArrayList<>();
     private SolicitacaoReserva solicitacao;
 
     public List<Cartao> getCartoes() {
@@ -26,12 +26,12 @@ public class Cliente extends Pessoa{
         this.cartoes.add(cartao);
     }
 
-    public Pagamento getPagamento() {
-        return pagamento;
+    public List<Pagamento> getPagamentos() {
+        return pagamentos;
     }
 
     public void setPagamento(Pagamento pagamento) {
-        this.pagamento = pagamento;
+        this.pagamentos.add(pagamento);
     }
 
     public SolicitacaoReserva getSolicitacao() {
@@ -40,5 +40,17 @@ public class Cliente extends Pessoa{
 
     public void setSolicitacao(SolicitacaoReserva solicitacao) {
         this.solicitacao = solicitacao;
+    }
+
+    public boolean estahPendente() {
+        List<Pagamento> listaPagamentos;
+        listaPagamentos = this.getPagamentos();
+
+        for (Pagamento pagamento : listaPagamentos) {
+            if (!pagamento.isPago()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

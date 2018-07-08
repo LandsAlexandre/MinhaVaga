@@ -5,7 +5,7 @@
          version="3.0">
  
     <session-config>
-        <session-timeout>3</session-timeout>
+        <session-timeout>30</session-timeout>
     </session-config>     
     <servlet>
         <servlet-name>appServlet</servlet-name>
@@ -51,6 +51,32 @@
         <servlet-name>appServlet</servlet-name>
         <url-pattern>/efetuaLogin</url-pattern>
     </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>appServlet</servlet-name>
+        <url-pattern>/encontrarVaga</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>appServlet</servlet-name>
+        <url-pattern>/confirmaSolicitacao</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>appServlet</servlet-name>
+        <url-pattern>/solicitacaoConfirmada</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>appServlet</servlet-name>
+        <url-pattern>/reservas</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>appServlet</servlet-name>
+        <url-pattern>/vagaNaoEncontrada</url-pattern>
+    </servlet-mapping>
+    
     <welcome-file-list>
         <welcome-file>index</welcome-file>
     </welcome-file-list>    

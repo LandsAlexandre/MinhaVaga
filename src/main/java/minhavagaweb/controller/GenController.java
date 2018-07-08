@@ -6,11 +6,9 @@
 package minhavagaweb.controller;
 
 import minhavagaweb.model.cdp.Cartao;
-import java.sql.SQLException;
 import java.text.ParseException;
 import minhavagaweb.model.cdp.*;
-import minhavagaweb.model.cgd.*;
-import minhavagaweb.model.cgt.AplCliente;
+import minhavagaweb.model.cgt.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,36 +22,37 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class GenController {
 
-    private static final String SOLICITACAO = "solicitarReserva";
-    private static final String HOMEPAGE = "home";
-    private static final String CARTAO_INVALIDO = "cartao-invalido";
-    private static final String INDEX = "index";
-    private static final String TELACADASTROCLIENTE = "cliente";
-    private static final String TELALOGIN = "login";
+    public static final String TELASOLICITACAO = "solicitarReserva";
+    public static final String HOMEPAGE = "home";
+    public static final String CARTAO_INVALIDO = "cartao-invalido";
+    public static final String TELAINDEX = "index";
+    public static final String TELACADASTROCLIENTE = "cliente";
+    public static final String TELALOGIN = "login";
+    public static final String TELAVAGANENCONTRADA = "vagaNaoEncontrada";
 
-    @RequestMapping(value = TELACADASTROCLIENTE, method = RequestMethod.GET)
+    @RequestMapping(value = GenController.TELACADASTROCLIENTE, method = RequestMethod.GET)
     public ModelAndView cliente() {
-        return new ModelAndView(TELACADASTROCLIENTE, "command", new Cliente());
+        return new ModelAndView(GenController.TELACADASTROCLIENTE, "command", new Cliente());
     }
-
+    
+    @RequestMapping(TELAVAGANENCONTRADA)
+    public ModelAndView vagaNaoEncontrada() {
+    	return new ModelAndView(TELAVAGANENCONTRADA);
+    }
+    
     @RequestMapping(HOMEPAGE)
     public ModelAndView home() {
-        return new ModelAndView(HOMEPAGE);
+        return new ModelAndView(GenController.HOMEPAGE);
     }
 
-    @RequestMapping(SOLICITACAO)
-    public ModelAndView solicitarReserva() {
-        return new ModelAndView(SOLICITACAO);
-    }
-
-    @RequestMapping(INDEX)
+    @RequestMapping(TELAINDEX)
     public ModelAndView index() {
-        return new ModelAndView(INDEX);
+        return new ModelAndView(GenController.TELAINDEX);
     }
 
     @RequestMapping(TELALOGIN)
     public ModelAndView login() {
-        return new ModelAndView(TELALOGIN, "Pessoa", new Pessoa());
+        return new ModelAndView(GenController.TELALOGIN, "Pessoa", new Pessoa());
     }
 
     @RequestMapping(TELACADASTROCLIENTE)
@@ -70,13 +69,7 @@ public class GenController {
      * @throws Exception
      */
     @RequestMapping("cartao")
-    public String cadastrarCartao(Cartao c) throws SQLException, ClassNotFoundException {
-
-        CartaoDAOImpl dao = new CartaoDAOImpl();
-        if (ValidaCartao.validCC(c.getNumeroCartao()) && dao.insert(c)) {
-            return SOLICITACAO;
-        } else {
-            return CARTAO_INVALIDO;
-        }
+    public String cadastrarCartao(Cartao c) {
+        return AplCliente.cadastrarCartao(c);
     }
 }
